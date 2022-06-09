@@ -53,6 +53,13 @@ dkms.conf
 .idea
 
 wrongsecrets-c
+wrongsecrets-c-arm
 wrongsecrets-cplus
+wrongsecrets-cplus-arm
 wrongsecrets-golang
+wrongsecrets-golang-arm
 wrongsecrets-rust
+wrongsecrets-rust-arm
+
+dockcross-linux-arm64
+dockcross/
