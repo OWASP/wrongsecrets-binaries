@@ -2,18 +2,18 @@
 #include <string.h>
 
 const char* secret() {
-    return "This is a hardcoded secret in C\n";
+    return "This is a hardcoded secret in C";
 }
 
 const char* secret2(){
-    static char harder[32]={'T','h','i','s',' ','i','s',' ','a',' ','h','a','r','d','c','o','d','e','d',' ','s','e','c','r','e','t',' ','i','n',' ','C','\n'};
+    static char harder[31]={'T','h','i','s',' ','i','s',' ','a',' ','h','a','r','d','c','o','d','e','d',' ','s','e','c','r','e','t',' ','i','n',' ','C'};
     return harder;
 }
 
 
 
 int spoil(){
-    printf("%s", secret());
+    printf("%s\n", secret());
     return 0;
 }
 
