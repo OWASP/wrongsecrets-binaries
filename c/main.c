@@ -2,11 +2,11 @@
 #include <string.h>
 
 const char* secret() {
-    return "This is a hardcoded secret in C";
+    return "This is a hardcoded secret in C\n";
 }
 
 const char* secret2(){
-    static char harder[31]={'T','h','i','s',' ','i','s',' ','a',' ','h','a','r','d','c','o','d','e','d',' ','s','e','c','r','e','t',' ','i','n',' ','C'};
+    static char harder[32]={'T','h','i','s',' ','i','s',' ','a',' ','h','a','r','d','c','o','d','e','d',' ','s','e','c','r','e','t',' ','i','n',' ','C','\n'};
     return harder;
 }
 
@@ -21,9 +21,9 @@ int compare(char* guess){
     int result = strcmp(secret(), guess);
     int result2 = strcmp(secret2(), guess);
     if (result==0){
-        printf("This is correct! Congrats!");
+        printf("This is correct! Congrats!\n");
     }else{
-        printf("This is incorrect. Try again");
+        printf("This is incorrect. Try again\n");
     }
     return result;
 }
