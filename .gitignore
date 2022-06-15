@@ -61,7 +61,9 @@ wrongsecrets-golang-arm
 wrongsecrets-rust
 wrongsecrets-rust-arm
 wrongsecrets-c-linux
+wrongsecrets-cplusplus
 
 dockcross-linux-x64
 dockcross-linux-arm64
 dockcross/
+.vscode/
