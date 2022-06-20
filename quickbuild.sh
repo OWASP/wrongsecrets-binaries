@@ -2,7 +2,7 @@
 
 echo "Compiling C-x86"
 gcc c/main.c -o wrongsecrets-c
-echo "Compiling C-ARM, based on https://github.com/dockcross/dockcross"
+echo "Compiling C for ARM, based on https://github.com/dockcross/dockcross"
 echo "prerequired: git clone https://github.com/dockcross/dockcross.git"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts"
@@ -15,4 +15,8 @@ echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 ..
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
 
 echo "Compiling C++-X86"
-c++ cplus/main.cpp -o wrongsecrets-cplusplus
+gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplusplus
+echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
+./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-arm'
+echo "Compiling C++ for linux"
+./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'

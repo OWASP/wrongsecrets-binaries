@@ -55,6 +55,7 @@ dkms.conf
 wrongsecrets-c
 wrongsecrets-c-arm
 wrongsecrets-cplus
+wrongsecrets-cplus-linux
 wrongsecrets-cplus-arm
 wrongsecrets-golang
 wrongsecrets-golang-arm
