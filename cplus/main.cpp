@@ -2,9 +2,16 @@
 
 using namespace std;
 
-string secret()
+class Secretcontainer {       // The class
+  public:             // Access specifier
+    string secret;  // Attribute (string variable)
+};
+
+Secretcontainer secret()
 {
-    return "Another secret in C++";
+    Secretcontainer container;
+    container.secret= "Another secret in C++";
+    return container;
 }
 
 char *secret2()
@@ -15,7 +22,7 @@ char *secret2()
 
 void spoil()
 {
-    cout << secret();
+    cout << secret().secret;
 }
 
 int execute(string command)
@@ -23,10 +30,10 @@ int execute(string command)
     string spoil("spoil");
     if (spoil.compare(command) == 0)
     {
-        cout << secret() + '\n';
+        cout << secret().secret + '\n';
         return 0;
     }
-    else if (secret().compare(command) == 0)
+    else if (secret().secret.compare(command) == 0)
     {
         cout << "This is correct! Congrats!\n";
         return 0;
