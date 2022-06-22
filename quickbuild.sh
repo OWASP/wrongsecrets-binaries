@@ -15,7 +15,7 @@ echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 ..
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
 
 echo "Compiling C++-X86"
-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplusplus
+gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus
 echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-arm'
 echo "Compiling C++ for linux"
