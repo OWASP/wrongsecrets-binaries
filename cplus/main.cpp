@@ -2,15 +2,25 @@
 
 using namespace std;
 
-class Secretcontainer {       // The class
-  public:             // Access specifier
-    string secret;  // Attribute (string variable)
+class Secretcontainer
+{                  // The class
+private:           // Access specifier
+    string secret; // Attribute (string variable)
+public:
+    void setSecret(string secretarg)
+    {
+        secret = secretarg;
+    }
+    string getSecret()
+    {
+        return secret;
+    }
 };
 
 Secretcontainer secret()
 {
     Secretcontainer container;
-    container.secret= "Another secret in C++";
+    container.setSecret("Another secret in C++");
     return container;
 }
 
@@ -22,7 +32,7 @@ char *secret2()
 
 void spoil()
 {
-    cout << secret().secret;
+    cout << secret().getSecret();
 }
 
 int execute(string command)
@@ -30,10 +40,10 @@ int execute(string command)
     string spoil("spoil");
     if (spoil.compare(command) == 0)
     {
-        cout << secret().secret + '\n';
+        cout << secret().getSecret() + '\n';
         return 0;
     }
-    else if (secret().secret.compare(command) == 0)
+    else if (secret().getSecret().compare(command) == 0)
     {
         cout << "This is correct! Congrats!\n";
         return 0;
@@ -53,7 +63,7 @@ int main(int argc, char *argv[])
     }
     else if (argc > 2)
     {
-        cout <<"Too many arguments supplied.\n";
+        cout << "Too many arguments supplied.\n";
     }
     else
     {
