@@ -20,3 +20,9 @@ echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-arm'
 echo "Compiling C++ for linux"
 ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
+
+echo "compiling golang"
+cd golang
+env GOOS=linux GOARCH=amd64 go build -o ../wrongsecrets-golang-linux
+env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-arm
+env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang
