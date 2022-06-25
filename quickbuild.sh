@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Compiling C-x86"
+echo "Compiling for current machine"
 gcc c/main.c -o wrongsecrets-c
 echo "Compiling C for ARM, based on https://github.com/dockcross/dockcross"
 echo "prerequired: git clone https://github.com/dockcross/dockcross.git"
@@ -14,7 +14,7 @@ echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
 
-echo "Compiling C++-X86"
+echo "Compiling C++ for current machine"
 gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus
 echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-arm'
@@ -23,6 +23,9 @@ echo "Compiling C++ for linux"
 
 echo "compiling golang"
 cd golang
+echo "compiling golang for amd64 linux"
 env GOOS=linux GOARCH=amd64 go build -o ../wrongsecrets-golang-linux
+echo "compiling golang for arm linux"
 env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-arm
+echo "compiling golang for mac os x (intel)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang

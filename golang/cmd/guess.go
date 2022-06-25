@@ -13,15 +13,20 @@ import (
 // guessCmd represents the guess command
 var guessCmd = &cobra.Command{
 	Use:   "guess",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Try to guess the secret embedded in this binary",
+	Long: `Try to guess the secret embedded in this binary.
+	Return the secret in quotes as an argument 
+	(E.g. guess "thisisa secret")`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("guess called")
+		if len(args) == 1 {
+			if args[0] == Secret {
+				fmt.Println("This is correct! Congrats!")
+			} else {
+				fmt.Println("This is incorrect. Try again")
+			}
+		} else {
+			fmt.Println("Please suppy 1 argument only: the secret in quotes")
+		}
 	},
 }
 
