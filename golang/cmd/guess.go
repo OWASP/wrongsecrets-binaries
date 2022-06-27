@@ -21,7 +21,7 @@ var guessCmd = &cobra.Command{
 				fmt.Println("This is incorrect. Try again")
 			}
 		} else {
-			fmt.Println("Please suppy 1 argument only: the secret in quotes")
+			fmt.Println("Please supply 1 argument only: the secret in quotes")
 		}
 	},
 }

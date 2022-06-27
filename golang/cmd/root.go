@@ -9,13 +9,13 @@ import (
 )
 
 var cfgFile string
-var Secret string = "This is the secret in Golgang today"
+var Secret string = "This is the secret in Golang today"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "WrongSecrets",
-	Short: "Welcome to the wrongsecrets C binary which hides a secret.",
-	Long: `Welcome to the wrongsecrets C binary which hides a secret.
+	Short: "Welcome to the wrongsecrets Go binary which hides a secret.",
+	Long: `Welcome to the wrongsecrets Go binary which hides a secret.
 	Use args spoil or a string to guess the password.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
