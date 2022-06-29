@@ -29,3 +29,8 @@ echo "compiling golang for arm linux"
 env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-arm
 echo "compiling golang for mac os x (intel)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang
+
+echo "compiling rust"
+cd rust
+echo "compiling rust for amd64 linux"
+cargo build --target x86_64-unknown-linux-gnu --release
