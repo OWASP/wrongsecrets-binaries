@@ -14,7 +14,7 @@ fn check_input(guess: String) -> String {
 }
 
 fn get_secret() -> String {
-    return "This is a not very rnadom string posing as a secret in Rust".to_string();
+    return "This is a not very random string posing as a secret in Rust".to_string();
 }
 
 fn main() {
