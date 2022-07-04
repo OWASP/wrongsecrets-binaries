@@ -41,15 +41,16 @@ echo "compiling golang for mac os x (intel)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang
 echo "compiling golang for mac os x (ARM)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang-arm
+cd ..
 
 # Needs cargo install -f cross
-echo "compiling rust"
+echo "compiling rust, requires 'cargo install -f cross'"
 cd rust
 echo "compiling rust for amd64 linux"
 cross build --target x86_64-unknown-linux-gnu --release
 echo "compiling rust for aarch64 linux"
 cross build --target aarch64-unknown-linux-gnu --release
-# echo "compiling rust for x86-64 intel darwin (macOS)"
-# cross build --target x86_64-apple-darwin --release
-# echo "compiling rust for ARM darwin (macOS)"
-# cross build --target aarch64-apple-darwin --release
+echo "compiling rust for x86-64 intel darwin (macOS)"
+cross build --target x86_64-apple-darwin --release
+echo "compiling rust for ARM darwin (macOS)"
+cross build --target aarch64-apple-darwin --release
