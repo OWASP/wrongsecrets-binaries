@@ -65,6 +65,8 @@ wrongsecrets-golang-arm
 wrongsecrets-golang-linux-arm
 wrongsecrets-rust
 wrongsecrets-rust-arm
+wrongsecrets-rust-linux
+wrongsecrets-rust-linux-arm
 wrongsecrets-c-linux
 wrongsecrets-cplus
 

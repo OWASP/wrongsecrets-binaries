@@ -48,9 +48,15 @@ echo "compiling rust, requires 'cargo install -f cross'"
 cd rust
 echo "compiling rust for amd64 linux"
 cross build --target x86_64-unknown-linux-gnu --release
+cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
 echo "compiling rust for aarch64 linux"
 cross build --target aarch64-unknown-linux-gnu --release
-echo "compiling rust for x86-64 intel darwin (macOS)"
-cross build --target x86_64-apple-darwin --release
-echo "compiling rust for ARM darwin (macOS)"
-cross build --target aarch64-apple-darwin --release
+cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm
+echo "compiling rust for x86-64 intel darwin (macOS) - requires Intel MacOS"
+rustup target add x86_64-apple-darwin
+cargo build --release
+cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust
+echo "compiling rust for ARM darwin (macOS) - requires ARM macOS"
+rustup target add aarch64-apple-darwin
+cargo build --release
+cp target/aarch64-apple-darwin/release/rust ../wrongsecrets-rust-arm
