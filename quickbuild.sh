@@ -52,11 +52,11 @@ cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
 echo "compiling rust for aarch64 linux"
 cross build --target aarch64-unknown-linux-gnu --release
 cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm
-echo "compiling rust for x86-64 intel darwin (macOS) - requires Intel MacOS"
+echo "compiling rust for x86-64 intel darwin (macOS) - requires 'rustup target add x86_64-apple-darwin'"
 rustup target add x86_64-apple-darwin
-cargo build --release
+cargo build --target x86_64-apple-darwin --release
 cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust
-echo "compiling rust for ARM darwin (macOS) - requires ARM macOS"
+echo "compiling rust for ARM darwin (macOS) - requires 'rustup target add aarch64-apple-darwin'"
 rustup target add aarch64-apple-darwin
-cargo build --release
+cargo build --target aarch64-apple-darwin --release
 cp target/aarch64-apple-darwin/release/rust ../wrongsecrets-rust-arm
