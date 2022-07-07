@@ -1,7 +1,9 @@
 #!/bin/bash
 
 echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and 'x86_64-apple-macos12'"
-echo "Compiling for Intel Macos-X"
+
+echo "Compiling C"
+echo "Compiling C for Intel Macos-X"
 gcc c/main.c -target x86_64-apple-macos12 -o wrongsecrets-c
 echo "Compiling C for ARM Macos-X"
 gcc c/main.c -target arm64-apple-macos12 -o wrongsecrets-c-arm
@@ -17,11 +19,7 @@ echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
 
-# echo "Compiling for Intel Macos-X"
-# gcc c/main.c -target x86_64-apple-macos12 -o wrongsecrets-c
-# echo "Compiling C for ARM Macos-X"
-# gcc c/main.c -target arm64-apple-macos12 -o wrongsecrets-c-arm
-
+echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
 gcc cplus/main.cpp -lstdc++ -target x86_64-apple-macos12 -o wrongsecrets-cplus
 echo "Compiling C++ for ARM Macos-X"
@@ -43,7 +41,6 @@ echo "compiling golang for mac os x (ARM)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang-arm
 cd ..
 
-# Needs cargo install -f cross
 echo "compiling rust, requires 'cargo install -f cross'"
 cd rust
 echo "compiling rust for amd64 linux"
