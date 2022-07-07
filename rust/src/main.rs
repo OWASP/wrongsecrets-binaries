@@ -6,6 +6,7 @@ fn check_input(guess: String) -> String {
         return get_secret();
     }
     let correct = guess.eq(&secret);
+    get_secret_array(); // Just call the function to not get an unused warning
     if correct {
         return "This is correct! Congrats!".to_string();
     } else {
@@ -15,6 +16,15 @@ fn check_input(guess: String) -> String {
 
 fn get_secret() -> String {
     return "This is a not very random string posing as a secret in Rust".to_string();
+}
+
+fn get_secret_array() -> Vec<char> {
+    return vec![
+        'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 'a', ' ', 'n', 'o', 't', ' ', 'v', 'e', 'r', 'y',
+        ' ', 'r', 'a', 'n', 'd', 'o', 'm', ' ', 's', 't', 'r', 'i', 'n', 'g', ' ', 'p', 'o', 's',
+        'i', 'n', 'g', ' ', 'a', 's', ' ', 'a', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'i', 'n',
+        ' ', 'R', 'u', 's', 't',
+    ];
 }
 
 fn main() {
