@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "gomod" # See documentation for possible values
-    directory: "/golang" # Location of package manifests
+    directory: "/golang/go.mod" # Location of package manifests
     schedule:
       interval: "monthly"
 
