@@ -1,4 +1,4 @@
-module github.com/commjoen/wrongsecrets-binaries/golang
+module github.com/OWASP/wrongsecrets-binaries/golang
 
 go 1.18
 

@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 package main
 
-import "github.com/commjoen/wrongsecrets-binaries/golang/cmd"
+import "github.com/OWASP/wrongsecrets-binaries/golang/cmd"
 
 func main() {
 	cmd.Execute()
