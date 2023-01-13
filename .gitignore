@@ -71,6 +71,7 @@ wrongsecrets-cplus
 
 dockcross-linux-x64
 dockcross-linux-arm64
+dockcross-windows-shared-x64
 dockcross/
 .vscode/
 

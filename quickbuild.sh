@@ -18,6 +18,11 @@ echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
+echo "Compiling C for Windows Shared X64 (EXE ^^)"
+echo "prerequired: cd dockcross"
+echo "prerequired: docker run --rm dockcross/windows-shared-x64 > ./dockcross-windows-shared-x64"
+echo "prerequired: chmod +x ./dockcross-windows-shared-x64 && mv ./dockcross-windows-shared-x64 .. && cd .."
+./dockcross-windows-shared-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
@@ -28,6 +33,8 @@ echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
 echo "Compiling C++ for linux"
 ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
+echo "Compiling C++ for Windows Shared X64 (EXE ^^)"
+./dockcross-windows-shared-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
 
 echo "compiling golang"
 cd golang
@@ -39,6 +46,8 @@ echo "compiling golang for mac os x (intel)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang
 echo "compiling golang for mac os x (ARM)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang-arm
+echo "compiling golang for Windows"
+env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
 cd ..
 
 echo "compiling rust, requires 'cargo install -f cross'"
@@ -57,3 +66,8 @@ echo "compiling rust for ARM darwin (macOS) - requires 'rustup target add aarch6
 rustup target add aarch64-apple-darwin
 cargo build --target aarch64-apple-darwin --release
 cp target/aarch64-apple-darwin/release/rust ../wrongsecrets-rust-arm
+echo "Compiling rust for Windows, here you need even more shizzle to work"
+echo "pre-requirement: brew install mingw-w64"
+rustup target add x86_64-pc-windows-gnu
+cargo build --target=x86_64-pc-windows-gnu --release
+cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
