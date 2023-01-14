@@ -18,11 +18,11 @@ echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
-echo "Compiling C for Windows Shared X64 (EXE ^^)"
+echo "Compiling C for Windows statically linked X64 (EXE)"
 echo "prerequired: cd dockcross"
-echo "prerequired: docker run --rm dockcross/windows-shared-x64 > ./dockcross-windows-shared-x64"
-echo "prerequired: chmod +x ./dockcross-windows-shared-x64 && mv ./dockcross-windows-shared-x64 .. && cd .."
-./dockcross-windows-shared-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
+echo "prerequired: docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64"
+echo "prerequired: chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd .."
+./dockcross-windows-static-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
@@ -33,8 +33,8 @@ echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
 echo "Compiling C++ for linux"
 ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
-echo "Compiling C++ for Windows Shared X64 (EXE ^^)"
-./dockcross-windows-shared-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
+echo "Compiling C++ for Windows statically linked X64 (EXE)"
+./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
 
 echo "compiling golang"
 cd golang
