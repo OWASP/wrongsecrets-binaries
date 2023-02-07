@@ -23,6 +23,11 @@ echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64"
 echo "prerequired: chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd .."
 ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
+echo "Compiling C for Mussl on ARM"
+echo "prerequired: cd dockcross"
+echo "prerequired: docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl"
+echo "prerequired: chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd .."
+./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o wrongsecrets-c-linux-musl-arm'
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
@@ -35,6 +40,8 @@ echo "Compiling C++ for linux"
 ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
 echo "Compiling C++ for Windows statically linked X64 (EXE)"
 ./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
+echo "Compiling C++ for musl based linux ARM"
+./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o wrongsecrets-cplus-linux-musl-arm'
 
 echo "compiling golang"
 cd golang
@@ -71,3 +78,11 @@ echo "pre-requirement: brew install mingw-w64"
 rustup target add x86_64-pc-windows-gnu
 cargo build --target=x86_64-pc-windows-gnu --release
 cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
+echo "compiling for musl linux (X86)"
+rustup target add x86_64-unknown-linux-musl
+cargo build --target x86_64-unknown-linux-musl --release
+cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl
+echo "compiling for musl linux (ARM)"
+rustup target add aarch64-unknown-linux-musl
+cargo build --target aarch64-unknown-linux-musl --release
+cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm

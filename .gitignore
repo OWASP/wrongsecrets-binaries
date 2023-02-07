@@ -68,9 +68,15 @@ wrongsecrets-rust-linux
 wrongsecrets-rust-linux-arm
 wrongsecrets-c-linux
 wrongsecrets-cplus
+wrongsecrets-c-linux-musl-arm
+wrongsecrets-cplus-linux-musl-arm
+wrongsecrets-rust-linux-musl
+wrongsecrets-rust-linux-musl-arm
+
 
 dockcross-linux-x64
 dockcross-linux-arm64
+dockcross-linux-arm64-musl
 dockcross-windows-shared-x64
 dockcross-windows-static-x64
 dockcross/
