@@ -79,6 +79,7 @@ rustup target add x86_64-pc-windows-gnu
 cargo build --target=x86_64-pc-windows-gnu --release
 cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
 echo "compiling for musl linux (X86)"
+echo "for this you do need to follow https://stackoverflow.com/questions/72081987/cant-build-for-target-x86-64-unknown-linux-musl"
 rustup target add x86_64-unknown-linux-musl
 cargo build --target x86_64-unknown-linux-musl --release
 cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl
