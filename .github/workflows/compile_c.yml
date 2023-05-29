@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - c/**
+      - .github
   pull_request:
     branches: [master]
 
