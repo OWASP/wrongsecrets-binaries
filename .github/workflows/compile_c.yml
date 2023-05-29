@@ -3,8 +3,8 @@ name: "Compile C"
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
+    paths:
+      - c/**
   pull_request:
     branches: [master]
 
@@ -12,17 +12,34 @@ permissions:
   contents: read
 
 jobs:
-  test-podman:
+  build-darwin:
     name: build on macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - name: compile C binary for macOS
         run: |
+          mkdir target
           echo "Compiling C for Intel Macos-X"
           gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
           echo "Compiling C for ARM Macos-X"
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: executables
+          path: target
+  build-linux:
+    name: Compile on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Linux(x64)
+        run: |
+          mkdir target
+          echo "Compiling C for Linux-x64"
+          gcc c/main.c -o target/wrongsecrets-c-linux
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         if: failure()
