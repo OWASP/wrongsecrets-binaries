@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 jobs:
-  build-darwin:
-    name: Build on MacOS
+  test-podman:
+    name: build on macOS
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
