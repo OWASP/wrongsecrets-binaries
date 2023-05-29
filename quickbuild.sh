@@ -13,7 +13,7 @@ echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts"
 echo "prerequired: chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd .."
 ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o wrongsecrets-c-linux-arm'
-echo "Compiling C for x86-linux"
+echo "Compiling C for x64-linux"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
