@@ -1,0 +1,31 @@
+name: "Compile C"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: build on macOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile C binary for macOS
+        run: |
+          echo "Compiling C for Intel Macos-X"
+          gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
+          echo "Compiling C for ARM Macos-X"
+          gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: executables
+          path: target
