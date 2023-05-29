@@ -43,7 +43,7 @@ jobs:
           gcc c/main.c -o target/wrongsecrets-c-linux
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
+        if: always()
         with:
           name: executables
           path: target/*
