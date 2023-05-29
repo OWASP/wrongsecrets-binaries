@@ -12,19 +12,19 @@ permissions:
 
 jobs:
   build-darwin:
-  name: Build on MacOS
-  runs-on: macos-latest
-  steps:
-    - uses: actions/checkout@v3
-    - name: compile C binary for macOS
-      run: >
-        echo "Compiling C for Intel Macos-X"
-        gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
-        echo "Compiling C for ARM Macos-X"
-        gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
-    - name: Uploading executables
-      uses: actions/upload-artifact@v3
-      if: failure()
-      with:
-        name: executables
-        path: target
+    name: Build on MacOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile C binary for macOS
+        run: >
+          echo "Compiling C for Intel Macos-X"
+          gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
+          echo "Compiling C for ARM Macos-X"
+          gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: executables
+          path: target
