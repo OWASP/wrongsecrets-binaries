@@ -4,17 +4,17 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - c/**
-      - .github
+      - 'c/**'
+      - '.github/**'
   pull_request:
-    branches: [master]
+  
 
 permissions:
   contents: read
 
 jobs:
   build-darwin:
-    name: build on macOS
+    name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -27,12 +27,11 @@ jobs:
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
-          name: executables
+          name: executable-C-MacOS
           path: target/*
   build-linux:
-    name: Compile on Linux
+    name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +42,84 @@ jobs:
           gcc c/main.c -o target/wrongsecrets-c-linux
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: always()
         with:
-          name: executables
+          name: executable-C-linux-x64
+          path: target/*
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Linux(ARM)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts
+          chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
+          echo "Compiling C for Linux-arm"
+          ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-C-ARM
+          path: target/*
+  build-windows:
+    name: Windows(x86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Windows
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64
+          chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
+          echo "Compiling C for Windows"
+          ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-C-Windows
+          path: target/*
+  build-musl-arm:
+    name: Musl(ARM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Musl(ARM)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl
+          chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
+          echo "Compiling C for Arm Musl"
+          ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-C-Musl-ARM
+          path: target/*
+  build-musl-x64:
+    name: Musl(X86-64)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Musl(x64)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          brew install FiloSottile/musl-cross/musl-cross
+          ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
+          echo "Compiling C for X64 Musl"
+          x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-C-Musl-x64
           path: target/*
