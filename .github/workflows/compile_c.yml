@@ -27,7 +27,6 @@ jobs:
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
           name: executable-C-MacOS
           path: target/*
@@ -43,7 +42,6 @@ jobs:
           gcc c/main.c -o target/wrongsecrets-c-linux
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
           name: executable-C-linux-x64
           path: target/*
@@ -64,7 +62,6 @@ jobs:
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
           name: executable-C-ARM
           path: target/*
@@ -105,7 +102,6 @@ jobs:
           ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
           name: executable-C-Musl-ARM
           path: target/*
