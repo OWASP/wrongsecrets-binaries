@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: executables
+          name: executable-C-MacOS
           path: target/*
   build-linux:
     name: Linux(X86-64)
@@ -45,14 +45,14 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: executables
+          name: executable-C-linux-x64
           path: target/*
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Compile C binary for Linux(x64)
+      - name: Compile C binary for Linux(ARM)
         run: |
           mkdir target
           echo "Prepare env"
@@ -66,7 +66,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: executables
+          name: executable-C-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -85,9 +85,8 @@ jobs:
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
-          name: executables
+          name: executable-C-Windows
           path: target/*
   build-musl-arm:
     name: Musl(ARM)
@@ -108,7 +107,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: executables
+          name: executable-C-Musl-ARM
           path: target/*
   build-musl-x64:
     name: Musl(X86-64)
@@ -125,7 +124,6 @@ jobs:
           x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
       - name: Uploading executables
         uses: actions/upload-artifact@v3
-        if: failure()
         with:
-          name: executables
+          name: executable-C-Musl-x64
           path: target/*
