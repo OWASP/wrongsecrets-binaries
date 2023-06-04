@@ -29,3 +29,18 @@ jobs:
         with:
           name: executable-CPlus-MacOS
           path: target/*
+  build-linux:
+    name: Linux(X86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile CPlus binary for Linux(x64)
+        run: |
+          mkdir target
+          echo "Compiling CPlus for Linux-x64"
+          g++ c/main.cpp -o target/wrongsecrets-cplus-linux
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-linux-x64
+          path: target/*
