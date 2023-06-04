@@ -103,10 +103,17 @@ jobs:
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
           echo "Compiling C for Windows"
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
+          echo "Compiling CPlus for Windows"
+          ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-Windows
+          path: target/*
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-Windows
           path: target/*
   build-musl-arm:
     name: Musl(ARM)

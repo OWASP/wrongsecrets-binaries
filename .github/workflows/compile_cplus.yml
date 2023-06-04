@@ -64,3 +64,23 @@ jobs:
         with:
           name: executable-CPlus-ARM
           path: target/*
+  build-windows:
+    name: Windows(x86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Windows
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64
+          chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
+          echo "Compiling CPlus for Windows"
+          ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-Windows
+          path: target/*
