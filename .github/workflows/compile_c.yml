@@ -77,7 +77,7 @@ jobs:
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
           echo "Compiling CPlus for Linux-arm"
-          ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
+          ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
