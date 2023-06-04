@@ -44,3 +44,23 @@ jobs:
         with:
           name: executable-CPlus-linux-x64
           path: target/*
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile C binary for Linux(ARM)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts
+          chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
+          echo "Compiling C for Linux-arm"
+          ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-ARM
+          path: target/*

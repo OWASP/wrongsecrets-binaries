@@ -76,10 +76,17 @@ jobs:
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
+          echo "Compiling CPlus for Linux-arm"
+          ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-ARM
+          path: target/*
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
