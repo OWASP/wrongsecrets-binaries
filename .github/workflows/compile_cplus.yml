@@ -21,9 +21,9 @@ jobs:
         run: |
           mkdir target
           echo "Compiling CPlus for Intel Macos-X"
-          gcc cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
+          g++ cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
           echo "Compiling CPlus for ARM Macos-X"
-          gcc cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
+          g++ cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
