@@ -18,17 +18,26 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: compile C binary for macOS
+      - name: compile C and CPlus binary for macOS
         run: |
           mkdir target
           echo "Compiling C for Intel Macos-X"
           gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
           echo "Compiling C for ARM Macos-X"
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
+          echo "Compiling CPlus for Intel Macos-X"
+          g++ cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
+          echo "Compiling CPlus for ARM Macos-X"
+          g++ cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-MacOS
+          path: target/*
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-MacOS
           path: target/*
   build-linux:
     name: Linux(X86-64)
