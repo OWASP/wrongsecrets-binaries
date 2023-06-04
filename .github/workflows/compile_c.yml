@@ -29,12 +29,12 @@ jobs:
           g++ cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
           echo "Compiling CPlus for ARM Macos-X"
           g++ cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
-      - name: Uploading executables
+      - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-MacOS
           path: target/*
-      - name: Uploading executables
+      - name: Uploading CPlus executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-CPlus-MacOS
@@ -49,10 +49,17 @@ jobs:
           mkdir target
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
-      - name: Uploading executables
+          echo "Compiling CPlus for Linux-x64"
+          g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
+      - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-linux-x64
+          path: target/*
+      - name: Uploading CPlus executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-linux-x64
           path: target/*
   build-linux-arm:
     name: Linux(ARM64)
