@@ -1,0 +1,31 @@
+name: " Compile CPlus"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'cplus/**'
+      - '.github/**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile CPlus binary for macOS
+        run: |
+          mkdir target
+          echo "Compiling CPlus for Intel Macos-X"
+          gcc cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
+          echo "Compiling CPlus for ARM Macos-X"
+          gcc cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-CPlus-MacOS
+          path: target/*
