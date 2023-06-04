@@ -38,7 +38,7 @@ jobs:
         run: |
           mkdir target
           echo "Compiling CPlus for Linux-x64"
-          g++ c/main.cpp -o target/wrongsecrets-cplus-linux
+          g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
