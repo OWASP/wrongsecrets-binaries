@@ -18,7 +18,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: compile C and CPlus binary for macOS
+      - name: compile C binary for macOS
         run: |
           mkdir target
           echo "Compiling C for Intel Macos-X"
