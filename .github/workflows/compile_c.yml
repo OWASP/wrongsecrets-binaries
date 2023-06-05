@@ -25,21 +25,11 @@ jobs:
           gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
           echo "Compiling C for ARM Macos-X"
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
-          echo "Compiling CPlus for Intel Macos-X"
-          g++ cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
-          echo "Compiling CPlus for ARM Macos-X"
-          g++ cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-MacOS
-          path: target/*
-      - name: Uploading CPlus executables
-        uses: actions/upload-artifact@v3
-        with:
-          name: executable-CPlus-MacOS
-          path: target/*
-  
+          path: target/*  
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
@@ -55,22 +45,6 @@ jobs:
         with:
           name: executable-C-linux-x64
           path: target/*
-  build-cplus-linux:
-    name: Linux-cplus-(X86-64)
-    needs: build-linux
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Compile C++ binary for Linux(x64)
-      run: |
-        mkdir target
-        echo "Compiling CPlus for Linux-x64"
-        g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
-    - name: Uploading CPlus executables
-      uses: actions/upload-artifact@v3
-      with:
-        name: executable-CPlus-linux-x64
-        path: target/*
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
@@ -86,17 +60,10 @@ jobs:
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
-          echo "Compiling CPlus for Linux-arm"
-          ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-linux-ARM
-          path: target/*
-      - name: Uploading executables
-        uses: actions/upload-artifact@v3
-        with:
-          name: executable-CPlus-linux-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -113,17 +80,10 @@ jobs:
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
           echo "Compiling C for Windows"
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
-          echo "Compiling CPlus for Windows"
-          ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-Windows
-          path: target/*
-      - name: Uploading executables
-        uses: actions/upload-artifact@v3
-        with:
-          name: executable-CPlus-Windows
           path: target/*
   build-musl-arm:
     name: Musl(ARM)
