@@ -39,6 +39,7 @@ jobs:
         with:
           name: executable-CPlus-MacOS
           path: target/*
+  
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
@@ -56,11 +57,20 @@ jobs:
         with:
           name: executable-C-linux-x64
           path: target/*
-      - name: Uploading CPlus executables
-        uses: actions/upload-artifact@v3
-        with:
-          name: executable-CPlus-linux-x64
-          path: target/*
+  build-cplus-linux:
+    name: Linux-cplus-(X86-64)
+    needs: build-linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Compile C++ binary for Linux(x64)
+      run: |
+        echo "Compiling CPlus for Linux-x64"
+        g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
+    - name: Uploading CPlus executables
+      uses: actions/upload-artifact@v3
+      with:
+        name: executable-CPlus-linux-x64
+        path: target/*
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
