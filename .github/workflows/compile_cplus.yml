@@ -62,7 +62,7 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-CPlus-ARM
+          name: executable-CPlus-linux-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -83,4 +83,42 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-CPlus-Windows
+          path: target/*
+  build-musl-arm:
+    name: Musl(ARM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Cplus binary for Musl(ARM)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl
+          chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
+          echo "Compiling Cplus for Arm Musl"
+          ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cp -o target/wrongsecrets-c-linux-musl-arm'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Cplus-Musl-ARM
+          path: target/*
+  build-musl-x64:
+    name: Musl(X86-64)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Cplus binary for Musl(x64)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          brew install FiloSottile/musl-cross/musl-cross
+          ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
+          echo "Compiling Cplus for X64 Musl"
+          x86_64-linux-musl-gcc g++ cplus/main.cp -o target/wrongsecrets-c-linux-musl
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Cplus-Musl-x64
           path: target/*
