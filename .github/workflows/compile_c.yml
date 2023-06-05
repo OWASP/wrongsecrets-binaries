@@ -62,6 +62,7 @@ jobs:
     needs: build-linux
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - name: Compile C++ binary for Linux(x64)
       run: |
         echo "Compiling CPlus for Linux-x64"
@@ -91,12 +92,12 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-ARM
+          name: executable-C-linux-ARM
           path: target/*
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-CPlus-ARM
+          name: executable-CPlus-linux-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
