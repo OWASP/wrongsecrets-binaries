@@ -50,8 +50,6 @@ jobs:
           mkdir target
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
-          echo "Compiling CPlus for Linux-x64"
-          g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
