@@ -98,7 +98,7 @@ jobs:
           docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl
           chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
           echo "Compiling Cplus for Arm Musl"
-          ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cp -o target/wrongsecrets-c-linux-musl-arm'
+          ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++  -o target/wrongsecrets-cplus-linux-musl-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
@@ -116,7 +116,7 @@ jobs:
           brew install FiloSottile/musl-cross/musl-cross
           ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
           echo "Compiling Cplus for X64 Musl"
-          x86_64-linux-musl-gcc g++ cplus/main.cp -o target/wrongsecrets-c-linux-musl
+          ./x86_64-linux-musl-gcc bash -c 'g++ cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
