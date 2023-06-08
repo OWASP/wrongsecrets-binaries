@@ -116,7 +116,7 @@ jobs:
           brew install FiloSottile/musl-cross/musl-cross
           ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
           echo "Compiling Cplus for X64 Musl"
-          ./x86_64-linux-musl-gcc bash -c 'g++ cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl'
+          x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
