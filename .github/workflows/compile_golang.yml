@@ -22,9 +22,9 @@ jobs:
         run: |
           mkdir target
           echo "Compiling Golang for Intel Macos-X"
-          GOARCH=amd64 GOOS=darwin go build -o target/wrongsecrets-go ./golang/main.go
+          GOARCH=amd64 GOOS=darwin go build -o target/wrongsecrets-go golang/main.go
           echo "Compiling Golang for ARM Macos-X"
-          GOARCH=arm64 GOOS=darwin go build -o target/wrongsecrets-go-arm ./golang/main.go
+          GOARCH=arm64 GOOS=darwin go build -o target/wrongsecrets-go-arm golang/main.go
       - name: Uploading Go executables
         uses: actions/upload-artifact@v3
         with:
