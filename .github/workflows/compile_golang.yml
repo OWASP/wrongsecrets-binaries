@@ -1,0 +1,32 @@
+name: "Compile GoLang"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'golang/**'
+      - '.github/**'
+  pull_request:
+
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile C binary for macOS
+        run: |
+          mkdir target
+          echo "Compiling Golang for Intel Macos-X"
+          go build golang/main.go -target x86_64-apple-macos12 -o target/wrongsecrets-go
+          echo "Compiling Golang for ARM Macos-X"
+          go build golang/main.go -target arm64-apple-macos12 -o target/wrongsecrets-go-arm
+      - name: Uploading Golang executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-MacOS
+          path: target/*
