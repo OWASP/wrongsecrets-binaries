@@ -21,12 +21,16 @@ jobs:
       - name: compile Golang binary for macOS
         run: |
           mkdir target
+          echo "Initializing Go module"
+          cd golang
+          go mod init github.com/OWASP/wrongsecrets-binaries/golang
+          cd ..
           echo "Compiling Golang for Intel Macos-X"
           GOARCH=amd64 GOOS=darwin go build -o target/wrongsecrets-go ./golang/main.go
           echo "Compiling Golang for ARM Macos-X"
           GOARCH=arm64 GOOS=darwin go build -o target/wrongsecrets-go-arm ./golang/main.go
-      - name: Uploading Golang executables
+      - name: Uploading Go executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-MacOS
+          name: executable-Go-MacOS
           path: target/*
