@@ -21,7 +21,6 @@ jobs:
       - name: compile Golang binary for macOS
         run: |
           mkdir target
-          cd golang
           echo "Compiling Golang for Intel Macos-X"
           GOARCH=amd64 GOOS=darwin go build -o target/wrongsecrets-go ./golang/main.go
           echo "Compiling Golang for ARM Macos-X"
