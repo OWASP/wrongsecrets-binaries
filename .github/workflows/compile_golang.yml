@@ -45,8 +45,9 @@ jobs:
           sudo apt-get install golang
           mkdir target
           echo "Compiling Golang for Linux-x64"
+          cd golang
           go build -o target/wrongsecrets-go-linux golang/main.go
-      - name: Uploading C executables
+      - name: Uploading Go executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-Go-linux-x64
