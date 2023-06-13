@@ -55,3 +55,28 @@ jobs:
         with:
           name: executable-Go-linux-x64
           path: target/*
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Compile Golang binary for Linux(ARM)
+        run: |
+          mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts
+          chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
+          echo "Compiling Golang for Linux-arm"
+          cd golang
+          ./dockcross-linux-arm64-lts bash -c 'go build -o target/wrongsecrets-go-linux-arm main.go'
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-linux-ARM
+          path: target/*
