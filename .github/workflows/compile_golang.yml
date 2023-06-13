@@ -48,7 +48,6 @@ jobs:
         run: |
           mkdir target
           echo "Compiling Golang for Linux-x64"
-          cd golang
           go build -o target/wrongsecrets-go-linux golang/main.go
       - name: Uploading Go executables
         uses: actions/upload-artifact@v3
