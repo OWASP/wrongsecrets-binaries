@@ -73,8 +73,7 @@ jobs:
           docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling Golang for Linux-arm"
-          cd golang
-          ./dockcross-linux-arm64-lts bash -c 'go build -o target/wrongsecrets-go-linux-arm main.go'
+          ./dockcross-linux-arm64-lts bash -c 'go build -o target/wrongsecrets-go-linux-arm golang/main.go'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
