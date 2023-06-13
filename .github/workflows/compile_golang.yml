@@ -35,3 +35,19 @@ jobs:
         with:
           name: executable-Go-MacOS
           path: target/*
+  build-linux:
+    name: Linux(X86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Golang binary for Linux(x64)
+        run: |
+          sudo apt-get install golang
+          mkdir target
+          echo "Compiling Golang for Linux-x64"
+          go build -o target/wrongsecrets-go-linux golang/main.go
+      - name: Uploading C executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-linux-x64
+          path: target/*
