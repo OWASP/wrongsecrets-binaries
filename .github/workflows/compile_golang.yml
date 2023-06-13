@@ -47,8 +47,9 @@ jobs:
       - name: Compile Golang binary for Linux(x64)
         run: |
           mkdir target
+          cd golang
           echo "Compiling Golang for Linux-x64"
-          go build -o target/wrongsecrets-go-linux golang/main.go
+          go build -o ../target/wrongsecrets-go-linux golang/main.go
       - name: Uploading Go executables
         uses: actions/upload-artifact@v3
         with:
