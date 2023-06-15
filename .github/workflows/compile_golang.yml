@@ -67,10 +67,9 @@ jobs:
       - name: Compile Golang binary for Linux(ARM)
         run: |
           mkdir target
-          echo "compiling golang"
           cd golang
-          echo "compiling golang for arm linux"
-          env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-linux-arm
+          echo "Compiling Golang for Linux-arm"
+          env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux main.go
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
