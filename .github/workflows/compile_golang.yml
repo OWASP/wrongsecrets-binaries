@@ -107,6 +107,11 @@ jobs:
       - name: Compile Golang binary for Musl(ARM)
         run: |
           mkdir target
+          echo "Prepare env"
+          git clone --depth 1 https://github.com/dockcross/dockcross.git
+          cd dockcross
+          docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl
+          chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
           cd golang
           echo "Compiling Golang for Musl(ARM)"
           env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux main.go
