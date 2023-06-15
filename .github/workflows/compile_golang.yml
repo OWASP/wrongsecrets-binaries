@@ -75,3 +75,18 @@ jobs:
         with:
           name: executable-Go-linux-ARM
           path: target/*
+  build-windows:
+    name: Windows(x86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Go binary for Windows
+        run: |
+          mkdir target
+          echo "compiling golang for Windows"
+          env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-Windows
+          path: target/*
