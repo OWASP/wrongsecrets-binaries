@@ -95,3 +95,23 @@ jobs:
         with:
           name: executable-Go-Windows
           path: target/*
+  build-musl-arm:
+    name: Musl(ARM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Compile Golang binary for Musl(ARM)
+        run: |
+          mkdir target
+          cd golang
+          echo "Compiling Golang for Musl(ARM)"
+          env GOARCH=arm64 GOOS=linux CC=musl-gcc CGO_ENABLED=1 go build -o ../target/wrongsecrets-go-linux main.go
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-C-Musl-ARM
+          path: target/*
