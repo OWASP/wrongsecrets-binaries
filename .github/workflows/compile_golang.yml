@@ -87,6 +87,7 @@ jobs:
       - name: Compile Go binary for Windows
         run: |
           mkdir target
+          cd golang
           echo "compiling golang for Windows"
           env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
       - name: Uploading executables
