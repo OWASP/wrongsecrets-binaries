@@ -22,6 +22,7 @@ jobs:
           mkdir target
           echo "Compiling Rust for Intel Macos-X"
           rustup target add x86_64-apple-darwin
+          cd rust
           cargo build --target x86_64-apple-darwin --release
           cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust
       - name: Uploading Rust executables
