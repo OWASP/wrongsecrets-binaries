@@ -20,7 +20,6 @@ jobs:
       - name: compile Rust binary for macOS
         run: |
           mkdir target
-          cd rust
           echo "Compiling Rust for Intel Macos-X"
           rustup target add x86_64-apple-darwin
           cargo build --target x86_64-apple-darwin --release
