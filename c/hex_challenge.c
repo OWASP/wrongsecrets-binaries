@@ -29,7 +29,9 @@ char *xor(char *string, int key)
 	char *ret = (char *)calloc(strlen(string),sizeof(int));
 	
 	for(int a = 0; a < size;a++)
+	{
 		ret[a] = string[a] ^ key;
+	}
 	
 	return ret;
 }
@@ -51,14 +53,14 @@ void execute(char *command)
 		spoil();
 		return;
 	}
-	if(strcmp(command,xor(decode(secret),2)) == 0 )
+	else if(strcmp(command,xor(decode(secret),2)) == 0 )
 	{
 		printf("root:~# You're root :-D\n");
 	}
 	else if(strcmp(command,decode(secret)) == 0)
 	{
 		puts("You're almost there champion! Here's two hints: ");
-		puts("#1: How many different elements there exists in a binary set ?");
+		puts("#1: How many elements there exists in a binary set ?");
 		puts("#2: You can have a computer or bike, but cannot have both.");
 	}
 	else
