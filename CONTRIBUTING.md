@@ -9,6 +9,8 @@ WrongSecrets-binaries:
 
 This document describes how you can contribute to WrongSecrets. Please read it carefully.
 
+If you have any comments or questions, feel free to contact us via [OWASP Slack](https://owasp.slack.com/archives/C02KQ7D9XHR) for which you sign up [here](https://owasp.org/slack/invite)
+
 **Table of Contents**
 
 * [How to Contribute to the Project](#how-to-contribute-to-the-project)
