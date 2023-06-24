@@ -7,6 +7,17 @@ Want to fix something you found in one of the binaries: open a ticket or a PR he
 
 ## Special thanks
 
+### Contributors:
+
+Leaders:
+
+-   [Ben de Haan @bendehaan](https://github.com/bendehaan)
+-   [Jeroen Willemsen @commjoen](https://github.com/commjoen)
+
+Top contributors:
+
+-   [Joss Sparkes @remakingeden](https://github.com/remakingeden)
+
 ### Sponsorships:
 
 We would like to thank the following parties for helping us out:
