@@ -37,7 +37,7 @@ The minimum requirements for code contributions are:
 - a spoil command needs to be implemented that returns the answer
 - correct answers should print `This is correct! Congrats!\n`
 - incorrect answers should print at least `This is incorrect. Try again\n`.
-- Binaries should be generated in github actions/
+- Binaries should be generated in github actions
 
 Additionally, the following guidelines can help:
 
