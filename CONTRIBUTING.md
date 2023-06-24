@@ -3,7 +3,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/OWASP/wrongsecrets.svg)](https://github.com/OWASP/wrongsecrets/graphs/contributors)
 [![GitHub contributors binaries](https://img.shields.io/github/contributors/OWASP/wrongsecrets-binaries.svg)](https://github.com/OWASP/wrongsecrets-binaries/graphs/contributors)
 ![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets/help%20wanted.svg)
-[GitHub issues for this project by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets-binaries/help%20wanted.svg)
+![GitHub issues for this project by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets-binaries/help%20wanted.svg)
 
 This document describes how you can contribute to WrongSecrets. Please read it carefully.
 
