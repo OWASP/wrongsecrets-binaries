@@ -1,11 +1,15 @@
 # Contributing
 
+WrongSecrets:
 [![GitHub contributors](https://img.shields.io/github/contributors/OWASP/wrongsecrets.svg)](https://github.com/OWASP/wrongsecrets/graphs/contributors)
-[![GitHub contributors binaries](https://img.shields.io/github/contributors/OWASP/wrongsecrets-binaries.svg)](https://github.com/OWASP/wrongsecrets-binaries/graphs/contributors)
 ![GitHub issues by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets/help%20wanted.svg)
-[GitHub issues for this project by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets-binaries/help%20wanted.svg)
+WrongSecrets-binaries:
+![GitHub issues for this project by-label "help wanted"](https://img.shields.io/github/issues/OWASP/wrongsecrets-binaries/help%20wanted.svg)
+[![GitHub contributors binaries](https://img.shields.io/github/contributors/OWASP/wrongsecrets-binaries.svg)](https://github.com/OWASP/wrongsecrets-binaries/graphs/contributors)
 
 This document describes how you can contribute to WrongSecrets. Please read it carefully.
+
+If you have any comments or questions, feel free to contact us via [OWASP Slack](https://owasp.slack.com/archives/C02KQ7D9XHR) for which you sign up [here](https://owasp.org/slack/invite)
 
 **Table of Contents**
 
@@ -28,6 +32,12 @@ The minimum requirements for code contributions are:
 
 1. The code _must_ be compliant with the configured best practices for the language.
 2. All new and changed code _should_ have a corresponding unit and/or integration test.
+3. Any new binary challenge needs to adhere to the following criteria:
+- quickbuild.sh needs to be extended to build the challenge for various languages
+- a spoil command needs to be implemented that returns the answer
+- correct answers should print `This is correct! Congrats!\n`
+- incorrect answers should print at least `This is incorrect. Try again\n`.
+- Binaries should be generated in github actions
 
 Additionally, the following guidelines can help:
 
