@@ -24,9 +24,8 @@ jobs:
           rustup target add x86_64-apple-darwin
           cd rust
           cargo build --target x86_64-apple-darwin --release
-          cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust
       - name: Uploading Rust executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-MacOS
-          path: target/*
+          path: rust/target/*
