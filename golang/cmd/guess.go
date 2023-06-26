@@ -11,7 +11,7 @@ var guessCmd = &cobra.Command{
 	Use:   "guess",
 	Short: "Try to guess the secret embedded in this binary",
 	Long: `Try to guess the secret embedded in this binary.
-	Return the secret in quotes as an argument 
+	Return the secret in quotes as an argument
 	(E.g. guess "thisisa secret")`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 1 {
