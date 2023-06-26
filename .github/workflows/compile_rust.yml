@@ -17,6 +17,7 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v3
       - name: compile Rust binary for macOS
         run: |
           cd rust
