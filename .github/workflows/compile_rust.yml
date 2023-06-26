@@ -19,10 +19,9 @@ jobs:
     steps:
       - name: compile Rust binary for macOS
         run: |
-          mkdir target
+          cd rust
           echo "Compiling Rust for Intel Macos-X"
           rustup target add x86_64-apple-darwin
-          cd rust
           cargo build --target x86_64-apple-darwin --release
       - name: Uploading Rust executables
         uses: actions/upload-artifact@v3
