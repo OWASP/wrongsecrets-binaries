@@ -1,0 +1,97 @@
+name: "Compile GoLang"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'golang/**'
+      - '.github/**'
+  pull_request:
+
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: compile Golang binary for macOS
+        run: |
+          mkdir target
+          cd golang
+          echo "Compiling Golang for Intel Macos-X"
+          env GOARCH=amd64 GOOS=darwin go build -o ../target/wrongsecrets-go
+          echo "Compiling Golang for ARM Macos-X"
+          env GOARCH=arm64 GOOS=darwin go build -o ../target/wrongsecrets-go-arm
+      - name: Uploading Go executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-MacOS
+          path: target/*
+  build-linux:
+    name: Linux(X86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+            go-version: '1.20'
+      - name: Compile Golang binary for Linux(x64)
+        run: |
+          mkdir target
+          cd golang
+          echo "Compiling Golang for Linux-x64"
+          go build -o ../target/wrongsecrets-go-linux main.go
+      - name: Uploading Go executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-linux-x64
+          path: target/*
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Compile Golang binary for Linux(ARM)
+        run: |
+          mkdir target
+          cd golang
+          echo "Compiling Golang for Linux-arm"
+          env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux main.go
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-linux-ARM
+          path: target/*
+  build-windows:
+    name: Windows(x86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - name: Compile Go binary for Windows
+        run: |
+          mkdir target
+          cd golang
+          echo "compiling golang for Windows"
+          env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
+      - name: Uploading executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Go-Windows
+          path: target/*

@@ -1,13 +1,12 @@
-name: "Compile C"
+name: " Compile CPlus"
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'c/**'
+      - 'cplus/**'
       - '.github/**'
   pull_request:
-  
 
 permissions:
   contents: read
@@ -18,32 +17,32 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: compile C binary for macOS
+      - name: compile CPlus binary for macOS
         run: |
           mkdir target
-          echo "Compiling C for Intel Macos-X"
-          gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
-          echo "Compiling C for ARM Macos-X"
-          gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
-      - name: Uploading C executables
+          echo "Compiling CPlus for Intel Macos-X"
+          g++ cplus/main.cpp -target x86_64-apple-macos12 -o target/wrongsecrets-cplus
+          echo "Compiling CPlus for ARM Macos-X"
+          g++ cplus/main.cpp -target arm64-apple-macos12 -o target/wrongsecrets-cplus-arm
+      - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-MacOS
-          path: target/*  
+          name: executable-CPlus-MacOS
+          path: target/*
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Compile C binary for Linux(x64)
+      - name: Compile CPlus binary for Linux(x64)
         run: |
           mkdir target
-          echo "Compiling C for Linux-x64"
-          gcc c/main.c -o target/wrongsecrets-c-linux
-      - name: Uploading C executables
+          echo "Compiling CPlus for Linux-x64"
+          g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
+      - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-linux-x64
+          name: executable-CPlus-linux-x64
           path: target/*
   build-linux-arm:
     name: Linux(ARM64)
@@ -59,11 +58,11 @@ jobs:
           docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling C for Linux-arm"
-          ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
+          ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-linux-ARM
+          name: executable-CPlus-linux-ARM
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -78,19 +77,19 @@ jobs:
           cd dockcross
           docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
-          echo "Compiling C for Windows"
-          ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
+          echo "Compiling CPlus for Windows"
+          ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-Windows
+          name: executable-CPlus-Windows
           path: target/*
   build-musl-arm:
     name: Musl(ARM)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Compile C binary for Musl(ARM)
+      - name: Compile Cplus binary for Musl(ARM)
         run: |
           mkdir target
           echo "Prepare env"
@@ -98,28 +97,28 @@ jobs:
           cd dockcross
           docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl
           chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
-          echo "Compiling C for Arm Musl"
-          ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
+          echo "Compiling Cplus for Arm Musl"
+          ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++  -o target/wrongsecrets-cplus-linux-musl-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-Musl-ARM
+          name: executable-Cplus-Musl-ARM
           path: target/*
   build-musl-x64:
     name: Musl(X86-64)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Compile C binary for Musl(x64)
+      - name: Compile Cplus binary for Musl(x64)
         run: |
           mkdir target
           echo "Prepare env"
           brew install FiloSottile/musl-cross/musl-cross
           ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
-          echo "Compiling C for X64 Musl"
-          x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
+          echo "Compiling Cplus for X64 Musl"
+          x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
-          name: executable-C-Musl-x64
+          name: executable-Cplus-Musl-x64
           path: target/*
