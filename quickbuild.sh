@@ -5,29 +5,35 @@ echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and
 echo "Compiling C"
 echo "Compiling C for Intel Macos-X"
 gcc c/main.c -target x86_64-apple-macos12 -o wrongsecrets-c
+gcc c/advanced/advanced.c -target x86_64-apple-macos12 -o wrongsecrets-advanced-c
 echo "Compiling C for ARM Macos-X"
 gcc c/main.c -target arm64-apple-macos12 -o wrongsecrets-c-arm
+gcc c/advanced/advanced.c -target arm64-apple-macos12 -o wrongsecrets-advanced-c-arm
 echo "Compiling C for ARM-linux, based on https://github.com/dockcross/dockcross"
 echo "prerequired: git clone https://github.com/dockcross/dockcross.git"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts"
 echo "prerequired: chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd .."
 ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o wrongsecrets-c-linux-arm'
+./dockcross-linux-arm64-lts bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-arm'
 echo "Compiling C for x64-linux"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
 echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
 ./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
+./dockcross-linux-x64 bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-linux'
 echo "Compiling C for Windows statically linked X64 (EXE)"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64"
 echo "prerequired: chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd .."
 ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
+./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-windows'
 echo "Compiling C for Musl on ARM"
 echo "prerequired: cd dockcross"
 echo "prerequired: docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl"
 echo "prerequired: chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd .."
 ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o wrongsecrets-c-linux-musl-arm'
+./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c  -o wrongsecrets-advanced-c-linux-musl-arm'
 echo "Compiling C for Musl on X86"
 echo "prerequired: brew install FiloSottile/musl-cross/musl-cross"
 echo "prerequired: ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc"
