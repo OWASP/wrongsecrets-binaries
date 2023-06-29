@@ -16,7 +16,7 @@ repos:
         # exclude: ^(src/test/resources/yourkey.txt|src/test/resources/secondkey.txt)
       - id: trailing-whitespace
   - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.79.1
+    rev: v1.81.0
     hooks:
       - id: terraform_fmt
       - id: terraform_tflint
@@ -40,9 +40,13 @@ repos:
     hooks:
       - id: commitlint
         stages: [commit-msg]
-  - repo: https://gitlab.com/daverona/pre-commit/cpp
-    rev: 0.8.0                 # use the most recent version
+  - repo: https://github.com/pocc/pre-commit-hooks #https://github.com/pocc/pre-commit-hooks
+    rev: v1.3.5
     hooks:
-      - id: docker-clang-format  # clang-format in Docker container
-      - id: docker-cpplint       # cpplint in Docker container
-      - id: docker-cppcheck      # cppcheck in Docker container
+      - id: clang-format
+        args: [--style=Google]
+      - id: clang-tidy
+      - id: uncrustify
+      - id: cppcheck
+      - id: cpplint
+      - id: include-what-you-use

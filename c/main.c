@@ -1,7 +1,13 @@
+// Copyright 2023 Jeroen Willemsen and OWASP Wrongsecrets team
+
 #include <stdio.h>
 #include <string.h>
 
-const char *secret() { return "This is a hardcoded secret in C"; }
+// clang-format off
+const char *secret() {
+  return "This is a hardcoded secret in C";
+}
+// clang-format on
 
 const char *secret2() {
   static char harder[31] = {'T', 'h', 'i', 's', ' ', 'i', 's', ' ',
@@ -19,7 +25,7 @@ int spoil() {
 int compare(char *guess) {
   int result = strcmp(secret(), guess);
   int result2 = strcmp(secret2(), guess);
-  if (result == 0) {
+  if (result == 0 && result2 == 0) {
     printf("This is correct! Congrats!\n");
   } else {
     printf("This is incorrect. Try again\n");
@@ -37,9 +43,7 @@ int execute(char *command) {
 int main(int argc, char *argv[]) {
   if (argc == 2) {
     execute(argv[1]);
-  }
-
-  else if (argc > 2) {
+  } else if (argc > 2) {
     printf("Too many arguments supplied.\n");
   } else {
     printf("Welcome to the wrongsecrets C binary which hides a secret.\n");
