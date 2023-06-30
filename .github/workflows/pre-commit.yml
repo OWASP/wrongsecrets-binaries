@@ -24,7 +24,8 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@master
       - name: Install missing tools
         run: >
-          brew install gcc llvm uncrustify cppcheck include-what-you-use oclint clang-format cpplint
+          brew install gcc llvm uncrustify cppcheck include-what-you-use clang-format cpplint && \
+          brew install --cask oclint
       - name: Pre-commit checks
         uses: pre-commit/action@v3.0.0
       - name: pre-commit-ci-lite
