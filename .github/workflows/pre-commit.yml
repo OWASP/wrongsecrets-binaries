@@ -20,9 +20,14 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install Linuxbrew
-        run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        run: >
+          sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"&& \
+          (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile && \
+          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
+          sudo apt-get install build-essential
       - name: Install missing tools
-        run: brew install llvm uncrustify cppcheck include-what-you-use oclint clang-format cpplint
+        run: >
+          brew install gcc llvm uncrustify cppcheck include-what-you-use oclint clang-format cpplint
       - name: Pre-commit checks
         uses: pre-commit/action@v3.0.0
       - name: pre-commit-ci-lite
