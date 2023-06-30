@@ -22,7 +22,7 @@ jobs:
       - name: Install Linuxbrew
         run: >
           sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"&& \
-          (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/runner/.bash_profile && \
+          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/runner/.bash_profile && \
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
           sudo apt-get install build-essential
       - name: Install missing tools
