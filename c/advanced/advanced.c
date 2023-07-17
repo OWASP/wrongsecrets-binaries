@@ -110,7 +110,7 @@ int execute(char *command)
 }
 const char *secret(void)
 {
-    return "This is a hardcoded secret in C";
+    return "This is a 5c4752928fa7bf63976bdffde1cdb1ba 128 bits AES secret. The key is somewhere, go find and have a fun :-D\n";
 }
 int spoil(void)
 {
