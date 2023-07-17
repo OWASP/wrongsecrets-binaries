@@ -84,3 +84,20 @@ jobs:
         with:
           name: executable-Rust-Windows
           path: rust/target/*
+  build-musl-arm:
+    name: Musl(ARM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile Rust binary for Musl(ARM)
+        run: |
+          cd rust
+          echo "compiling for musl linux (ARM)"
+          rustup target add aarch64-unknown-linux-musl
+          cargo build --target aarch64-unknown-linux-musl --release
+          cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-Musl(ARM)
+          path: rust/target/*
