@@ -29,3 +29,35 @@ jobs:
         with:
           name: executable-Rust-MacOS
           path: rust/target/*
+  build-linux:
+    name: Linux(X86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile Rust binary for Linux(X86-64)
+        run: |
+          cd rust
+          echo "compiling rust for aarch64 linux"
+          cross build --target aarch64-unknown-linux-gnu --release
+          cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-linux-x64
+          path: rust/target/*
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile Rust binary for Linux(ARM)
+        run: |
+          cd rust
+          echo "compiling rust for amd64 linux"
+          cross build --target x86_64-unknown-linux-gnu --release
+          cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-linux-ARM
+          path: rust/target/*
