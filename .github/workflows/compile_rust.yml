@@ -111,9 +111,10 @@ jobs:
           cd rust 
           echo "compiling for musl linux (X86)"
           cp ../config.toml ~/.cargo/config.toml
-          brew install zig
+          echo '[build]' >> ~/.cargo/config.toml
+          echo 'rustflags = ["-Clinker=rust-lld"]' >> ~/.cargo/config.toml
           rustup target add x86_64-unknown-linux-musl
-          cargo zigbuild --target x86_64-unknown-linux-musl --release
+          cargo build --target x86_64-unknown-linux-musl --release
           cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl
       - name: Uploading Rust executables
         uses: actions/upload-artifact@v3
