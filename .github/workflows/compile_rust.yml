@@ -93,6 +93,8 @@ jobs:
         run: |
           cd rust
           echo "compiling for musl linux (ARM)"
+          echo '[build]' >> ~/.cargo/config.toml
+          echo 'rustflags = ["-Clinker=rust-lld"]' >> ~/.cargo/config.toml
           rustup target add aarch64-unknown-linux-musl
           cargo build --target aarch64-unknown-linux-musl --release
           cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
