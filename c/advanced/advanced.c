@@ -20,21 +20,19 @@ void usage(char *)__attribute__((visibility("hidden")));
 void print_hex(uint8_t* )__attribute__((visibility("hidden")));
 void usage(char *)__attribute__((visibility("hidden")));
 
-int main(int argc, char **argv)
-{	
+char *hint = "Some AES int(math.log(8)) bit encrypted";
 
+int main(int argc, char **argv)
+{
 	if(argc < 2)
 	{
 		usage(argv[0]);
 	}
-	
 	execute(argv[1]);
-	
 	return EXIT_SUCCESS;
 }
 char* hexa_to_str(uint8_t *array)
 {
-	
 	char *string = (char *)calloc(SIZE,sizeof(char));
 	for(int a = 0; a < SIZE; a++){
 		string[a] = (unsigned char)array[a];
@@ -44,16 +42,23 @@ char* hexa_to_str(uint8_t *array)
 }
 uint8_t *get_secret_message(void)
 {
+	struct AES_ctx ctx;
 	uint8_t *digest = calloc(SIZE,sizeof(char ));
-	char data[SIZE] = {0x5c,0x47,0x52,0x92,0x8f,0xa7,0xbf,0x63,0x97,0x6b,0xdf,0xfd,0xe1,0xcd,0xb1,0xba};
+	uint8_t data[SIZE] = {0xe4,0x9f,0x2f,0x33,0x1a,0x9a,0x25,0x19,0x74,0xe1,0xba,0x7f,0x72,0x4c,0x3b,0x7f}; // doubled encrypted secret message
+	uint8_t *key = str_to_hex(get_key());
+	
+	AES_init_ctx(&ctx, key);
 	
 	for(int i = 0; i < SIZE;i++)
 	{
 		digest[i] = data[i];
 	}
+	AES_ECB_decrypt(&ctx,digest);
+	AES_ECB_decrypt(&ctx,digest);
 		
     return digest;
 }
+
 char *get_key(void)
 {	
 	char * key = (char *)calloc(SIZE,sizeof(char ));
@@ -110,7 +115,7 @@ int execute(char *command)
 }
 const char *secret(void)
 {
-    return "This is a 5c4752928fa7bf63976bdffde1cdb1ba 128 bits AES secret. The key is somewhere, go find and have a fun :-D\n";
+    return (char *)get_secret_message();
 }
 int spoil(void)
 {
