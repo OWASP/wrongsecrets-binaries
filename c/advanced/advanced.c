@@ -40,7 +40,7 @@ char* hexa_to_str(uint8_t *array)
 	return string;
 	
 }
-uint8_t *get_secret_message(void)
+uint8_t *get_plain_text_message(void)
 {
 	struct AES_ctx ctx;
 	uint8_t *digest = calloc(SIZE,sizeof(char ));
@@ -56,6 +56,17 @@ uint8_t *get_secret_message(void)
 	AES_ECB_decrypt(&ctx,digest);
 	AES_ECB_decrypt(&ctx,digest);
 		
+    return digest;
+}
+uint8_t *get_secret_message(void)
+{
+	uint8_t *digest = calloc(SIZE,sizeof(char ));
+	uint8_t data[SIZE] = {0xe4,0x9f,0x2f,0x33,0x1a,0x9a,0x25,0x19,0x74,0xe1,0xba,0x7f,0x72,0x4c,0x3b,0x7f}; // doubled encrypted secret message
+	
+	for(int i = 0; i < SIZE;i++)
+	{
+		digest[i] = data[i];
+	}
     return digest;
 }
 
@@ -91,7 +102,8 @@ int compare(char *guess)
 		struct AES_ctx ctx;
 		
 		AES_init_ctx(&ctx, key);
-		AES_ECB_encrypt(&ctx,guess_digest );
+		AES_ECB_encrypt(&ctx,guess_digest);
+		AES_ECB_encrypt(&ctx,guess_digest);
 	
 		bool result = hex_compare(guess_digest,secret_message_digest);
 		
@@ -101,7 +113,6 @@ int compare(char *guess)
 			return 1;
 		}
 	}
-	
 	printf("This is incorrect. Try again\n");
     return 0;
 }
@@ -115,7 +126,7 @@ int execute(char *command)
 }
 const char *secret(void)
 {
-    return (char *)get_secret_message();
+    return (char *)get_plain_text_message();
 }
 int spoil(void)
 {
