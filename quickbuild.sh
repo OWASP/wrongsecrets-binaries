@@ -38,6 +38,8 @@ echo "Compiling C for Musl on X86"
 echo "prerequired: brew install FiloSottile/musl-cross/musl-cross"
 echo "prerequired: ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc"
 x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl
+x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-musl
+
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
