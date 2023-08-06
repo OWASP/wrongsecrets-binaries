@@ -1,0 +1,31 @@
+name: "Compile Rust"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'rust/**'
+      - '.github/**'
+  pull_request:
+
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile Rust binary for macOS
+        run: |
+          cd rust
+          echo "Compiling Rust for Intel Macos-X"
+          rustup target add x86_64-apple-darwin
+          cargo build --target x86_64-apple-darwin --release
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-MacOS
+          path: rust/target/*

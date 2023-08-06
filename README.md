@@ -1,11 +1,28 @@
 # wrongsecrets-binaries
 
+[![Compile C](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_c.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_c.yml)
+[![ Compile CPlus](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml) 
+[![Compile GoLang](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml)
+[![Compile Rust](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml)
+
 This is a supportive repository for [OWASP WrongSecrets](https://github.com/OWASP/wrongsecrets).
 Here we create our binaries which are included in the official project.
 Want to add a challenge related to secrets hiding in binary? Open a ticket at [WrongSecrets issues](https://github.com/OWASP/wrongsecrets/issues). 
 Want to fix something you found in one of the binaries: open a ticket or a PR here.
 
 ## Special thanks
+
+### Contributors:
+
+Leaders:
+
+-   [Ben de Haan @bendehaan](https://github.com/bendehaan)
+-   [Jeroen Willemsen @commjoen](https://github.com/commjoen)
+
+Top contributors:
+
+-   [Puneeth Y @puneeth072003](https://github.com/puneeth072003)
+-   [Joss Sparkes @remakingeden](https://github.com/remakingeden)
 
 ### Sponsorships:
 
