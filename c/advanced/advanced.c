@@ -38,12 +38,11 @@ char* hexa_to_str(uint8_t *array)
 		string[a] = (unsigned char)array[a];
 	}
 	return string;
-	
 }
 uint8_t *get_plain_text_message(void)
 {
 	struct AES_ctx ctx;
-	uint8_t *digest = calloc(SIZE,sizeof(char ));
+	uint8_t *digest = calloc(SIZE,sizeof(uint8_t ));
 	uint8_t data[SIZE] = {0xe4,0x9f,0x2f,0x33,0x1a,0x9a,0x25,0x19,0x74,0xe1,0xba,0x7f,0x72,0x4c,0x3b,0x7f}; // doubled encrypted secret message
 	uint8_t *key = str_to_hex(get_key());
 	
@@ -60,7 +59,7 @@ uint8_t *get_plain_text_message(void)
 }
 uint8_t *get_secret_message(void)
 {
-	uint8_t *digest = calloc(SIZE,sizeof(char ));
+	uint8_t *digest = calloc(SIZE,sizeof(uint8_t ));
 	uint8_t data[SIZE] = {0xe4,0x9f,0x2f,0x33,0x1a,0x9a,0x25,0x19,0x74,0xe1,0xba,0x7f,0x72,0x4c,0x3b,0x7f}; // doubled encrypted secret message
 	
 	for(int i = 0; i < SIZE;i++)
@@ -84,7 +83,7 @@ char *get_key(void)
 }
 bool hex_compare(uint8_t *a, uint8_t *b)
 {
-	return 0 == memcmp((char*) a, (char*) b, 16);
+	return 0 == memcmp((char*) a, (char*) b, SIZE);
 }
 void usage(char *string)
 {
@@ -126,7 +125,7 @@ int execute(char *command)
 }
 const char *secret(void)
 {
-    return (char *)get_plain_text_message();
+    return hexa_to_str(get_plain_text_message());
 }
 int spoil(void)
 {
