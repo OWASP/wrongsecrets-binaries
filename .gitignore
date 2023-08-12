@@ -31,6 +31,7 @@
 # Executables
 *.exe
 *.out
+out
 *.app
 *.i*86
 *.x86_64
@@ -51,35 +52,44 @@ Mkfile.old
 dkms.conf
 .idea
 
+# Crossscompilers
+dockcross-linux-arm64
+dockcross-linux-arm64-musl
+dockcross-linux-x64
+dockcross-windows-shared-x64
+dockcross-windows-static-x64
+
+#Binaries themselves
+wrongsecrets-advanced-c
+wrongsecrets-advanced-c-arm
+wrongsecrets-advanced-c-linux
+wrongsecrets-advanced-c-linux-arm
+wrongsecrets-advanced-c-linux-musl
+wrongsecrets-advanced-c-linux-musl-arm
 wrongsecrets-c
 wrongsecrets-c-arm
+wrongsecrets-c-linux
 wrongsecrets-c-linux-arm
+wrongsecrets-c-linux-musl
+wrongsecrets-c-linux-musl-arm
 wrongsecrets-cplus
-wrongsecrets-cplus-linux
 wrongsecrets-cplus-arm
+wrongsecrets-cplus-linux
 wrongsecrets-cplus-linux-arm
+wrongsecrets-cplus-linux-musl
+wrongsecrets-cplus-linux-musl-arm
 wrongsecrets-golang
-wrongsecrets-golang-linux
 wrongsecrets-golang-arm
+wrongsecrets-golang-linux
 wrongsecrets-golang-linux-arm
 wrongsecrets-rust
 wrongsecrets-rust-arm
 wrongsecrets-rust-linux
 wrongsecrets-rust-linux-arm
-wrongsecrets-c-linux
-wrongsecrets-cplus
-wrongsecrets-c-linux-musl-arm
-wrongsecrets-cplus-linux-musl-arm
 wrongsecrets-rust-linux-musl
 wrongsecrets-rust-linux-musl-arm
-wrongsecrets-c-linux-musl
-wrongsecrets-cplus-linux-musl
 
-dockcross-linux-x64
-dockcross-linux-arm64
-dockcross-linux-arm64-musl
-dockcross-windows-shared-x64
-dockcross-windows-static-x64
+
 dockcross/
 .vscode/
 
