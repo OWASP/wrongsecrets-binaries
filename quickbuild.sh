@@ -40,6 +40,22 @@ echo "prerequired: ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /us
 x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl
 x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-musl
 
+echo "stripping"
+cp wrongsecrets-advanced-c wrongsecrets-advanced-c-stripped
+strip -S wrongsecrets-advanced-c-stripped
+cp wrongsecrets-advanced-c-arm wrongsecrets-advanced-c-arm-stripped
+strip -S wrongsecrets-advanced-c-arm-stripped
+cp wrongsecrets-advanced-c-linux wrongsecrets-advanced-c-linux-stripped
+strip -S wrongsecrets-advanced-c-linux-stripped
+cp wrongsecrets-advanced-c-linux-arm wrongsecrets-advanced-c-linux-arm-stripped
+strip -S wrongsecrets-advanced-c-linux-arm-stripped
+cp wrongsecrets-advanced-c-windows wrongsecrets-advanced-c-windows-stripped
+strip -S wrongsecrets-advanced-c-windows-stripped
+cp wrongsecrets-advanced-c-linux-musl wrongsecrets-advanced-c-linux-musl-stripped
+strip -S wrongsecrets-advanced-c-linux-musl-stripped
+cp wrongsecrets-advanced-c-linux-musl-arm wrongsecrets-advanced-c-linux-musl-arm-stripped
+strip -S wrongsecrets-advanced-c-linux-musl-arm-stripped
+
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
