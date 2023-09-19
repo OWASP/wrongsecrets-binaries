@@ -17,14 +17,16 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: compile C binary for macOS
         run: |
           mkdir target
           echo "Compiling C for Intel Macos-X"
           gcc c/main.c -target x86_64-apple-macos12 -o target/wrongsecrets-c
+          gcc c/advanced/advanced.c -target x86_64-apple-macos12 -o target/wrongsecrets-advanced-c
           echo "Compiling C for ARM Macos-X"
           gcc c/main.c -target arm64-apple-macos12 -o target/wrongsecrets-c-arm
+          gcc c/advanced/advanced.c -target arm64-apple-macos12 -o target/wrongsecrets-advanced-c-arm
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
@@ -34,12 +36,13 @@ jobs:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Compile C binary for Linux(x64)
         run: |
           mkdir target
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
+          gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
@@ -49,7 +52,7 @@ jobs:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Compile C binary for Linux(ARM)
         run: |
           mkdir target
@@ -60,6 +63,7 @@ jobs:
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
+          ./dockcross-linux-arm64-lts bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
@@ -69,7 +73,7 @@ jobs:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Compile C binary for Windows
         run: |
           mkdir target
@@ -80,6 +84,7 @@ jobs:
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
           echo "Compiling C for Windows"
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
+          ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
@@ -89,7 +94,7 @@ jobs:
     name: Musl(ARM)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Compile C binary for Musl(ARM)
         run: |
           mkdir target
@@ -100,6 +105,7 @@ jobs:
           chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
           echo "Compiling C for Arm Musl"
           ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
+          ./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
@@ -109,7 +115,7 @@ jobs:
     name: Musl(X86-64)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Compile C binary for Musl(x64)
         run: |
           mkdir target
@@ -118,6 +124,7 @@ jobs:
           ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
           echo "Compiling C for X64 Musl"
           x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
+          x86_64-linux-musl-gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl
       - name: Uploading executables
         uses: actions/upload-artifact@v3
         with:
