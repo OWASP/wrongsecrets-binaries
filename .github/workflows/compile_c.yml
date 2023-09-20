@@ -4,10 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'c/**'
-      - '.github/**'
+      - "c/**"
+      - ".github/**"
   pull_request:
-  
 
 permissions:
   contents: read
@@ -31,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-MacOS
-          path: target/*  
+          path: target/*
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
@@ -43,11 +42,13 @@ jobs:
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
           gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
+      - name: Creating ZIP file of executables
+        run: zip -r executable-C-linux-x64.zip target/*
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-linux-x64
-          path: target/*
+          path: executable-C-linux-x64.zip
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
