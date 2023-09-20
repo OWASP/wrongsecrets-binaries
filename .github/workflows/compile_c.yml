@@ -43,7 +43,7 @@ jobs:
           gcc c/main.c -o target/wrongsecrets-c-linux
           gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
       - name: Creating ZIP file of executables
-        run: zip -r executable-C-linux-x64.zip target/*
+        run: zip -r executable-C-linux-x64.zip target/wrongsecrets-c-linux target/wrongsecrets-advanced-c-linux
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
