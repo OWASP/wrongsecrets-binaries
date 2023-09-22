@@ -42,13 +42,11 @@ jobs:
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
           gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
-      - name: Creating ZIP file of executables
-        run: zip -r executable-C-linux-x64.zip target/wrongsecrets-c-linux target/wrongsecrets-advanced-c-linux
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-linux-x64
-          path: executable-C-linux-x64.zip
+          path: target/*
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
