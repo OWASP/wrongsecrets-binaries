@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-MacOS
-          path: target/*
+          path: rust/target/*
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-linux-x64
-          path: rust/target/*
+          path: rust/target/aarch64-unknown-linux-gnu/release/rust
   build-linux-arm:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-linux-ARM
-          path: rust/target/*
+          path: rust/target/x86_64-unknown-linux-gnu/release/rust
   build-windows:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-Windows
-          path: rust/target/*
+          path: rust/target/x86_64-pc-windows-gnu/release/rust.exe
   build-musl-arm:
     name: Musl(ARM)
     runs-on: ubuntu-latest
@@ -101,7 +101,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-Musl(ARM)
-          path: rust/target/*
+          path: rust/target/aarch64-unknown-linux-musl/release/rust
   build-musl-x64:
     name: Musl(X86-64)
     runs-on: macos-latest
@@ -120,4 +120,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-Musl(x86)
-          path: rust/target/*
+          path: rust/target/x86_64-unknown-linux-musl/release/rust
