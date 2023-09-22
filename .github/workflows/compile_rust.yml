@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-MacOS
-          path: rust/target/*
+          path: rust/target/x86_64-apple-darwin/release/rust
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
