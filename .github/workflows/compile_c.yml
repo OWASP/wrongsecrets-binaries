@@ -4,10 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'c/**'
-      - '.github/**'
+      - "c/**"
+      - ".github/**"
   pull_request:
-  
 
 permissions:
   contents: read
@@ -31,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-C-MacOS
-          path: target/*  
+          path: target/*
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest

@@ -4,10 +4,9 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'rust/**'
-      - '.github/**'
+      - "rust/**"
+      - ".github/**"
   pull_request:
-
 
 permissions:
   contents: read
@@ -28,4 +27,97 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: executable-Rust-MacOS
-          path: rust/target/*
+          path: rust/target/x86_64-apple-darwin/release/rust
+  build-linux:
+    name: Linux(X86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install cross
+        run: cargo install cross
+      - name: compile Rust binary for Linux(X86-64)
+        run: |
+          cd rust
+          echo "compiling rust for aarch64 linux"
+          cross build --target aarch64-unknown-linux-gnu --release
+          cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-linux-x64
+          path: rust/target/aarch64-unknown-linux-gnu/release/rust
+  build-linux-arm:
+    name: Linux(ARM64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install cross
+        run: cargo install cross
+      - name: compile Rust binary for Linux(ARM)
+        run: |
+          cd rust
+          echo "compiling rust for amd64 linux"
+          cross build --target x86_64-unknown-linux-gnu --release
+          cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-linux-ARM
+          path: rust/target/x86_64-unknown-linux-gnu/release/rust
+  build-windows:
+    name: Windows(x86-64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Pre-requirement
+        run: sudo apt-get install -y mingw-w64
+      - name: compile Rust binary for Windows
+        run: |
+          cd rust
+          echo "compiling rust for Windows"
+          rustup target add x86_64-pc-windows-gnu
+          cargo build --target=x86_64-pc-windows-gnu --release
+          cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-Windows
+          path: rust/target/x86_64-pc-windows-gnu/release/rust.exe
+  build-musl-arm:
+    name: Musl(ARM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: compile Rust binary for Musl(ARM)
+        run: |
+          cd rust
+          echo "compiling for musl linux (ARM)"
+          echo '[build]' >> ~/.cargo/config.toml
+          echo 'rustflags = ["-Clinker=rust-lld"]' >> ~/.cargo/config.toml
+          rustup target add aarch64-unknown-linux-musl
+          cargo build --target aarch64-unknown-linux-musl --release
+          cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-Musl(ARM)
+          path: rust/target/aarch64-unknown-linux-musl/release/rust
+  build-musl-x64:
+    name: Musl(X86-64)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Compile Rust binary for Musl(x64)
+        run: |
+          cd rust
+          echo "compiling for musl linux (X86)"
+          echo '[build]' >> ~/.cargo/config.toml
+          echo 'rustflags = ["-Clinker=rust-lld"]' >> ~/.cargo/config.toml
+          rustup target add x86_64-unknown-linux-musl
+          cargo build --target x86_64-unknown-linux-musl --release
+          cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl
+      - name: Uploading Rust executables
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable-Rust-Musl(x86)
+          path: rust/target/x86_64-unknown-linux-musl/release/rust
