@@ -2,7 +2,6 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Ilib
 LDFLAGS =
 SRC = advanced.c
-OBJ = advanced.o
 TARGET = advanced
 CPPCHECK = cppcheck
 
@@ -10,14 +9,11 @@ CPPCHECK = cppcheck
 
 all: $(TARGET)
 
-$(TARGET): $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJ)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(SRC)
 
 clean:
-	rm -f $(TARGET) $(OBJ)
+	rm -f $(TARGET)
 
 check:
 	$(CPPCHECK) -i lib $(SRC)
