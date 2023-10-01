@@ -6,7 +6,7 @@ OBJ = advanced.o
 TARGET = advanced
 CPPCHECK = cppcheck
 
-.PHONY: all clean
+.PHONY: all clean check
 
 all: $(TARGET)
 
