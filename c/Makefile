@@ -15,4 +15,7 @@ clean:
 	rm -f $(TARGET)
 
 check:
-	$(CPPCHECK) $(SRC)
+	@which $(CPPCHECK) > /dev/null && \
+		$(CPPCHECK) $(SRC) || \
+		(echo "cppcheck not found. You can obtain it at: https://cppcheck.sourceforge.io/#download" && \
+		exit 1)
