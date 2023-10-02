@@ -4,11 +4,11 @@ echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and
 
 echo "Compiling C"
 echo "Compiling C for Intel Macos-X"
-(cd c && make CFLAGS+='-target x86_64-apple-macos12' OUT='wrongsecrets-c')
-(cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12' OUT='wrongsecrets-advanced-c')
+(cd c && make CFLAGS+='-target x86_64-apple-macos12' OUT='../wrongsecrets-c')
+(cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12 ' OUT='../../wrongsecrets-advanced-c')
 echo "Compiling C for ARM Macos-X"
-(cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='wrongsecrets-c-arm')
-(cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='wrongsecrets-advanced-c-arm')
+(cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-c-arm')
+(cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../../wrongsecrets-advanced-c-arm')
 echo "Compiling C for ARM-linux, based on https://github.com/dockcross/dockcross"
 echo "prerequired: git clone https://github.com/dockcross/dockcross.git"
 echo "prerequired: cd dockcross"
@@ -59,9 +59,9 @@ strip -S wrongsecrets-advanced-c-linux-musl-arm-stripped
 
 echo "Compiling C++"
 echo "Compiling C++ for Intel Macos-X"
-(cd cplus && make CXXFLAGS+='-target x86_64-apple-macos12' OUT='wrongsecrets-cplus')
+(cd cplus && make CXXFLAGS+='-target x86_64-apple-macos12' OUT='../wrongsecrets-cplus')
 echo "Compiling C++ for ARM Macos-X"
-(cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='wrongsecrets-cplus-arm')
+(cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm')
 echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
 ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
 echo "Compiling C++ for linux"

@@ -1,5 +1,4 @@
-CXX = gcc
-CXXFLAGS = -Wall -Wextra
+CXX = g++
 SRC = main.cpp
 OUT = main
 CPPCHECK = cppcheck
