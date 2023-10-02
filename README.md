@@ -23,6 +23,7 @@ Top contributors:
 
 -   [Puneeth Y @puneeth072003](https://github.com/puneeth072003)
 -   [Rodolfo Cabral Neves @roddas](https://github.com/roddas)
+-   [Diamond Rivero @diamant3](https://github.com/diamant3)
 -   [Joss Sparkes @remakingeden](https://github.com/remakingeden)
 
 
