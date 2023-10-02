@@ -20,13 +20,12 @@ jobs:
       - name: compile C binary for macOS
         run: |
           mkdir target
-          chmod u+w target
           echo "Compiling C for Intel Macos-X"
           (cd c && make CFLAGS+='-target x86_64-apple-macos12' OUT='../target/wrongsecrets-c')
-          (cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12' OUT='../target/wrongsecrets-advanced-c')
+          (cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12' OUT='../../target/wrongsecrets-advanced-c')
           echo "Compiling C for ARM Macos-X"
           (cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-c-arm')
-          (cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-advanced-c-arm')
+          (cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../../target/wrongsecrets-advanced-c-arm')
       - name: Uploading C executables
         uses: actions/upload-artifact@v3
         with:
