@@ -2,18 +2,18 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Ilib
 LDFLAGS =
 SRC = advanced.c
-TARGET = advanced
+OUT = advanced
 CPPCHECK = cppcheck
 
 .PHONY: all clean check
 
-all: $(TARGET)
+all: $(OUT)
 
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(SRC)
+$(OUT): $(SRC)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $(OUT) $(SRC)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(OUT)
 
 check:
 	@which $(CPPCHECK) > /dev/null && \

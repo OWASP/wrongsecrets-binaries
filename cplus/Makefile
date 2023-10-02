@@ -1,18 +1,18 @@
-CXX = g++
+CXX = gcc
 CXXFLAGS = -Wall -Wextra
 SRC = main.cpp
-TARGET = main
+OUT = main
 CPPCHECK = cppcheck
 
 .PHONY: all clean check
 
-all: $(TARGET)
+all: $(OUT)
 
-$(TARGET): $(SRC)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC)
+$(OUT): $(SRC)
+	$(CXX) $(CXXFLAGS) -o $(OUT) $(SRC)
 
 clean:
-	rm -f $(TARGET)
+	rm -f $(OUT)
 
 check:
 	@which $(CPPCHECK) > /dev/null && \
