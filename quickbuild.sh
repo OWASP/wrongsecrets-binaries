@@ -82,7 +82,7 @@ env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-linux-arm
 echo "compiling golang for mac os x (intel)"
 env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang
 echo "compiling golang for mac os x (ARM)"
-env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang-arm
+env GOOS=darwin GOARCH=arm64 go build -o ../wrongsecrets-golang-arm
 echo "compiling golang for Windows"
 env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
 cd ..
