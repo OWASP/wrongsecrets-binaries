@@ -31,7 +31,7 @@ jobs:
           echo "Compiling Golang for ARM Macos-X"
           env GOARCH=arm64 GOOS=darwin go build -o ../target/wrongsecrets-go-arm
       - name: Uploading Go executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Go-MacOS
           path: target/*
@@ -51,7 +51,7 @@ jobs:
           echo "Compiling Golang for Linux-x64"
           go build -o ../target/wrongsecrets-go-linux main.go
       - name: Uploading Go executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Go-linux-x64
           path: target/*
@@ -71,7 +71,7 @@ jobs:
           echo "Compiling Golang for Linux-arm"
           env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux main.go
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Go-linux-ARM
           path: target/*
@@ -91,7 +91,7 @@ jobs:
           echo "compiling golang for Windows"
           env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Go-Windows
           path: target/*

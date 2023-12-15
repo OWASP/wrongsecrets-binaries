@@ -27,7 +27,7 @@ jobs:
           (cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-c-arm')
           (cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../../target/wrongsecrets-advanced-c-arm')
       - name: Uploading C executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-MacOS
           path: target/*
@@ -43,7 +43,7 @@ jobs:
           gcc c/main.c -o target/wrongsecrets-c-linux
           gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
       - name: Uploading C executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-linux-x64
           path: target/*
@@ -64,7 +64,7 @@ jobs:
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
           ./dockcross-linux-arm64-lts bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-arm'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-linux-ARM
           path: target/*
@@ -85,7 +85,7 @@ jobs:
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
           ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-Windows
           path: target/*
@@ -106,7 +106,7 @@ jobs:
           ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
           ./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-arm'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-Musl-ARM
           path: target/*
@@ -125,7 +125,7 @@ jobs:
           x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
           x86_64-linux-musl-gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-C-Musl-x64
           path: target/*

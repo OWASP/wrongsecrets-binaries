@@ -24,7 +24,7 @@ jobs:
           rustup target add x86_64-apple-darwin
           cargo build --target x86_64-apple-darwin --release
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-MacOS
           path: rust/target/x86_64-apple-darwin/release/rust
@@ -42,7 +42,7 @@ jobs:
           cross build --target aarch64-unknown-linux-gnu --release
           cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-linux-x64
           path: rust/target/aarch64-unknown-linux-gnu/release/rust
@@ -60,7 +60,7 @@ jobs:
           cross build --target x86_64-unknown-linux-gnu --release
           cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-linux-ARM
           path: rust/target/x86_64-unknown-linux-gnu/release/rust
@@ -79,7 +79,7 @@ jobs:
           cargo build --target=x86_64-pc-windows-gnu --release
           cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-Windows
           path: rust/target/x86_64-pc-windows-gnu/release/rust.exe
@@ -98,7 +98,7 @@ jobs:
           cargo build --target aarch64-unknown-linux-musl --release
           cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-Musl(ARM)
           path: rust/target/aarch64-unknown-linux-musl/release/rust
@@ -117,7 +117,7 @@ jobs:
           cargo build --target x86_64-unknown-linux-musl --release
           cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl
       - name: Uploading Rust executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-Musl(x86)
           path: rust/target/x86_64-unknown-linux-musl/release/rust

@@ -25,7 +25,7 @@ jobs:
           echo "Compiling CPlus for ARM Macos-X"
           (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-cplus-arm')
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-CPlus-MacOS
           path: target/*
@@ -40,7 +40,7 @@ jobs:
           echo "Compiling CPlus for Linux-x64"
           g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-CPlus-linux-x64
           path: target/*
@@ -60,7 +60,7 @@ jobs:
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-CPlus-linux-ARM
           path: target/*
@@ -80,7 +80,7 @@ jobs:
           echo "Compiling CPlus for Windows"
           ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-CPlus-Windows
           path: target/*
@@ -100,7 +100,7 @@ jobs:
           echo "Compiling Cplus for Arm Musl"
           ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++  -o target/wrongsecrets-cplus-linux-musl-arm'
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Cplus-Musl-ARM
           path: target/*
@@ -118,7 +118,7 @@ jobs:
           echo "Compiling Cplus for X64 Musl"
           x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl
       - name: Uploading executables
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable-Cplus-Musl-x64
           path: target/*
