@@ -70,6 +70,8 @@ wrongsecrets-golang
 wrongsecrets-golang-*
 wrongsecrets-rust
 wrongsecrets-rust-*
+wrongsecrets-swift
+wrongsecrets-swift-*
 
 dockcross/
 .vscode/
