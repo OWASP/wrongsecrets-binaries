@@ -122,9 +122,17 @@ cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-mu
 cd ..
 
 
-echo "compiling Swfit, requires macos"
+echo "compiling Swfit, requires macos on x86" #https://www.swift.org/documentation/server/guides/building.html
 cd swift
-swift build --product wrongsecrets-swift --show-bin-path -c release
-cp .build/x86_64-apple-macosx/debug ../wrongsecrets-swift-macos # dockerize this one as well ;-)
-docker run -v "$PWD:/code" -w /code swift:latest swift build --product wrongsecrets-swift --show-bin-path -c release
-cp .build/x86_64-unknown-linux-gnu/debug ../wrongsecrets-swift-linux 
+swift run wrongsecrets-swift
+swift run wrongsecrets-swift -c release
+cp .build/x86_64-apple-macosx/release/wrongsecrets-swift ../wrongsecrets-swift-macos # dockerize this one as well ;-)
+docker run -v "$PWD:/sources" -w /sources swift:latest swift run -c release
+cp .build/aarch64-unknown-linux-gnu/release ../wrongsecrets-swift-linux-arm
+docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release
+cp .build/x86_64-unknown-linux-gnu/release ../wrongsecrets-swift-linux
+## TODO: 
+## - ADD MACOS fully containerized for arm and x86
+## - ADD WINDOWS,  
+## - ADD LINUX MUSL 
+## - ADD LINUX MUSL ARM
