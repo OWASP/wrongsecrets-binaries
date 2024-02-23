@@ -119,3 +119,12 @@ echo "compiling for musl linux (ARM)"
 rustup target add aarch64-unknown-linux-musl
 cargo build --target aarch64-unknown-linux-musl --release
 cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
+cd ..
+
+
+echo "compiling Swfit, requires macos"
+cd swift
+swift build --product wrongsecrets-swift --show-bin-path -c release
+cp .build/x86_64-apple-macosx/debug ../wrongsecrets-swift-macos # dockerize this one as well ;-)
+docker run -v "$PWD:/code" -w /code swift:latest swift build --product wrongsecrets-swift --show-bin-path -c release
+cp .build/x86_64-unknown-linux-gnu/debug ../wrongsecrets-swift-linux 
