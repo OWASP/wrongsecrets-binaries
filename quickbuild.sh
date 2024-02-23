@@ -124,15 +124,18 @@
 
 echo "compiling Swfit, requires macos on x86" #https://www.swift.org/documentation/server/guides/building.html
 cd swift
+echo "compiling for MacOS arm and intel (fat binary)"
 swift run wrongsecrets-swift
-swift run wrongsecrets-swift -c release
-cp .build/x86_64-apple-macosx/release/wrongsecrets-swift ../wrongsecrets-swift # dockerize this one as well ;-)
-docker run -v "$PWD:/sources" -w /sources swift:latest swift run -c release
+swift run -c release --arch arm64 --arch x86_64 
+cp .build/apple/Products/Release/wrongsecrets-swift ../wrongsecrets-swift 
+cp .build/apple/Products/Release/wrongsecrets-swift ../wrongsecrets-swift-arm
+echo "Compiling for Linux (glibc)"
+docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release
 cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../wrongsecrets-swift-linux-arm
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release
 cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../wrongsecrets-swift-linux
+
 ## TODO: 
-## - ADD MACOS fully containerized for arm and x86
 ## - ADD WINDOWS,  
 ## - ADD LINUX MUSL 
 ## - ADD LINUX MUSL ARM
