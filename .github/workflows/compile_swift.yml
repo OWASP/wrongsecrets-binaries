@@ -1,0 +1,46 @@
+name: "Compile Swift"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "c/**"
+      - ".github/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-darwin:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Compile Swift for MacOS
+      run: |
+        echo "compiling for MacOSP"
+        (cd swift && swift run -c release --arch arm64 --arch x86_64)
+    - name: Uploading Swift executables
+      uses: actions/upload-artifact@v4
+      with:
+        name: executable-swift-MacOS
+        path: swift/.build/apple/Products/Release/wrongsecrets-swift
+  build-glibclinux:
+    name: MacOS(Intel&ARM)
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Compile Swift for glibc linux
+      run: |
+        echo "compiling for Linux"
+        mkdir target
+        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release)
+        (cd swift && cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm)
+        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release)
+        (cd swift && cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux)
+    - name: Uploading Swift executables
+      uses: actions/upload-artifact@v4
+      with:
+        name: executable-swift-Linux
+        path: target/*
