@@ -17,6 +17,11 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: swift-actions/setup-swift@65540b95f51493d65f5e59e97dcef9629ddf11bf
+      with:
+        swift-version: "5.9.0"
+    - name: Get swift version
+      run: swift --version # Swift 5.9.0
     - name: Compile Swift for MacOS
       run: |
         echo "compiling for MacOSP"
@@ -31,6 +36,11 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: swift-actions/setup-swift@65540b95f51493d65f5e59e97dcef9629ddf11bf
+      with:
+        swift-version: "5.9.0"
+    - name: Get swift version
+      run: swift --version # Swift 5.9.0
     - name: Compile Swift for glibc linux
       run: |
         echo "compiling for Linux"
