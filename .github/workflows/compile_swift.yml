@@ -60,6 +60,7 @@ jobs:
         name: executable-swift-Linux
         path: target/*
   build-windows:
+    name: windows
     runs-on: windows-latest
     steps:
       - uses: compnerd/gha-setup-swift@main
