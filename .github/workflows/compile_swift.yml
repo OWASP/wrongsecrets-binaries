@@ -32,23 +32,19 @@ jobs:
         name: executable-swift-MacOS
         path: swift/.build/apple/Products/Release/wrongsecrets-swift
   build-glibclinux:
-    name: MacOS(Intel&ARM)
-    runs-on: macos-latest
+    name: Linux(Intel&ARM)
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: swift-actions/setup-swift@v1
-      with:
-        swift-version: "5.9"
-    - name: Get swift version
-      run: swift --version # Swift 5.9.x
     - name: Compile Swift for glibc linux
       run: |
         echo "compiling for Linux"
         mkdir target
-        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib)
-        (cd swift && cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm)
-        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release)
-        (cd swift && cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux --static-swift-stdlib)
+        cd swift
+        docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+        cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm
+        docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release
+        cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux --static-swift-stdlib
     - name: Uploading Swift executables
       uses: actions/upload-artifact@v4
       with:
