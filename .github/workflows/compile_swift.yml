@@ -24,7 +24,7 @@ jobs:
       run: swift --version # Swift 5.9.x
     - name: Compile Swift for MacOS
       run: |
-        echo "compiling for MacOSP"
+        echo "compiling for MacOS"
         (cd swift && swift run -c release --arch arm64 --arch x86_64 --static-swift-stdlib)
     - name: Uploading Swift executables
       uses: actions/upload-artifact@v4
@@ -59,3 +59,20 @@ jobs:
       with:
         name: executable-swift-Linux
         path: target/*
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-5.9.2-release
+          tag: 5.9.2-RELEASE
+      - uses: actions/checkout@v4
+      - name: Compile Swift for Windows
+        run: |
+          echo "compiling for Windows"
+          (cd swift && swift run -c release --arch arm64 --arch x86_64 --static-swift-stdlib)
+      - name: Uploading Swift executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: executable-swift-MacOS
+          path: swift/.build/apple/Products/Release/wrongsecrets-swift
