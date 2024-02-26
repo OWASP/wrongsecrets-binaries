@@ -50,10 +50,10 @@ jobs:
         echo "compiling for Linux"
         mkdir target
         cd swift
-        docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+        docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:5.9.2 swift run -c release --static-swift-stdlib
         cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm
-        docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release
-        cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux --static-swift-stdlib
+        docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:5.9.2 swift run -c release --static-swift-stdlib
+        cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux 
     - name: Uploading Swift executables
       uses: actions/upload-artifact@v4
       with:
