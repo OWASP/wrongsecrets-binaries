@@ -25,7 +25,7 @@ jobs:
     - name: Compile Swift for MacOS
       run: |
         echo "compiling for MacOSP"
-        (cd swift && swift run -c release --arch arm64 --arch x86_64)
+        (cd swift && swift run -c release --arch arm64 --arch x86_64 --static-swift-stdlib)
     - name: Uploading Swift executables
       uses: actions/upload-artifact@v4
       with:
@@ -45,10 +45,10 @@ jobs:
       run: |
         echo "compiling for Linux"
         mkdir target
-        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release)
+        (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib)
         (cd swift && cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm)
         (cd swift && docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release)
-        (cd swift && cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux)
+        (cd swift && cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux --static-swift-stdlib)
     - name: Uploading Swift executables
       uses: actions/upload-artifact@v4
       with:
