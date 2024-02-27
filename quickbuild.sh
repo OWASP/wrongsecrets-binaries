@@ -145,4 +145,6 @@ dotnet publish dotnetproject.csproj --runtime linux-musl-x64 /p:PublishSingleFil
 cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl
 dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
+cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm\
+
+# todo: setup runner with https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net and then matrix platform
