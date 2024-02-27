@@ -26,7 +26,7 @@ jobs:
             cd dotnet/dotnetproject
             dotnet build dotnetproject.csproj --runtime ${{ matrix.runtime }} --self-contained true
             dotnet publish dotnetproject.csproj --runtime ${{ matrix.runtime }} /p:PublishSingleFile=true
-            cp ./bin/Release/net8.0/osx-x64/publish/dotnetproject ../../target/wrongsecrets-dotnet-${{ matrix.runtime }}
+            cp ./bin/Release/net8.0/${{ matrix.runtime }}/publish/dotnetproject ../../target/wrongsecrets-dotnet-${{ matrix.runtime }}
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
