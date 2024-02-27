@@ -70,6 +70,8 @@ wrongsecrets-golang
 wrongsecrets-golang-*
 wrongsecrets-rust
 wrongsecrets-rust-*
+wrongsecrets-dotnet
+wrongsecrets-dotnet-*
 
 dockcross/
 .vscode/
@@ -84,3 +86,5 @@ target/
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+dotnet/dotnetproject/bin/
+dotnet/dotnetproject/obj/Release/
