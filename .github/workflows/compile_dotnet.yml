@@ -22,13 +22,12 @@ jobs:
           dotnet-version: '8.0.x'
       - name: Build and Package ${{ matrix.runtime }}
         run: |
-            mkdir target
             cd dotnet/dotnetproject
             dotnet build dotnetproject.csproj --runtime ${{ matrix.runtime }} --self-contained true
             dotnet publish dotnetproject.csproj --runtime ${{ matrix.runtime }} /p:PublishSingleFile=true
-            cp ./bin/Release/net8.0/${{ matrix.runtime }}/publish/dotnetproject ../../target/wrongsecrets-dotnet-${{ matrix.runtime }}
+            ls dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
           name: executable-dotnet-${{ matrix.runtime }}
-          path: target/*
+          path: dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/*
