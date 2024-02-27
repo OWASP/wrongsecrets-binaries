@@ -134,8 +134,8 @@ docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:latest sw
 cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../wrongsecrets-swift-linux-arm
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release --static-swift-stdlib
 cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../wrongsecrets-swift-linux 
+echo "Windows is receivable via the windows runner"
 
 ## TODO: 
-## - ADD WINDOWS as a runner: https://github.com/compnerd/gha-setup-swift
 ## - ADD LINUX MUSL 
 ## - ADD LINUX MUSL ARM
