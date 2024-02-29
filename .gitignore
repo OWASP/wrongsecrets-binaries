@@ -88,3 +88,6 @@ target/
 *.pdb
 dotnet/dotnetproject/bin/
 dotnet/dotnetproject/obj/Release/
+
+#MACOS
+.DS_Store
