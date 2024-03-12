@@ -20,3 +20,8 @@ updates:
     directory: "/rust"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "nuget"
+    directory: "/dotnet/dotnetproject"
+    schedule:
+      interval: "monthly"
