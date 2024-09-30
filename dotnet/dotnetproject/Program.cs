@@ -25,7 +25,6 @@ else
 {
     if (args[0] == "spoil")
     {
-        Console.WriteLine("spoil called");
         Console.WriteLine(getSecret());
     }
     else
