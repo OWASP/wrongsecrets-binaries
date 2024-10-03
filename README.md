@@ -47,3 +47,7 @@ We would like to thank the following parties for helping us out:
 [![1password_logo.png](images/1password_logo.png)](https://github.com/1Password/1password-teams-open-source/pull/552)
 
 [1Password](https://github.com/1Password/1password-teams-open-source/pull/552) for granting us an open source license to 1Password for the secret detection testbed.
+
+## Copyrights
+
+Copyright (c) 2020-2024 Jeroen Willemsen and WrongSecret contributors.
