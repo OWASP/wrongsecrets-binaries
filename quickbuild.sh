@@ -139,7 +139,7 @@ dotnet publish dotnetproject.csproj --runtime osx-arm64 /p:PublishSingleFile=tru
 cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm
 dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows
+cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows.exe
 dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm
