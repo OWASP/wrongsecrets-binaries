@@ -72,6 +72,8 @@ wrongsecrets-rust
 wrongsecrets-rust-*
 wrongsecrets-swift
 wrongsecrets-swift-*
+wrongsecrets-dotnet
+wrongsecrets-dotnet-*
 
 dockcross/
 .vscode/
@@ -86,5 +88,13 @@ target/
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+<<<<<<< HEAD
 
 swift/.build
+=======
+dotnet/dotnetproject/bin/
+dotnet/dotnetproject/obj/Release/
+
+#MACOS
+.DS_Store
+>>>>>>> main

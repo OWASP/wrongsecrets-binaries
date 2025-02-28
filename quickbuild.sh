@@ -37,7 +37,7 @@ echo "prerequired: chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux
 echo "Compiling C for Musl on X86"
 echo "prerequired: brew install FiloSottile/musl-cross/musl-cross"
 echo "prerequired: ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc"
-x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl
+x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl -Wno-attributes
 x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-musl
 
 echo "stripping"
@@ -90,6 +90,14 @@ cd ..
 echo "compiling rust, requires 'cargo install -f cross'"
 cd rust
 rm ~/.cargo/config.toml
+cargo install -f cross
+rustup target add x86_64-apple-darwin
+rustup target add aarch64-apple-darwin
+rustup target add x86_64-pc-windows-gnu
+rustup target add x86_64-unknown-linux-musl
+rustup target add aarch64-unknown-linux-musl
+rustup component add rust-std
+rustup update
 echo "compiling rust for amd64 linux"
 cross build --target x86_64-unknown-linux-gnu --release
 cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux
@@ -121,7 +129,6 @@ cargo build --target aarch64-unknown-linux-musl --release
 cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
 cd ..
 
-
 echo "compiling Swfit, requires macos on x86" #https://www.swift.org/documentation/server/guides/building.html
 cd swift
 echo "compiling for MacOS arm and intel (fat binary)"
@@ -139,3 +146,29 @@ echo "Windows is receivable via the windows runner"
 ## TODO: 
 ## - ADD LINUX MUSL 
 ## - ADD LINUX MUSL ARM
+echo "compiling for .net: requires 'brew install dotnet' on MacOS"
+cd dotnet/dotnetproject
+dotnet build dotnetproject.csproj --runtime osx-x64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime osx-x64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/osx-x64/publish/dotnetproject ../../wrongsecrets-dotnet
+dotnet build dotnetproject.csproj --runtime osx-arm64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime osx-arm64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm
+dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows.exe
+dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm
+dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux
+dotnet build dotnetproject.csproj --runtime linux-arm64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime linux-arm64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/linux-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-arm
+dotnet build dotnetproject.csproj --runtime linux-musl-x64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime linux-musl-x64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl
+dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
+dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
+cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm

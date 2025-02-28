@@ -4,6 +4,7 @@
 [![ Compile CPlus](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml) 
 [![Compile GoLang](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml)
 [![Compile Rust](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml)
+[![dotnet package](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml)
 
 This is a supportive repository for [OWASP WrongSecrets](https://github.com/OWASP/wrongsecrets).
 Here we create our binaries which are included in the official project.
@@ -46,3 +47,7 @@ We would like to thank the following parties for helping us out:
 [![1password_logo.png](images/1password_logo.png)](https://github.com/1Password/1password-teams-open-source/pull/552)
 
 [1Password](https://github.com/1Password/1password-teams-open-source/pull/552) for granting us an open source license to 1Password for the secret detection testbed.
+
+## Copyrights
+
+Copyright (c) 2020-2024 Jeroen Willemsen and WrongSecret contributors.
