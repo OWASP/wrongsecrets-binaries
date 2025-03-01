@@ -27,13 +27,13 @@ jobs:
         run: swift --version
       - name: Build a Swift package on windows/linux
         run: |
-          cd swift && swift build -v -c release
+          cd swift && swift build -v -c release --static-swift-stdlib
       - name: Build a Swift package on Macos
         if: matrix.os == 'macos-latest'
         run: |
           cd swift 
-          swift build -c release --triple x86_64-apple-macosx
-          swift build -c release --triple arm64-apple-macosx
+          swift build -c release --triple x86_64-apple-macosx --static-swift-stdlib
+          swift build -c release --triple arm64-apple-macosx --static-swift-stdlib
           lipo .build/arm64-apple-macosx/release/swift .build/x86_64-apple-macosx/release/swift -create -output wrongsecrets-swift.universal
       - name: Uploading macos Swift executables
         uses: actions/upload-artifact@v4
@@ -68,7 +68,7 @@ jobs:
           swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
       - name: Build and test a Swift package
         run: |
-          cd swift && swift build -c release  --swift-sdk x86_64-swift-linux-musl
+          cd swift && swift build -c release  --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
       - name: Uploading linux Swift executable (no arm yet, run this all locally please)
         uses: actions/upload-artifact@v4
         with:
