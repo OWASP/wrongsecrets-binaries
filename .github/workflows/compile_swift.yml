@@ -12,68 +12,19 @@ permissions:
   contents: read
 
 jobs:
-  build-darwin:
-    name: MacOS(Intel&ARM)
-    runs-on: macos-latest
+  swiftpm:
+    name: SwiftPM - Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['macos-15', 'ubuntu-22.04', 'windows-2022']
+        swift-version: ['6.0.3']
+      fail-fast: false
     steps:
-    - uses: actions/checkout@v4
-    - uses: swift-actions/setup-swift@v2
-      with:
-        swift-version: "6.0.2"
-    - name: Get swift version
-      run: swift --version # Swift 6.0.2
-    - name: Compile Swift for MacOS
-      run: |
-        echo "compiling for MacOS"
-        (cd swift && swift run -c release --arch arm64 --arch x86_64 --static-swift-stdlib)
-    - name: Uploading Swift executables
-      uses: actions/upload-artifact@v4
-      with:
-        name: executable-swift-MacOS
-        path: swift/.build/apple/Products/Release/wrongsecrets-swift
-  build-glibclinux:
-    name: Linux(Intel&ARM)
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup docker (missing on MacOS)
-      if: runner.os == 'macos'
-      run: |
-        brew install docker
-        colima start
-        
-        # For testcontainers to find the Colima socket
-        # https://github.com/abiosoft/colima/blob/main/docs/FAQ.md#cannot-connect-to-the-docker-daemon-at-unixvarrundockersock-is-the-docker-daemon-running
-        sudo ln -sf $HOME/.colima/default/docker.sock /var/run/docker.sock
-    - name: Compile Swift for glibc linux
-      run: |
-        echo "compiling for Linux"
-        mkdir target
-        cd swift
-        docker run -v "$PWD:/sources" -w /sources --platform linux/arm64 swift:5.9.2 swift run -c release --static-swift-stdlib
-        cp .build/aarch64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux-arm
-        docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:5.9.2 swift run -c release --static-swift-stdlib
-        cp .build/x86_64-unknown-linux-gnu/release/wrongsecrets-swift ../target/wrongsecrets-swift-linux 
-    - name: Uploading Swift executables
-      uses: actions/upload-artifact@v4
-      with:
-        name: executable-swift-Linux
-        path: target/*
-  build-windows:
-    name: windows
-    runs-on: windows-latest
-    steps:
-      - uses: compnerd/gha-setup-swift@main
-        with:
-          branch: swift-6.0.3-release
-          tag: 6.0.3-RELEASE
       - uses: actions/checkout@v4
-      - name: Compile Swift for Windows
-        run: |
-          echo "compiling for Windows"
-          (cd swift && swift run -c release --arch arm64 --arch x86_64 --static-swift-stdlib)
-      - name: Uploading Swift executables
-        uses: actions/upload-artifact@v4
+      - uses: sushichop/gha-swift-env@v1
         with:
-          name: executable-swift-windows
-          path: swift\.build\x86_64-unknown-windows-msvc\release\wrongsecrets-swift.exe
+          swift-version: ${{ matrix.swift-version }}
+      - name: Build and test a Swift package
+        run: |
+          swift build -v -c release
