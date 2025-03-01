@@ -1,5 +1,6 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
+
 func getSecret() -> String {
     let CharArr: [Character] = ["T", "h", "i", "s", " ", "a", " ", "s", "e", "c", "r", "e", "t"] 
 
