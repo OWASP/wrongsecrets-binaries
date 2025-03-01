@@ -37,14 +37,22 @@ jobs:
           lipo .build/arm64-apple-macosx/release/swift .build/x86_64-apple-macosx/release/swift -create -output wrongsecrets-swift.universal
       - name: Uploading macos Swift executables
         uses: actions/upload-artifact@v4
+        if: matrix.os == 'macos-latest'
         with:
           name: wrongsecrets-swift
           path: swift/wrongsecrets-swift.universal
       - name: Uploading linux Swift executable (no arm yet, run this all locally please)
         uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
         with:
           name: wrongsecrets-swift-linux
-          path: swift/.build/x86_64-unknown-linux-gnu/release
+          path: swift/.build/x86_64-unknown-linux-gnu/release/swift
+      - name: Uploading Windows Swift executable (no arm yet, run this all locally please)
+        uses: actions/upload-artifact@v4
+        if: matrix.os == 'windows-latest'
+        with:
+          name: wrongsecrets-swift-windows
+          path: swift\.build\x86_64-unknown-windows-msvc\release\swift.exe
   build-musl:
     name: Swift with Musl
     runs-on: macos-latest
