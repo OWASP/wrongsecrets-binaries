@@ -12,18 +12,18 @@ permissions:
 
 jobs:
   swiftpm:
-    name: SwiftPM - Swift ${{ matrix.swift-version }} on ${{ matrix.os }}
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ['macos-15', 'ubuntu-latest', 'windows-latest', 'static-linux-0.0.1']
-        swift-version: ['6.0.3']
-      fail-fast: false
+        os: [ubuntu-latest, macos-latest]
+        swift: ["6.0.3"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: sushichop/gha-swift-env@v1
+      - uses: SwiftyLab/setup-swift@v1.9.1
         with:
-          swift-version: ${{ matrix.swift-version }}
+          swift-version: ${{ matrix.swift }}
+      - name: Get swift version
+        run: swift --version
       - name: Build and test a Swift package
         run: |
           cd swift && swift build -v -c release
