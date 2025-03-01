@@ -129,7 +129,7 @@ cargo build --target aarch64-unknown-linux-musl --release
 cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
 cd ..
 
-echo "compiling Swfit, requires macos on x86" #https://www.swift.org/documentation/server/guides/building.html
+echo "compiling Swfit, requires macos on x86 or arm" #https://www.swift.org/documentation/server/guides/building.html
 cd swift
 echo "compiling for MacOS arm and intel (fat binary)"
 swift build -c release --product swift --triple arm64-apple-macosx
@@ -144,6 +144,10 @@ cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ar
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
 cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux 
 echo "Windows is receivable via the windows runner"
+echo "Compiling swift for linux"
+swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
+swift build --swift-sdk aarch64-swift-linux-musl
+swift build --swift-sdk x86_64-swift-linux-musl
 
 ## TODO: 
 ## - ADD LINUX MUSL 
