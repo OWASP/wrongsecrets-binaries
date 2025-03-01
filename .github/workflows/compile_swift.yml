@@ -27,4 +27,4 @@ jobs:
           swift-version: ${{ matrix.swift-version }}
       - name: Build and test a Swift package
         run: |
-          swift build -v -c release
+          cd swift && swift build -v -c release
