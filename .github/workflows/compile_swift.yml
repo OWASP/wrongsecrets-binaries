@@ -70,7 +70,7 @@ jobs:
       - name: Build and test a Swift package
         run: |
           cd swift 
-          ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin
+          echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
           export PATH=/Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin:$PATH
           swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
           swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
