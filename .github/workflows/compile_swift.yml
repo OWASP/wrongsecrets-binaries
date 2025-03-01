@@ -69,10 +69,17 @@ jobs:
           export PATH=/Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin:$PATH
       - name: Build and test a Swift package
         run: |
-          cd swift && swift build -c release  --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
-      - name: Uploading linux Swift executable (no arm yet, run this all locally please)
+          cd swift 
+          swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+          swift build --swift-sdk aarch64-swift-linux-musl -c release --static-swift-stdlib
+      - name: Uploading linux arm musl Swift executable 
+        uses: actions/upload-artifact@v4
+        with:
+          name: wrongsecrets-swift-linux-musl-arm
+          path: swift/.build/aarch64-unknown-linux-gnu/release/swift
+      - name: Uploading linux x86 musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
           name: wrongsecrets-swift-linux-musl
-          path: swift/.build/x86_64-unknown-linux-gnu/release
+          path: swift/.build/x86_64-unknown-linux-gnu/release/swift
   
