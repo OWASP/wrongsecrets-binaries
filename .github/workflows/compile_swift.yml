@@ -17,9 +17,9 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: swift-actions/setup-swift@v1
+    - uses: swift-actions/setup-swift@v2
       with:
-        swift-version: "5.9"
+        swift-version: "6.0.3"
     - name: Get swift version
       run: swift --version # Swift 5.9.x
     - name: Compile Swift for MacOS
@@ -65,8 +65,8 @@ jobs:
     steps:
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-5.9.2-release
-          tag: 5.9.2-RELEASE
+          branch: swift-6.0.3-release
+          tag: 6.0.3-RELEASE
       - uses: actions/checkout@v4
       - name: Compile Swift for Windows
         run: |
