@@ -22,6 +22,7 @@ jobs:
       - uses: SwiftyLab/setup-swift@v1.9.1
         with:
           swift-version: ${{ matrix.swift }}
+      - uses: actions/checkout@v4
       - name: Get swift version
         run: swift --version
       - name: Build and test a Swift package
