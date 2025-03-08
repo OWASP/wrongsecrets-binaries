@@ -31,7 +31,7 @@ jobs:
       - name: Uploading C executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-MacOS
+          name: executables-C-MacOS.zip
           path: target/*
   build-linux:
     name: Linux(X86-64)
@@ -48,7 +48,7 @@ jobs:
       - name: Uploading C executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-linux-x64
+          name: executables-C-linux-x64.zip
           path: target/*
   build-linux-arm:
     name: Linux(ARM64)
@@ -70,7 +70,7 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-linux-ARM
+          name: executables-C-linux-ARM.zip
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -92,7 +92,7 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Windows
+          name: executables-C-Windows.zip
           path: target/*
   build-musl-arm:
     name: Musl(ARM)
@@ -114,7 +114,7 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Musl-ARM
+          name: executables-C-Musl-ARM.zip
           path: target/*
   build-musl-x64:
     name: Musl(X86-64)
@@ -134,5 +134,5 @@ jobs:
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Musl-x64
+          name: executables-C-Musl-x64.zip
           path: target/*
