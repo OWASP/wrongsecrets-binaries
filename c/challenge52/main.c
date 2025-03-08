@@ -13,15 +13,46 @@ void generate_secret() {
     secret[SECRET_SIZE - 1] = '\0';
 }
 
-void handle_request() {
-    sleep(5);  // Simulating a network call
+int handle_request() {
+    sleep(10);  // Simulating a network call
+    return 0;
 }
 
-int main() {
+int spoil()
+{
+    printf("%s\n", secret);
+    return 0;
+}
+
+int execute(char *command)
+{
+    if (strcmp("spoil", command) == 0)
+    {
+        return spoil();
+    }
+    return handle_request();
+}
+
+
+int main(int argc, char *argv[]) {
     generate_secret();
-    while (1) {
-        handle_request();
+    if (argc == 2)
+    {
+        execute(argv[1]);
     }
 
+    else if (argc > 2)
+    {
+        printf("Too many arguments supplied.\n");
+    }    
+    else
+    {
+        printf("Welcome to the wrongsecrets C binary which hides a secret.\n");
+        printf("This app now will go into sleep pretending to be a server app\n");
+        while (1) {
+            handle_request();
+        }
+    }
+    
     return 0;
 }
