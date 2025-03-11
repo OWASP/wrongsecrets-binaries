@@ -73,7 +73,8 @@ jobs:
           # echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
           export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
           brew install swift
-          export PATH="/opt/homebrew/opt/swift/bin:$PATH
+          export PATH="/opt/homebrew/opt/swift/bin:$PATH"
+
           swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
           swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
       - name: Uploading linux arm musl Swift executable 
