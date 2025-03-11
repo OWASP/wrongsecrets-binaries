@@ -166,10 +166,9 @@ echo "below works only when you install the developer toolchain"
 export PATH=/Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin:$PATH
 swift build --swift-sdk aarch64-swift-linux-musl
 swift build --swift-sdk x86_64-swift-linux-musl
-
-## TODO: 
-## - ADD LINUX MUSL 
-## - ADD LINUX MUSL ARM
+cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-arm
+cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl
+cd ..
 echo "compiling for .net: requires 'brew install dotnet' on MacOS"
 cd dotnet/dotnetproject
 dotnet build dotnetproject.csproj --runtime osx-x64 --self-contained true
