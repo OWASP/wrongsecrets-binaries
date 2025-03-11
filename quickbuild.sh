@@ -2,43 +2,59 @@
 
 echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and 'x86_64-apple-macos12'"
 
-echo "Compiling C"
-echo "Compiling C for Intel Macos-X"
-(cd c && make CFLAGS+='-target x86_64-apple-macos12' OUT='../wrongsecrets-c')
-(cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12 ' OUT='../../wrongsecrets-advanced-c')
-echo "Compiling C for ARM Macos-X"
-(cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-c-arm')
-(cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../../wrongsecrets-advanced-c-arm')
-echo "Compiling C for ARM-linux, based on https://github.com/dockcross/dockcross"
-echo "prerequired: git clone https://github.com/dockcross/dockcross.git"
-echo "prerequired: cd dockcross"
-echo "prerequired: docker run --rm dockcross/linux-arm64-lts > ./dockcross-linux-arm64-lts"
-echo "prerequired: chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd .."
-./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o wrongsecrets-c-linux-arm'
-./dockcross-linux-arm64-lts bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-arm'
-echo "Compiling C for x64-linux"
-echo "prerequired: cd dockcross"
-echo "prerequired: docker run --rm dockcross/linux-x64 > ./dockcross-linux-x64"
-echo "prerequired: chmod +x ./dockcross-linux-x64 && mv ./dockcross-linux-x64 .. && cd .."
-./dockcross-linux-x64 bash -c '$CC c/main.c -o wrongsecrets-c-linux'
-./dockcross-linux-x64 bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-linux'
+# Function to compile using `make` in a specified directory
+compile_with_make() {
+  local dir=$1
+  local cflags=$2
+  local out=$3
+  (cd "$dir" && make CFLAGS+="$cflags" OUT="$out")
+}
+
+# Function to compile using Docker
+compile_with_docker() {
+  local docker_image=$1
+  local input_file=$2
+  local output_file=$3
+  ./$docker_image bash -c "\$CC $input_file -o $output_file"
+}
+
+echo "Compiling C for Intel MacOS-X"
+compile_with_make "c" "-target x86_64-apple-macos12" "../wrongsecrets-c"
+compile_with_make "c/advanced" "-target x86_64-apple-macos12" "../../wrongsecrets-advanced-c"
+compile_with_make "c/challenge52" "-target x86_64-apple-macos12" "../../wrongsecrets-challenge52-c"
+
+echo "Compiling C for ARM MacOS-X"
+compile_with_make "c" "-target arm64-apple-macos12" "../wrongsecrets-c-arm"
+compile_with_make "c/advanced" "-target arm64-apple-macos12" "../../wrongsecrets-advanced-c-arm"
+compile_with_make "c/challenge52" "-target arm64-apple-macos12" "../../wrongsecrets-challenge52-c-arm"
+
+echo "Compiling C for ARM-Linux, based on https://github.com/dockcross/dockcross"
+echo "Ensure the required Dockcross setup steps are completed beforehand."
+compile_with_docker "dockcross-linux-arm64-lts" "c/main.c" "wrongsecrets-c-linux-arm"
+compile_with_docker "dockcross-linux-arm64-lts" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux-arm"
+compile_with_docker "dockcross-linux-arm64-lts" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux-arm"
+
+echo "Compiling C for x64-Linux"
+compile_with_docker "dockcross-linux-x64" "c/main.c" "wrongsecrets-c-linux"
+compile_with_docker "dockcross-linux-x64" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux"
+compile_with_docker "dockcross-linux-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux"
+
 echo "Compiling C for Windows statically linked X64 (EXE)"
-echo "prerequired: cd dockcross"
-echo "prerequired: docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64"
-echo "prerequired: chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd .."
-./dockcross-windows-static-x64 bash -c '$CC c/main.c -o wrongsecrets-c-windows'
-./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o wrongsecrets-advanced-c-windows'
+compile_with_docker "dockcross-windows-static-x64" "c/main.c" "wrongsecrets-c-windows"
+compile_with_docker "dockcross-windows-static-x64" "c/advanced/advanced.c" "wrongsecrets-advanced-c-windows"
+compile_with_docker "dockcross-windows-static-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-windows"
+
+
 echo "Compiling C for Musl on ARM"
-echo "prerequired: cd dockcross"
-echo "prerequired: docker run --rm dockcross/linux-arm64-musl > ./dockcross-linux-arm64-musl"
-echo "prerequired: chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd .."
-./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o wrongsecrets-c-linux-musl-arm'
-./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c  -o wrongsecrets-advanced-c-linux-musl-arm'
+compile_with_docker "dockcross-linux-arm64-musl" "c/main.c" "wrongsecrets-c-linux-musl-arm"
+compile_with_docker "dockcross-linux-arm64-musl" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux-musl-arm"
+compile_with_docker "dockcross-windows-static-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux-musl-arm"
+
 echo "Compiling C for Musl on X86"
-echo "prerequired: brew install FiloSottile/musl-cross/musl-cross"
-echo "prerequired: ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc"
+echo "Ensure the required Musl setup steps are completed beforehand."
 x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl -Wno-attributes
 x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-musl
+x86_64-linux-musl-gcc c/challenge52/main.c -o wrongsecrets-challenge52-c-linux-musl
 
 echo "stripping"
 cp wrongsecrets-advanced-c wrongsecrets-advanced-c-stripped
@@ -49,8 +65,8 @@ cp wrongsecrets-advanced-c-linux wrongsecrets-advanced-c-linux-stripped
 strip -S wrongsecrets-advanced-c-linux-stripped
 cp wrongsecrets-advanced-c-linux-arm wrongsecrets-advanced-c-linux-arm-stripped
 strip -S wrongsecrets-advanced-c-linux-arm-stripped
-cp wrongsecrets-advanced-c-windows wrongsecrets-advanced-c-windows-stripped
-strip -S wrongsecrets-advanced-c-windows-stripped
+cp wrongsecrets-advanced-c-windows.exe wrongsecrets-advanced-c-windows-stripped.exe
+strip -S wrongsecrets-advanced-c-windows-stripped.exe
 cp wrongsecrets-advanced-c-linux-musl wrongsecrets-advanced-c-linux-musl-stripped
 strip -S wrongsecrets-advanced-c-linux-musl-stripped
 cp wrongsecrets-advanced-c-linux-musl-arm wrongsecrets-advanced-c-linux-musl-arm-stripped
