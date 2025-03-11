@@ -23,13 +23,15 @@ jobs:
           echo "Compiling C for Intel Macos-X"
           (cd c && make CFLAGS+='-target x86_64-apple-macos12' OUT='../target/wrongsecrets-c')
           (cd c/advanced && make CFLAGS+='-target x86_64-apple-macos12' OUT='../../target/wrongsecrets-advanced-c')
+          (cd c/challenge52 && make CFLAGS+='-target x86_64-apple-macos12' OUT='../../target/wrongsecrets-challenge52-c')
           echo "Compiling C for ARM Macos-X"
           (cd c && make CFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-c-arm')
           (cd c/advanced && make CFLAGS+='-target arm64-apple-macos12' OUT='../../target/wrongsecrets-advanced-c-arm')
+          (cd c/challenge52 && make CFLAGS+='-target arm64-apple-macos12' OUT='../../target/wrongsecrets-challenge52-c-arm')
       - name: Uploading C executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-MacOS
+          name: executables-C-MacOS.zip
           path: target/*
   build-linux:
     name: Linux(X86-64)
@@ -42,10 +44,11 @@ jobs:
           echo "Compiling C for Linux-x64"
           gcc c/main.c -o target/wrongsecrets-c-linux
           gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux
+          gcc c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux
       - name: Uploading C executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-linux-x64
+          name: executables-C-linux-x64.zip
           path: target/*
   build-linux-arm:
     name: Linux(ARM64)
@@ -63,10 +66,11 @@ jobs:
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-arm'
           ./dockcross-linux-arm64-lts bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-arm'
+          ./dockcross-linux-arm64-lts bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-linux-ARM
+          name: executables-C-linux-ARM.zip
           path: target/*
   build-windows:
     name: Windows(x86-64)
@@ -82,12 +86,13 @@ jobs:
           docker run --rm dockcross/windows-static-x64 > ./dockcross-windows-static-x64
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
           echo "Compiling C for Windows"
-          ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows'
-          ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows'
+          ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows.exe'
+          ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows.exe'
+          ./dockcross-windows-static-x64 bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-windows.exe'
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Windows
+          name: executables-C-Windows.zip
           path: target/*
   build-musl-arm:
     name: Musl(ARM)
@@ -105,10 +110,11 @@ jobs:
           echo "Compiling C for Arm Musl"
           ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
           ./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-arm'
+          ./dockcross-linux-arm64-musl bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl-arm'
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Musl-ARM
+          name: executables-C-Musl-ARM.zip
           path: target/*
   build-musl-x64:
     name: Musl(X86-64)
@@ -124,8 +130,9 @@ jobs:
           echo "Compiling C for X64 Musl"
           x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
           x86_64-linux-musl-gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl
+          x86_64-linux-musl-gcc c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
-          name: executable-C-Musl-x64
+          name: executables-C-Musl-x64.zip
           path: target/*

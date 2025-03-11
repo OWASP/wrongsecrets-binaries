@@ -72,6 +72,8 @@ wrongsecrets-rust
 wrongsecrets-rust-*
 wrongsecrets-dotnet
 wrongsecrets-dotnet-*
+wrongsecrets-challenge52
+wrongsecrets-challenge52-*
 
 dockcross/
 .vscode/
