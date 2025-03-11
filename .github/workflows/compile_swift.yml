@@ -1,0 +1,89 @@
+name: "Compile Swift"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-non-musl:
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        swift: ["6.0.3"]
+    steps:
+      - uses: SwiftyLab/setup-swift@v1.9.1
+        with:
+          swift-version: ${{ matrix.swift }}
+      - uses: actions/checkout@v4
+      - name: Get swift version
+        run: swift --version
+      - name: Build a Swift package on windows/linux
+        run: |
+          cd swift && swift build -v -c release --static-swift-stdlib
+      - name: Build a Swift package on Macos
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd swift 
+          swift build -c release --triple x86_64-apple-macosx --static-swift-stdlib
+          swift build -c release --triple arm64-apple-macosx --static-swift-stdlib
+          lipo .build/arm64-apple-macosx/release/swift .build/x86_64-apple-macosx/release/swift -create -output wrongsecrets-swift.universal
+      - name: Uploading macos Swift executables
+        uses: actions/upload-artifact@v4
+        if: matrix.os == 'macos-latest'
+        with:
+          name: wrongsecrets-swift
+          path: swift/wrongsecrets-swift.universal
+      - name: Uploading linux Swift executable (no arm yet, run this all locally please)
+        uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: wrongsecrets-swift-linux
+          path: swift/.build/x86_64-unknown-linux-gnu/release/swift
+      - name: Uploading Windows Swift executable (no arm yet, run this all locally please)
+        uses: actions/upload-artifact@v4
+        if: matrix.os == 'windows-latest'
+        with:
+          name: wrongsecrets-swift-windows
+          path: swift\.build\x86_64-unknown-windows-msvc\release\swift.exe
+  build-musl:
+    name: Swift with Musl
+    runs-on: macos-latest
+    steps:
+      - uses: SwiftyLab/setup-swift@v1.9.1
+        with:
+          swift-version: "6.0.3"
+      - uses: actions/checkout@v4
+      - name: Get swift version
+        run: swift --version
+      - name: Install Swift Musl SDK
+        run: |
+          swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
+          export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
+      - name: Build and test a Swift package
+        run: |
+          cd swift 
+          # echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
+          export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
+          brew install swift
+          export PATH="/opt/homebrew/opt/swift/bin:$PATH"
+          swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+          swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+      - name: Uploading linux arm musl Swift executable 
+        uses: actions/upload-artifact@v4
+        with:
+          name: wrongsecrets-swift-linux-musl-arm
+          path: swift/.build/aarch64-swift-linux-musl/release/swift
+      - name: Uploading linux x86 musl Swift executable 
+        uses: actions/upload-artifact@v4
+        with:
+          name: wrongsecrets-swift-linux-musl
+          path: swift/.build/x86_64-swift-linux-musl/release/swift
+  

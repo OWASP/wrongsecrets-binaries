@@ -145,6 +145,30 @@ cargo build --target aarch64-unknown-linux-musl --release
 cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm
 cd ..
 
+echo "compiling Swfit, requires macos on x86 or arm" #https://www.swift.org/documentation/server/guides/building.html
+cd swift
+echo "compiling for MacOS arm and intel (fat binary)"
+swift build -c release --product swift --triple arm64-apple-macosx
+swift build -c release --product swift --triple x86_64-apple-macosx
+lipo .build/arm64-apple-macosx/debug/swift .build/x86_64-apple-macosx/debug/swift -create -output swift.universal
+cp swift.universal ../wrongsecrets-swift
+cp swift.universal ../wrongsecrets-swift-arm
+
+echo "Compiling for Linux (glibc)"
+docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm
+docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
+cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux 
+echo "Windows is receivable via the windows runner"
+echo "Compiling swift for linux"
+swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
+echo "below works only when you install the developer toolchain"
+export PATH=/Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin:$PATH
+swift build --swift-sdk aarch64-swift-linux-musl
+swift build --swift-sdk x86_64-swift-linux-musl
+cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-arm
+cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl
+cd ..
 echo "compiling for .net: requires 'brew install dotnet' on MacOS"
 cd dotnet/dotnetproject
 dotnet build dotnetproject.csproj --runtime osx-x64 --self-contained true

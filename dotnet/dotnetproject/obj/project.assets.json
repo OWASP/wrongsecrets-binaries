@@ -127,6 +127,7 @@
       ]
     }
   },
+  "libraries": {},
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.NET.ILLink.Tasks >= 8.0.11"

@@ -5,6 +5,7 @@
 [![Compile GoLang](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml)
 [![Compile Rust](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml)
 [![dotnet package](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml)
+[![Compile Swift](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml)
 
 This is a supportive repository for [OWASP WrongSecrets](https://github.com/OWASP/wrongsecrets).
 Here we create our binaries which are included in the official project.
@@ -50,4 +51,4 @@ We would like to thank the following parties for helping us out:
 
 ## Copyrights
 
-Copyright (c) 2020-2024 Jeroen Willemsen and WrongSecret contributors.
+Copyright (c) 2020-2025 Jeroen Willemsen and WrongSecret contributors.

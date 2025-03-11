@@ -70,6 +70,8 @@ wrongsecrets-golang
 wrongsecrets-golang-*
 wrongsecrets-rust
 wrongsecrets-rust-*
+wrongsecrets-swift
+wrongsecrets-swift-*
 wrongsecrets-dotnet
 wrongsecrets-dotnet-*
 wrongsecrets-challenge52
@@ -88,6 +90,8 @@ target/
 
 # MSVC Windows builds of rustc generate these, which store debugging information
 *.pdb
+swift/swift.universal
+swift/.build
 dotnet/dotnetproject/bin/
 dotnet/dotnetproject/obj/Release/
 
