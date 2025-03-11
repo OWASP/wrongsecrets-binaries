@@ -74,17 +74,16 @@ jobs:
           export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
           brew install swift
           export PATH="/opt/homebrew/opt/swift/bin:$PATH"
-
           swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
           swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
       - name: Uploading linux arm musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
           name: wrongsecrets-swift-linux-musl-arm
-          path: swift/.build/aarch64-unknown-linux-gnu/release/swift
+          path: swift/.build/aarch64-swift-linux-musl/release/swift
       - name: Uploading linux x86 musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
           name: wrongsecrets-swift-linux-musl
-          path: swift/.build/x86_64-unknown-linux-gnu/release/swift
+          path: swift/.build/x86_64-swift-linux-musl/release/swift
   
