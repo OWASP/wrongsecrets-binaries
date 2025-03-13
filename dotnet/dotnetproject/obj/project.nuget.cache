@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "JEVcIBbidD8=",
+  "dgSpecHash": "gm4J2+IM3q0=",
   "success": true,
   "projectFilePath": "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj",
   "expectedPackageFiles": [
-    "/Users/razr/.nuget/packages/microsoft.net.illink.tasks/8.0.11/microsoft.net.illink.tasks.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",
-    "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.linux-musl-arm64/8.0.11/microsoft.netcore.app.runtime.linux-musl-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/8.0.11/microsoft.netcore.app.runtime.osx-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.osx-arm64/8.0.11/microsoft.netcore.app.runtime.osx-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.win-x64/8.0.11/microsoft.netcore.app.runtime.win-x64.8.0.11.nupkg.sha512",
@@ -14,8 +12,8 @@
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.linux-x64/8.0.11/microsoft.netcore.app.runtime.linux-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.linux-arm64/8.0.11/microsoft.netcore.app.runtime.linux-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.linux-musl-x64/8.0.11/microsoft.netcore.app.runtime.linux-musl-x64.8.0.11.nupkg.sha512",
+    "/Users/razr/.nuget/packages/microsoft.netcore.app.runtime.linux-musl-arm64/8.0.11/microsoft.netcore.app.runtime.linux-musl-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.11/microsoft.aspnetcore.app.ref.8.0.11.nupkg.sha512",
-    "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-musl-arm64/8.0.11/microsoft.aspnetcore.app.runtime.linux-musl-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-x64/8.0.11/microsoft.aspnetcore.app.runtime.osx-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-arm64/8.0.11/microsoft.aspnetcore.app.runtime.osx-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.win-x64/8.0.11/microsoft.aspnetcore.app.runtime.win-x64.8.0.11.nupkg.sha512",
@@ -23,14 +21,15 @@
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-x64/8.0.11/microsoft.aspnetcore.app.runtime.linux-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-arm64/8.0.11/microsoft.aspnetcore.app.runtime.linux-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-musl-x64/8.0.11/microsoft.aspnetcore.app.runtime.linux-musl-x64.8.0.11.nupkg.sha512",
-    "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-musl-arm64/8.0.11/microsoft.netcore.app.host.linux-musl-arm64.8.0.11.nupkg.sha512",
+    "/Users/razr/.nuget/packages/microsoft.aspnetcore.app.runtime.linux-musl-arm64/8.0.11/microsoft.aspnetcore.app.runtime.linux-musl-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.osx-x64/8.0.11/microsoft.netcore.app.host.osx-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.11/microsoft.netcore.app.host.osx-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.win-x64/8.0.11/microsoft.netcore.app.host.win-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.win-arm64/8.0.11/microsoft.netcore.app.host.win-arm64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.11/microsoft.netcore.app.host.linux-x64.8.0.11.nupkg.sha512",
     "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-arm64/8.0.11/microsoft.netcore.app.host.linux-arm64.8.0.11.nupkg.sha512",
-    "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-musl-x64/8.0.11/microsoft.netcore.app.host.linux-musl-x64.8.0.11.nupkg.sha512"
+    "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-musl-x64/8.0.11/microsoft.netcore.app.host.linux-musl-x64.8.0.11.nupkg.sha512",
+    "/Users/razr/.nuget/packages/microsoft.netcore.app.host.linux-musl-arm64/8.0.11/microsoft.netcore.app.host.linux-musl-arm64.8.0.11.nupkg.sha512"
   ],
   "logs": []
 }
