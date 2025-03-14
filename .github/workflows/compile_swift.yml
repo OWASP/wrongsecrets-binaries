@@ -57,7 +57,7 @@ jobs:
     name: Swift with Musl
     runs-on: macos-latest
     steps:
-      - uses: SwiftyLab/setup-swift@main
+      - uses: SwiftyLab/setup-swift@swift-sdk
         with:
           swift-version: "6.0.3"
           prefer-oss-toolchain: true
