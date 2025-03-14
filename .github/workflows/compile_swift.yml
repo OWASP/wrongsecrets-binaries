@@ -57,23 +57,20 @@ jobs:
     name: Swift with Musl
     runs-on: macos-latest
     steps:
-      - uses: SwiftyLab/setup-swift@v1.9.1
+      - uses: SwiftyLab/setup-swift@82838c4ebecbd5b8f82d98e961b12f47a40b5d82
         with:
           swift-version: "6.0.3"
+          prefer-oss-toolchain: true
       - uses: actions/checkout@v4
       - name: Get swift version
         run: swift --version
       - name: Install Swift Musl SDK
         run: |
           swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
-          export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
       - name: Build and test a Swift package
         run: |
           cd swift 
           # echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
-          export PATH=$PATH:$(find /Library/Developer -type d -maxdepth 1 | paste -sd ":" -)
-          brew install swift
-          export PATH="/opt/homebrew/opt/swift/bin:$PATH"
           swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
           swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
       - name: Uploading linux arm musl Swift executable 
