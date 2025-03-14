@@ -71,8 +71,8 @@ jobs:
         run: |
           cd swift 
           # echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
-          xcrun --toolchain ${{ env.TOOLCHAINS }} swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
-          xcrun --toolchain ${{ env.TOOLCHAINS }} swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+          swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+          swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
       - name: Uploading linux arm musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
