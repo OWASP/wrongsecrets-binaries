@@ -19,7 +19,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         swift: ["6.0.3"]
     steps:
-      - uses: SwiftyLab/setup-swift@v1.9.1
+      - uses: SwiftyLab/setup-swift@v1.10.0
         with:
           swift-version: ${{ matrix.swift }}
       - uses: actions/checkout@v4
