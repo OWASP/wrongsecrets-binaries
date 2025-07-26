@@ -1,0 +1,93 @@
+# Pre-commit configuration for OWASP wrongsecrets-binaries
+# This configuration uses local hooks to avoid network dependencies
+# See https://pre-commit.com for more information
+
+repos:
+  - repo: local
+    hooks:
+      # Rust formatting and linting
+      - id: rust-fmt
+        name: Rust formatting (rustfmt)
+        description: Run rustfmt on Rust source files
+        entry: bash
+        args: ['-c', 'cd rust && cargo fmt -- --check']
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      - id: rust-clippy
+        name: Rust linting (clippy)
+        description: Run clippy on Rust source files
+        entry: bash
+        args: ['-c', 'cd rust && cargo clippy --all-targets --all-features -- -D warnings']
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      # Go formatting and linting
+      - id: go-fmt
+        name: Go formatting (gofmt)
+        description: Run gofmt on Go source files
+        entry: bash
+        args: ['-c', 'cd golang && gofmt -l . | tee /dev/stderr | wc -l | grep -q "^0$"']
+        language: system
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-vet
+        name: Go vet
+        description: Run go vet on Go source files
+        entry: bash
+        args: ['-c', 'cd golang && go vet ./...']
+        language: system
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: Go mod tidy
+        description: Run go mod tidy
+        entry: bash
+        args: ['-c', 'cd golang && go mod tidy']
+        language: system
+        files: go\.(mod|sum)$
+        pass_filenames: false
+
+      # C/C++ basic checks
+      - id: c-cpp-check
+        name: C/C++ basic check
+        description: Basic check for C/C++ files
+        entry: bash
+        args: ['-c', 'echo "C/C++ files checked. Consider using clang-format for formatting."']
+        language: system
+        files: \.(c|cpp|cc|cxx|h|hpp)$
+        pass_filenames: false
+
+      # General checks
+      - id: check-large-files
+        name: Check for large files
+        description: Prevent giant files from being committed
+        entry: bash
+        args: ['-c', 'find . -type f -size +5M -not -path "./.git/*" -not -path "./target/*" -not -path "./dockcross/*" | head -5 | grep . && echo "ERROR: Very large files (>5MB) found" && exit 1 || echo "No very large files found"']
+        language: system
+        pass_filenames: false
+
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+        description: Check for merge conflict strings
+        entry: bash
+        args: ['-c', 'find . -name "*.rs" -o -name "*.go" -o -name "*.c" -o -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.md" | xargs grep -l "^<<<<<<< \\|^======= \\|^>>>>>>> " 2>/dev/null && echo "ERROR: Merge conflict markers found" && exit 1 || echo "No merge conflicts found"']
+        language: system
+        pass_filenames: false
+
+# Configuration for CI systems
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false

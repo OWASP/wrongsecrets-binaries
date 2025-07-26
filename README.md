@@ -13,6 +13,10 @@ Here we create our binaries which are included in the official project.
 Want to add a challenge related to secrets hiding in binary? Open a ticket at [WrongSecrets issues](https://github.com/OWASP/wrongsecrets/issues). 
 Want to fix something you found in one of the binaries: open a ticket or a PR here.
 
+## Development
+
+This repository uses [pre-commit](https://pre-commit.com/) to maintain code quality. See [docs/PRE_COMMIT.md](docs/PRE_COMMIT.md) for setup instructions.
+
 ## Security Scanning
 
 This repository includes comprehensive security scanning using GitHub's free tools:
