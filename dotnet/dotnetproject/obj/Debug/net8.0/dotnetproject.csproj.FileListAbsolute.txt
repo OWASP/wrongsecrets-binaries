@@ -1,0 +1,15 @@
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Debug/net8.0/dotnetproject
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Debug/net8.0/dotnetproject.deps.json
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Debug/net8.0/dotnetproject.runtimeconfig.json
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Debug/net8.0/dotnetproject.dll
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Debug/net8.0/dotnetproject.pdb
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.AssemblyInfoInputs.cache
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.AssemblyInfo.cs
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.csproj.CoreCompileInputs.cache
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.sourcelink.json
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.dll
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/refint/dotnetproject.dll
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.pdb
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/dotnetproject.genruntimeconfig.cache
+/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/Debug/net8.0/ref/dotnetproject.dll

@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj": {}
+    "/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj": {}
   },
   "projects": {
-    "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj": {
+    "/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj",
+        "projectUniqueName": "/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj",
         "projectName": "dotnetproject",
-        "projectPath": "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj",
-        "packagesPath": "/Users/razr/.nuget/packages/",
-        "outputPath": "/Users/razr/workspace/owasp/wrongsecrets-binaries/dotnet/dotnetproject/obj/",
+        "projectPath": "/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/dotnetproject.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/razr/.nuget/NuGet/NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/Cellar/dotnet/9.0.101/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -33,25 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.11, )",
-              "autoReferenced": true
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -65,108 +50,100 @@
           "warn": true,
           "downloadDependencies": [
             {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.11, 8.0.11]"
-            },
-            {
               "name": "Microsoft.AspNetCore.App.Runtime.linux-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.linux-musl-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.linux-musl-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.linux-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.osx-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.osx-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.linux-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.linux-musl-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.linux-musl-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.osx-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.osx-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.11, 8.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.linux-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.linux-musl-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.linux-musl-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.linux-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.osx-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.osx-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.win-arm64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             },
             {
               "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.11, 8.0.11]"
+              "version": "[8.0.18, 8.0.18]"
             }
           ],
           "frameworkReferences": {
@@ -174,7 +151,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/9.0.101/libexec/sdk/9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.118/PortableRuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
