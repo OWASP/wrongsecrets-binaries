@@ -15,7 +15,7 @@ Want to fix something you found in one of the binaries: open a ticket or a PR he
 
 ## Development
 
-This repository uses [pre-commit](https://pre-commit.com/) to maintain code quality. See [docs/PRE_COMMIT.md](docs/PRE_COMMIT.md) for setup instructions.
+This repository uses [pre-commit lite](https://pre-commit.com/) with **automated code formatting** to maintain code quality with minimal friction. The lightweight configuration automatically fixes formatting issues for Rust and Go code. See [docs/PRE_COMMIT.md](docs/PRE_COMMIT.md) for setup instructions.
 
 ## Security Scanning
 

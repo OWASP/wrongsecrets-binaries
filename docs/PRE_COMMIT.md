@@ -1,14 +1,13 @@
-# Pre-commit Setup
+# Pre-commit Lite - Automated Code Formatting
 
-This repository uses [pre-commit](https://pre-commit.com/) to automatically check code quality before commits. The pre-commit hooks help maintain consistent code style and catch common issues across all supported languages (C, C++, Rust, and Go).
+This repository uses [pre-commit](https://pre-commit.com/) with a **lightweight configuration** that automatically fixes code formatting issues. The pre-commit hooks focus on auto-formatting rather than strict checking, making development smoother while maintaining code consistency.
 
 ## Installation
 
 ### Prerequisites
 - Python 3.6+ (for pre-commit)
-- Rust toolchain with `rustfmt` and `clippy`
-- Go toolchain with `gofmt` and `go vet`
-- GCC/Clang for C/C++ (development tools)
+- Rust toolchain with `rustfmt` (for Rust auto-formatting)
+- Go toolchain with `gofmt` (for Go auto-formatting)
 
 ### Installing pre-commit
 
@@ -22,45 +21,38 @@ This repository uses [pre-commit](https://pre-commit.com/) to automatically chec
    pre-commit install
    ```
 
-## What the hooks check
+## What the hooks do
 
-### For all languages:
-- No very large files (>5MB)
-- No merge conflict markers
-- Basic file integrity
+**Auto-fixes applied:**
+- **Rust**: Automatically formats code using `rustfmt`
+- **Go**: Automatically formats code using `gofmt` and tidies modules with `go mod tidy`
 
-### Rust (in `rust/` directory):
-- **rustfmt**: Code formatting according to Rust standards
-- **clippy**: Rust linting for code quality and common mistakes
+**Safety checks (non-intrusive):**
+- Detects merge conflict markers in source files
 
-### Go (in `golang/` directory):
-- **gofmt**: Code formatting according to Go standards
-- **go vet**: Static analysis for common Go programming errors
-- **go mod tidy**: Ensures go.mod and go.sum are clean and up-to-date
+## Key Benefits
 
-### C/C++ (in `c/` and `cplus/` directories):
-- Basic file checks (placeholder for future clang-format integration)
+✅ **Automatic fixes** - No need to manually run formatting commands  
+✅ **Lightweight** - Only essential formatting and basic safety checks  
+✅ **Non-blocking** - Focuses on fixes rather than strict linting  
+✅ **Cross-platform** - Works on Linux, macOS, and Windows
 
 ## Usage
 
 ### Automatic (recommended)
-Once installed, pre-commit will run automatically on every `git commit`. If any checks fail, the commit will be blocked until the issues are fixed.
+Once installed, pre-commit will run automatically on every `git commit` and **automatically fix** formatting issues. The fixed files will be staged automatically, so you just need to commit again.
 
 ### Manual execution
-Run all hooks on all files:
+Auto-fix all files:
 ```bash
 pre-commit run --all-files
 ```
 
-Run specific hooks:
+Run specific auto-fixes:
 ```bash
-pre-commit run rust-fmt
-pre-commit run go-fmt
-```
-
-Run hooks on specific files:
-```bash
-pre-commit run --files rust/src/main.rs
+pre-commit run rust-fmt-fix    # Auto-format Rust code
+pre-commit run go-fmt-fix      # Auto-format Go code
+pre-commit run go-mod-tidy     # Clean Go modules
 ```
 
 ### Bypassing hooks (not recommended)
@@ -69,28 +61,14 @@ In rare cases where you need to commit despite hook failures:
 git commit --no-verify
 ```
 
-## Fixing common issues
+## No Manual Fixes Needed!
 
-### Rust formatting issues
-```bash
-cd rust && cargo fmt
-```
+With pre-commit lite, formatting issues are **automatically fixed** for you:
 
-### Rust clippy warnings
-Most clippy warnings should be fixed in the code. For educational/demonstration code that intentionally shows bad practices, you can add:
-```rust
-#[allow(clippy::specific_warning)]
-```
+- **Rust**: Code is auto-formatted with `rustfmt`
+- **Go**: Code is auto-formatted with `gofmt` and modules are tidied
 
-### Go formatting issues
-```bash
-cd golang && gofmt -w .
-```
-
-### Go module issues
-```bash
-cd golang && go mod tidy
-```
+If the pre-commit hooks make changes, just run `git add .` and `git commit` again.
 
 ## CI/CD Integration
 
@@ -98,7 +76,12 @@ The pre-commit configuration is designed to work seamlessly with the existing Gi
 
 ## Configuration
 
-The pre-commit configuration is defined in `.pre-commit-config.yaml`. The current setup uses local hooks to avoid external dependencies and ensure cross-platform compatibility.
+The pre-commit configuration is defined in `.pre-commit-config.yaml`. This "lite" setup focuses on:
+
+- **Auto-formatting** rather than strict checking
+- **Minimal dependencies** for easy setup
+- **Cross-platform compatibility** using local hooks
+- **Essential checks only** (merge conflict detection)
 
 ## Troubleshooting
 
@@ -111,7 +94,7 @@ pre-commit install
 
 ### Tool not found errors
 Ensure you have the required toolchains installed:
-- For Rust: `cargo --version`, `rustfmt --version`, `cargo clippy --version`
+- For Rust: `cargo --version`, `rustfmt --version`
 - For Go: `go version`, `gofmt -help`
 
 ### Platform-specific issues
