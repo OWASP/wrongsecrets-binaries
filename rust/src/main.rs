@@ -32,7 +32,7 @@ fn main() {
 
     if args.len() == 1 {
         println!("Welcome to the wrongsecrets Rust binary which hides a secret.");
-        println!("Use args spoil or a string to guess the password.");
+        println!("Use args spoil or a string to guess the password.")
     } else if args.len() == 2 {
         let output = check_input(args[1].to_string());
         println!("{output}")
