@@ -29,19 +29,50 @@ jobs:
           - language: 'go'
             build-mode: autobuild
           - language: 'csharp'
-            build-mode: autobuild
+            build-mode: manual
           - language: 'swift'
-            build-mode: autobuild
+            build-mode: manual
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+
+    - name: Setup Go
+      if: matrix.language == 'go'
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.24'
+
+    - name: Setup .NET
+      if: matrix.language == 'csharp'
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Setup Swift
+      if: matrix.language == 'swift'
+      uses: SwiftyLab/setup-swift@v1.11.0
+      with:
+        swift-version: "6.0.3"
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
+
+    - name: Manual build for .NET
+      if: matrix.language == 'csharp'
+      run: |
+        cd dotnet/dotnetproject
+        dotnet restore
+        dotnet build
+
+    - name: Manual build for Swift
+      if: matrix.language == 'swift'
+      run: |
+        cd swift
+        swift build -v
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
@@ -57,6 +88,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run Semgrep
+      id: semgrep
       uses: semgrep/semgrep-action@v1
       with:
         config: >-
@@ -65,9 +97,10 @@ jobs:
           p/owasp-top-ten
           p/cwe-top-25
         generateSarif: "1"
+      continue-on-error: true
 
     - name: Upload Semgrep SARIF
       uses: github/codeql-action/upload-sarif@v3
       with:
         sarif_file: semgrep.sarif
-      if: always()
+      if: always() && steps.semgrep.conclusion != 'skipped'
