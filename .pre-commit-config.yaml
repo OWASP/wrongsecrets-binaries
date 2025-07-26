@@ -1,0 +1,44 @@
+# Pre-commit Lite - Automated Code Formatting for OWASP wrongsecrets-binaries
+# This lightweight configuration automatically fixes code formatting issues
+# See https://pre-commit.com for more information
+
+repos:
+  - repo: local
+    hooks:
+      # Rust - Auto-format code
+      - id: rust-fmt-fix
+        name: Rust auto-format
+        description: Automatically format Rust code with rustfmt
+        entry: bash
+        args: ['-c', 'cd rust && cargo fmt']
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      # Go - Auto-format code and tidy modules
+      - id: go-fmt-fix
+        name: Go auto-format
+        description: Automatically format Go code with gofmt
+        entry: bash
+        args: ['-c', 'cd golang && gofmt -w .']
+        language: system
+        files: \.go$
+        pass_filenames: false
+
+      - id: go-mod-tidy
+        name: Go mod tidy
+        description: Clean up go.mod and go.sum
+        entry: bash
+        args: ['-c', 'cd golang && go mod tidy']
+        language: system
+        files: go\.(mod|sum)$
+        pass_filenames: false
+
+      # Basic safety checks (non-intrusive)
+      - id: check-merge-conflict
+        name: Check for merge conflicts
+        description: Detect merge conflict markers
+        entry: bash
+        args: ['-c', 'grep -rn "^<<<<<<< \\|^======= \\|^>>>>>>> " --include="*.rs" --include="*.go" --include="*.c" --include="*.cpp" --include="*.h" . && echo "Merge conflict markers found!" && exit 1 || true']
+        language: system
+        pass_filenames: false
