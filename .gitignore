@@ -93,7 +93,10 @@ target/
 swift/swift.universal
 swift/.build
 dotnet/dotnetproject/bin/
-dotnet/dotnetproject/obj/Release/
+dotnet/dotnetproject/obj/
+
+# Go binaries
+golang/main
 
 #MACOS
 .DS_Store

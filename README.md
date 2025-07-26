@@ -6,11 +6,33 @@
 [![Compile Rust](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml)
 [![dotnet package](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml)
 [![Compile Swift](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml)
+[![Security Scanning](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/security-scanning.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/security-scanning.yml)
 
 This is a supportive repository for [OWASP WrongSecrets](https://github.com/OWASP/wrongsecrets).
 Here we create our binaries which are included in the official project.
 Want to add a challenge related to secrets hiding in binary? Open a ticket at [WrongSecrets issues](https://github.com/OWASP/wrongsecrets/issues). 
 Want to fix something you found in one of the binaries: open a ticket or a PR here.
+
+## Security Scanning
+
+This repository includes comprehensive security scanning using GitHub's free tools:
+
+### CodeQL Analysis
+- **Languages Covered**: C, C++, Go, C#/.NET, Swift
+- **Triggers**: Push to main/master, pull requests, manual dispatch, weekly schedule
+- **Integration**: Results automatically uploaded to GitHub Security tab
+
+### Semgrep Analysis
+- **Languages Covered**: All languages (C, C++, Go, Rust, C#/.NET, Swift)
+- **Rulesets**: 
+  - OWASP Top 10 security issues
+  - CWE Top 25 vulnerabilities
+  - Secrets detection
+  - General security audit rules
+- **Integration**: SARIF results uploaded to GitHub Security tab
+
+### Viewing Security Results
+Security scan results are available in the repository's **Security** tab under **Code scanning alerts**. The scans run automatically on code changes and weekly on Sundays at 3 AM UTC.
 
 ## Special thanks
 

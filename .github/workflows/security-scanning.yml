@@ -1,0 +1,107 @@
+---
+name: "Security Scanning"
+
+on:
+  workflow_dispatch: true
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+  schedule:
+    # Run weekly on Sundays at 3 AM UTC
+    - cron: '0 3 * * 0'
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  codeql-analysis:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['c-cpp', 'go', 'csharp', 'swift']
+        include:
+          - language: 'c-cpp'
+            build-mode: autobuild
+          - language: 'go'
+            build-mode: autobuild
+          - language: 'csharp'
+            build-mode: manual
+          - language: 'swift'
+            build-mode: manual
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        if: matrix.language == 'go'
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Setup .NET
+        if: matrix.language == 'csharp'
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup Swift
+        if: matrix.language == 'swift'
+        uses: SwiftyLab/setup-swift@v1.11.0
+        with:
+          swift-version: "6.0.3"
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Manual build for .NET
+        if: matrix.language == 'csharp'
+        run: |
+          cd dotnet/dotnetproject
+          dotnet restore
+          dotnet build
+
+      - name: Manual build for Swift
+        if: matrix.language == 'swift'
+        run: |
+          cd swift
+          swift build -v -c release --static-swift-stdlib
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+
+  semgrep-analysis:
+    name: Semgrep Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        id: semgrep
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+            p/cwe-top-25
+          generateSarif: "1"
+        continue-on-error: true
+
+      - name: Upload Semgrep SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+        if: always() && steps.semgrep.conclusion != 'skipped'
