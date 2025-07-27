@@ -77,6 +77,13 @@ wrongsecrets-dotnet-*
 wrongsecrets-challenge52
 wrongsecrets-challenge52-*
 
+# CTF versions
+*-ctf
+*-ctf.*
+
+# Backup files from CTF generation
+*.original
+
 dockcross/
 .vscode/
 
@@ -100,3 +107,6 @@ golang/main
 
 #MACOS
 .DS_Store
+
+# Test builds
+test_build/

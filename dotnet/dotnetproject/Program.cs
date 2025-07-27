@@ -1,7 +1,7 @@
 ﻿
 String getSecret()
 {
-    return "This is a dotnet secret, huray.";
+    return "this is the secret in dotnet : 5306de5fe92f0f7a";
 }
 
 String evalAnswer(String answer)
