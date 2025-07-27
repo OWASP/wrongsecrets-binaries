@@ -122,3 +122,18 @@ jobs:
         with:
           name: executable-Cplus-Musl-x64
           path: target/*
+
+  # Sign and notarize macOS binaries
+  sign-macos-cplus:
+    name: Sign and Notarize macOS C++ Binaries
+    needs: build-darwin
+    uses: ./.github/workflows/macos-sign-notarize.yml
+    with:
+      binary_path: target/
+      binary_name: executable-CPlus-MacOS
+    secrets:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
