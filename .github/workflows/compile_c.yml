@@ -123,6 +123,16 @@ jobs:
           ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows.exe'
           ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows.exe'
           ./dockcross-windows-static-x64 bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-windows.exe'
+      - name: Compile CTF C binary for Windows
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF C for Windows"
+          ./dockcross-windows-static-x64 bash -c '$CC c/main.c -o target/wrongsecrets-c-windows-ctf.exe'
+          ./dockcross-windows-static-x64 bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-windows-ctf.exe'
+          ./dockcross-windows-static-x64 bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-windows-ctf.exe'
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -145,6 +155,16 @@ jobs:
           ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm'
           ./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-arm'
           ./dockcross-linux-arm64-musl bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl-arm'
+      - name: Compile CTF C binary for Musl(ARM)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF C for Arm Musl"
+          ./dockcross-linux-arm64-musl bash -c '$CC c/main.c -o target/wrongsecrets-c-linux-musl-arm-ctf'
+          ./dockcross-linux-arm64-musl bash -c '$CC c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-arm-ctf'
+          ./dockcross-linux-arm64-musl bash -c '$CC c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl-arm-ctf'
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -165,6 +185,16 @@ jobs:
           x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl
           x86_64-linux-musl-gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl
           x86_64-linux-musl-gcc c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl
+      - name: Compile CTF C binary for Musl(x64)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF C for X64 Musl"
+          x86_64-linux-musl-gcc c/main.c -o target/wrongsecrets-c-linux-musl-ctf
+          x86_64-linux-musl-gcc c/advanced/advanced.c -o target/wrongsecrets-advanced-c-linux-musl-ctf
+          x86_64-linux-musl-gcc c/challenge52/main.c -o target/wrongsecrets-challenge52-c-linux-musl-ctf
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:

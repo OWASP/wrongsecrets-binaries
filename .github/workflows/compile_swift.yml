@@ -62,19 +62,25 @@ jobs:
         if: matrix.os == 'macos-latest'
         with:
           name: wrongsecrets-swift
-          path: swift/wrongsecrets-swift.universal
+          path: |
+            swift/wrongsecrets-swift.universal
+            swift/wrongsecrets-swift-ctf.universal
       - name: Uploading linux Swift executable (no arm yet, run this all locally please)
         uses: actions/upload-artifact@v4
         if: matrix.os == 'ubuntu-latest'
         with:
           name: wrongsecrets-swift-linux
-          path: swift/.build/x86_64-unknown-linux-gnu/release/swift
+          path: |
+            swift/.build/x86_64-unknown-linux-gnu/release/swift
+            wrongsecrets-swift-ctf
       - name: Uploading Windows Swift executable (no arm yet, run this all locally please)
         uses: actions/upload-artifact@v4
         if: matrix.os == 'windows-latest'
         with:
           name: wrongsecrets-swift-windows
-          path: swift\.build\x86_64-unknown-windows-msvc\release\swift.exe
+          path: |
+            swift\.build\x86_64-unknown-windows-msvc\release\swift.exe
+            wrongsecrets-swift-ctf
   build-musl:
     name: Swift with Musl
     runs-on: macos-latest
@@ -95,14 +101,30 @@ jobs:
           # echo "ls /Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin does not work: we need to install the sdk toolcahin?"
           swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
           swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+      - name: Build CTF Swift package
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd swift 
+          swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+          swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+          cp .build/x86_64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-ctf
+          cp .build/aarch64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-arm-ctf
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading linux arm musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
           name: wrongsecrets-swift-linux-musl-arm
-          path: swift/.build/aarch64-swift-linux-musl/release/swift
+          path: |
+            swift/.build/aarch64-swift-linux-musl/release/swift
+            wrongsecrets-swift-linux-musl-arm-ctf
       - name: Uploading linux x86 musl Swift executable 
         uses: actions/upload-artifact@v4
         with:
           name: wrongsecrets-swift-linux-musl
-          path: swift/.build/x86_64-swift-linux-musl/release/swift
+          path: |
+            swift/.build/x86_64-swift-linux-musl/release/swift
+            wrongsecrets-swift-linux-musl-ctf
   

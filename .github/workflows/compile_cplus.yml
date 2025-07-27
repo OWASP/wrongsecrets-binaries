@@ -49,6 +49,14 @@ jobs:
           mkdir target
           echo "Compiling CPlus for Linux-x64"
           g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux
+      - name: Compile CTF CPlus binary for Linux(x64)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF CPlus for Linux-x64"
+          g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-ctf
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -69,6 +77,14 @@ jobs:
           chmod +x ./dockcross-linux-arm64-lts && mv ./dockcross-linux-arm64-lts .. && cd ..
           echo "Compiling C for Linux-arm"
           ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm'
+      - name: Compile CTF C binary for Linux(ARM)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF CPlus for Linux-arm"
+          ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-linux-arm-ctf'
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -89,6 +105,14 @@ jobs:
           chmod +x ./dockcross-windows-static-x64 && mv ./dockcross-windows-static-x64 .. && cd ..
           echo "Compiling CPlus for Windows"
           ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows'
+      - name: Compile CTF C binary for Windows
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF CPlus for Windows"
+          ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -o target/wrongsecrets-cplus-windows-ctf'
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -109,6 +133,14 @@ jobs:
           chmod +x ./dockcross-linux-arm64-musl && mv ./dockcross-linux-arm64-musl .. && cd ..
           echo "Compiling Cplus for Arm Musl"
           ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++  -o target/wrongsecrets-cplus-linux-musl-arm'
+      - name: Compile CTF Cplus binary for Musl(ARM)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF Cplus for Arm Musl"
+          ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++  -o target/wrongsecrets-cplus-linux-musl-arm-ctf'
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -127,6 +159,14 @@ jobs:
           ln -s /usr/local/opt/musl-cross/bin/x86_64-linux-musl-gcc /usr/local/bin/musl-gcc
           echo "Compiling Cplus for X64 Musl"
           x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl
+      - name: Compile CTF Cplus binary for Musl(x64)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF Cplus for X64 Musl"
+          x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o target/wrongsecrets-cplus-linux-musl-ctf
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:

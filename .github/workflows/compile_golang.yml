@@ -94,6 +94,16 @@ jobs:
           cd golang
           echo "Compiling Golang for Linux-arm"
           env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux main.go
+      - name: Compile CTF Golang binary for Linux(ARM)
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd golang
+          echo "Compiling CTF Golang for Linux-arm"
+          env GOARCH=arm64 GOOS=linux go build -o ../target/wrongsecrets-go-linux-ctf main.go
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
@@ -114,6 +124,16 @@ jobs:
           cd golang
           echo "compiling golang for Windows"
           env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-golang-windows.exe
+      - name: Compile CTF Go binary for Windows
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd golang
+          echo "compiling CTF golang for Windows"
+          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-golang-windows-ctf.exe
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
