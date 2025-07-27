@@ -9,7 +9,7 @@ import (
 )
 
 var cfgFile string
-var Secret string = "this is the secret in Golang : 59d9b985cbb4fcf6"
+var Secret string = "This is the secret in Golang today"
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{

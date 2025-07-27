@@ -20,13 +20,13 @@ public:
 Secretcontainer secret()
 {
     Secretcontainer container;
-    container.setSecret("this is the secret in C++ : f07fd2bbb73526bd");
+    container.setSecret("Another secret in C++");
     return container;
 }
 
 char *secret2()
 {
-    static char harder[44] = {'t', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'i', 'n', ' ', 'C', '+', '+', ' ', ':', ' ', 'f', '0', '7', 'f', 'd', '2', 'b', 'b', 'b', '7', '3', '5', '2', '6', 'b', 'd'};
+    static char harder[22] = {'A', 'n', 'o', 't', 'h', 'e', 'r', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'i', 'n', ' ', 'C', ' ', '+', '+'};
     return harder;
 }
 

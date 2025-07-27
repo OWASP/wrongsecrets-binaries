@@ -24,6 +24,16 @@ jobs:
           (cd cplus && make CXXFLAGS+='-target x86_64-apple-macos12' OUT='../target/wrongsecrets-cplus')
           echo "Compiling CPlus for ARM Macos-X"
           (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-cplus-arm')
+      - name: compile CTF CPlus binary for macOS
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          echo "Compiling CTF CPlus for Intel Macos-X"
+          (cd cplus && make CXXFLAGS+='-target x86_64-apple-macos12' OUT='../target/wrongsecrets-cplus-ctf')
+          echo "Compiling CTF CPlus for ARM Macos-X"
+          (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../target/wrongsecrets-cplus-arm-ctf')
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:

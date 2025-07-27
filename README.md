@@ -13,6 +13,16 @@ Here we create our binaries which are included in the official project.
 Want to add a challenge related to secrets hiding in binary? Open a ticket at [WrongSecrets issues](https://github.com/OWASP/wrongsecrets/issues). 
 Want to fix something you found in one of the binaries: open a ticket or a PR here.
 
+## CTF Support
+
+This repository now supports generating **CTF (Capture The Flag) versions** of all binaries with randomized secrets. CTF versions use the format `this is the secret in <language> : <random_hex>` instead of static secrets, making them suitable for CTF competitions.
+
+- **Automatic Generation**: Both `quickbuild.sh` and GitHub Actions generate CTF versions alongside regular binaries
+- **All Languages**: Supports C, C++, Go, Rust, .NET, and Swift
+- **Easy Testing**: Use `./test_ctf_generation.sh` to verify functionality
+
+See [docs/CTF_GENERATION.md](docs/CTF_GENERATION.md) for detailed usage instructions.
+
 ## Development
 
 This repository uses [pre-commit lite](https://pre-commit.com/) with **automated code formatting** to maintain code quality with minimal friction. The lightweight configuration automatically fixes formatting issues for Rust and Go code. See [docs/PRE_COMMIT.md](docs/PRE_COMMIT.md) for setup instructions.

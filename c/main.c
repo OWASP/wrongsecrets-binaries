@@ -3,12 +3,12 @@
 
 const char *secret()
 {
-    return "this is the secret in C : 2c6da22890671a59";
+    return "This is a hardcoded secret in C";
 }
 
 const char *secret2()
 {
-    static char harder[42] = {'t', 'h', 'i', 's', ' ', 'i', 's', ' ', 't', 'h', 'e', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'i', 'n', ' ', 'C', ' ', ':', ' ', '2', 'c', '6', 'd', 'a', '2', '2', '8', '9', '0', '6', '7', '1', 'a', '5', '9'};
+    static char harder[31] = {'T', 'h', 'i', 's', ' ', 'i', 's', ' ', 'a', ' ', 'h', 'a', 'r', 'd', 'c', 'o', 'd', 'e', 'd', ' ', 's', 'e', 'c', 'r', 'e', 't', ' ', 'i', 'n', ' ', 'C'};
     return harder;
 }
 

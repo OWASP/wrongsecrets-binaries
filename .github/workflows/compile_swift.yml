@@ -29,6 +29,15 @@ jobs:
       - name: Build a Swift package on windows/linux
         run: |
           cd swift && swift build -v -c release --static-swift-stdlib
+      - name: Build CTF Swift package on windows/linux
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd swift && swift build -v -c release --static-swift-stdlib
+          cp .build/release/swift ../wrongsecrets-swift-ctf
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Build a Swift package on Macos
         if: matrix.os == 'macos-latest'
         run: |
@@ -36,6 +45,18 @@ jobs:
           swift build -c release --triple x86_64-apple-macosx --static-swift-stdlib
           swift build -c release --triple arm64-apple-macosx --static-swift-stdlib
           lipo .build/arm64-apple-macosx/release/swift .build/x86_64-apple-macosx/release/swift -create -output wrongsecrets-swift.universal
+      - name: Build CTF Swift package on Macos
+        if: matrix.os == 'macos-latest'
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd swift 
+          swift build -c release --triple x86_64-apple-macosx --static-swift-stdlib
+          swift build -c release --triple arm64-apple-macosx --static-swift-stdlib
+          lipo .build/arm64-apple-macosx/release/swift .build/x86_64-apple-macosx/release/swift -create -output wrongsecrets-swift-ctf.universal
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading macos Swift executables
         uses: actions/upload-artifact@v4
         if: matrix.os == 'macos-latest'

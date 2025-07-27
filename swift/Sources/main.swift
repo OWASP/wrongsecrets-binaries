@@ -2,7 +2,7 @@
 // https://docs.swift.org/swift-book
 
 func getSecret() -> String {
-    let CharArr: [Character] = ["t", "h", "i", "s", " ", "i", "s", " ", "t", "h", "e", " ", "s", "e", "c", "r", "e", "t", " ", "i", "n", " ", "S", "w", "i", "f", "t", " ", ":", " ", "4", "8", "8", "f", "a", "f", "f", "c", "b", "0", "4", "8", "1", "6", "b", "9"] 
+    let CharArr: [Character] = ["T", "h", "i", "s", " ", "a", " ", "s", "e", "c", "r", "e", "t"] 
 
     let newStr = String(CharArr) 
     return newStr

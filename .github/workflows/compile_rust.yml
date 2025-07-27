@@ -23,11 +23,25 @@ jobs:
           echo "Compiling Rust for Intel Macos-X"
           rustup target add x86_64-apple-darwin
           cargo build --target x86_64-apple-darwin --release
+          cd ..
+      - name: compile CTF Rust binary for macOS
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd rust
+          echo "Compiling CTF Rust for Intel Macos-X"
+          cargo build --target x86_64-apple-darwin --release
+          cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust-ctf
+          cd ..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
       - name: Uploading Rust executables
         uses: actions/upload-artifact@v4
         with:
           name: executable-Rust-MacOS
-          path: rust/target/x86_64-apple-darwin/release/rust
+          path: |
+            rust/target/x86_64-apple-darwin/release/rust
+            wrongsecrets-rust-ctf
   build-linux:
     name: Linux(X86-64)
     runs-on: ubuntu-latest

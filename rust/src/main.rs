@@ -15,7 +15,7 @@ fn check_input(guess: String) -> String {
 }
 
 fn get_secret() -> String {
-    "this is the secret in Rust : b316bef0ca01e2b8".to_string()
+    "This is a not very random string posing as a secret in Rust".to_string()
 }
 
 fn get_secret_array() -> Vec<char> {
