@@ -89,7 +89,7 @@ jobs:
           mkdir target
           cd golang
           echo "compiling golang for Windows"
-          env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows.exe
+          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-golang-windows.exe
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
