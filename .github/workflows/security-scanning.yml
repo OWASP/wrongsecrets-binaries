@@ -42,7 +42,7 @@ jobs:
         if: matrix.language == 'go'
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: '1.23'
 
       - name: Setup .NET
         if: matrix.language == 'csharp'
@@ -80,7 +80,7 @@ jobs:
         run: |
           # Build C projects
           gcc c/main.c -o c/main
-          gcc c/advanced/advanced.c -Wall -Wextra -Ic/advanced/lib -o c/advanced/advanced
+          gcc c/advanced/advanced.c -o c/advanced/advanced
           gcc c/challenge52/main.c -o c/challenge52/main
           # Build C++ projects
           g++ cplus/main.cpp -o cplus/main
