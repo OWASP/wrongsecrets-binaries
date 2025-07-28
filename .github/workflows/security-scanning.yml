@@ -26,7 +26,7 @@ jobs:
         language: ['c-cpp', 'go', 'csharp', 'swift']
         include:
           - language: 'c-cpp'
-            build-mode: autobuild
+            build-mode: manual
           - language: 'go'
             build-mode: autobuild
           - language: 'csharp'
@@ -74,6 +74,16 @@ jobs:
         run: |
           cd swift
           swift build -v -c release --static-swift-stdlib
+
+      - name: Manual build for C/C++
+        if: matrix.language == 'c-cpp'
+        run: |
+          # Build C projects
+          gcc c/main.c -o c/main
+          gcc c/advanced/advanced.c -Wall -Wextra -Ic/advanced/lib -o c/advanced/advanced
+          gcc c/challenge52/main.c -o c/challenge52/main
+          # Build C++ projects
+          g++ cplus/main.cpp -o cplus/main
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
