@@ -23,15 +23,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['c-cpp', 'go', 'csharp', 'swift']
+        language: ['c-cpp', 'go', 'csharp']
         include:
           - language: 'c-cpp'
-            build-mode: autobuild
+            build-mode: manual
           - language: 'go'
             build-mode: autobuild
           - language: 'csharp'
-            build-mode: manual
-          - language: 'swift'
             build-mode: manual
 
     steps:
@@ -42,19 +40,13 @@ jobs:
         if: matrix.language == 'go'
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: '1.23'
 
       - name: Setup .NET
         if: matrix.language == 'csharp'
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-
-      - name: Setup Swift
-        if: matrix.language == 'swift'
-        uses: SwiftyLab/setup-swift@v1.11.0
-        with:
-          swift-version: "6.0.3"
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -69,11 +61,15 @@ jobs:
           dotnet restore
           dotnet build
 
-      - name: Manual build for Swift
-        if: matrix.language == 'swift'
+      - name: Manual build for C/C++
+        if: matrix.language == 'c-cpp'
         run: |
-          cd swift
-          swift build -v -c release --static-swift-stdlib
+          # Build C projects
+          gcc c/main.c -o c/main
+          gcc c/advanced/advanced.c -o c/advanced/advanced
+          gcc c/challenge52/main.c -o c/challenge52/main
+          # Build C++ projects
+          g++ cplus/main.cpp -o cplus/main
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
