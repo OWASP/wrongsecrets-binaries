@@ -30,6 +30,7 @@ jobs:
         run: |
           cd swift && swift build -v -c release --static-swift-stdlib
       - name: Build CTF Swift package on windows/linux
+        if: matrix.os != 'windows-latest'
         run: |
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
@@ -38,6 +39,12 @@ jobs:
           cd ..
           # Restore original files
           ./generate_ctf_secrets.sh restore
+      - name: Build CTF Swift package on Windows (skip CTF for now)
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "CTF generation not supported on Windows yet"
+          cd swift && swift build -v -c release --static-swift-stdlib
+          cp .build/release/swift.exe ../wrongsecrets-swift-ctf.exe
       - name: Build a Swift package on Macos
         if: matrix.os == 'macos-latest'
         run: |
@@ -80,7 +87,7 @@ jobs:
           name: wrongsecrets-swift-windows
           path: |
             swift\.build\x86_64-unknown-windows-msvc\release\swift.exe
-            wrongsecrets-swift-ctf
+            wrongsecrets-swift-ctf.exe
   build-musl:
     name: Swift with Musl
     runs-on: macos-latest
