@@ -1,5 +1,6 @@
 # wrongsecrets-binaries
 
+[![Pre-commit](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/pre-commit.yml)
 [![Compile C](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_c.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_c.yml)
 [![ Compile CPlus](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_cplus.yml) 
 [![Compile GoLang](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_golang.yml)
