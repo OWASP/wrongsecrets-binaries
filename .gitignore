@@ -105,6 +105,12 @@ dotnet/dotnetproject/obj/
 # Go binaries
 golang/main
 
+# Local compiled binaries (for testing)
+c/main
+c/advanced/advanced
+c/challenge52/main
+cplus/main
+
 #MACOS
 .DS_Store
 
