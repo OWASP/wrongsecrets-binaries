@@ -73,7 +73,7 @@ jobs:
         if: matrix.language == 'swift'
         run: |
           cd swift
-          swift build
+          swift build -v -c release --static-swift-stdlib
 
       - name: Manual build for C/C++
         if: matrix.language == 'c-cpp'
