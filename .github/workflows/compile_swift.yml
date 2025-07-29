@@ -84,4 +84,19 @@ jobs:
         with:
           name: wrongsecrets-swift-linux-musl
           path: swift/.build/x86_64-swift-linux-musl/release/swift
+
+  # Sign and notarize macOS binaries
+  sign-macos-swift:
+    name: Sign and Notarize macOS Swift Binary
+    needs: build-non-musl
+    uses: ./.github/workflows/macos-sign-notarize.yml
+    with:
+      binary_path: swift/wrongsecrets-swift.universal
+      binary_name: wrongsecrets-swift
+    secrets:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
   

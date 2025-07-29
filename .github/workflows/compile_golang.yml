@@ -95,3 +95,21 @@ jobs:
         with:
           name: executable-Go-Windows
           path: target/*
+
+  # Sign and notarize macOS binaries
+  sign-macos-golang:
+    name: Sign and Notarize macOS Golang Binaries
+    needs: build-darwin
+    uses: ./.github/workflows/macos-sign-notarize.yml
+    strategy:
+      matrix:
+        binary: ["executable-Go-MacOS"]
+    with:
+      binary_path: target/
+      binary_name: ${{ matrix.binary }}
+    secrets:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

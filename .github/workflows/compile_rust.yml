@@ -121,3 +121,18 @@ jobs:
         with:
           name: executable-Rust-Musl(x86)
           path: rust/target/x86_64-unknown-linux-musl/release/rust
+
+  # Sign and notarize macOS binaries
+  sign-macos-rust:
+    name: Sign and Notarize macOS Rust Binary
+    needs: build-darwin
+    uses: ./.github/workflows/macos-sign-notarize.yml
+    with:
+      binary_path: rust/target/x86_64-apple-darwin/release/rust
+      binary_name: executable-Rust-MacOS
+    secrets:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

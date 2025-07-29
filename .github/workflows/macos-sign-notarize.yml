@@ -1,0 +1,141 @@
+name: "macOS Code Sign and Notarize"
+
+on:
+  workflow_call:
+    inputs:
+      binary_path:
+        description: 'Path to the binary file to sign and notarize'
+        required: true
+        type: string
+      binary_name:
+        description: 'Name of the binary (for output naming)'
+        required: true
+        type: string
+    secrets:
+      APPLE_CERTIFICATE:
+        description: 'Base64 encoded Apple Developer certificate (.p12)'
+        required: false
+      APPLE_CERTIFICATE_PASSWORD:
+        description: 'Password for the Apple Developer certificate'
+        required: false
+      APPLE_DEVELOPER_ID:
+        description: 'Apple Developer ID for notarization'
+        required: false
+      APPLE_APP_PASSWORD:
+        description: 'App-specific password for Apple ID'
+        required: false
+      APPLE_TEAM_ID:
+        description: 'Apple Developer Team ID'
+        required: false
+
+jobs:
+  sign-and-notarize:
+    runs-on: macos-latest
+    steps:
+      - name: Check if signing is possible
+        id: check_secrets
+        run: |
+          if [[ -n "${{ secrets.APPLE_CERTIFICATE }}" && -n "${{ secrets.APPLE_CERTIFICATE_PASSWORD }}" ]]; then
+            echo "signing_available=true" >> $GITHUB_OUTPUT
+          else
+            echo "signing_available=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Apple signing certificate not available - skipping code signing"
+          fi
+          
+          if [[ -n "${{ secrets.APPLE_DEVELOPER_ID }}" && -n "${{ secrets.APPLE_APP_PASSWORD }}" && -n "${{ secrets.APPLE_TEAM_ID }}" ]]; then
+            echo "notarization_available=true" >> $GITHUB_OUTPUT
+          else
+            echo "notarization_available=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Apple notarization credentials not available - skipping notarization"
+          fi
+
+      - name: Download binary
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.binary_name }}
+          path: ./binary
+
+      - name: Import signing certificate
+        if: steps.check_secrets.outputs.signing_available == 'true'
+        uses: Apple-Actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      - name: Sign binary
+        if: steps.check_secrets.outputs.signing_available == 'true'
+        run: |
+          # Find the binary file
+          BINARY_FILE=$(find ./binary -type f -name "*" | head -1)
+          
+          if [[ -z "$BINARY_FILE" ]]; then
+            echo "❌ No binary file found in artifact"
+            exit 1
+          fi
+          
+          echo "🔐 Signing binary: $BINARY_FILE"
+          
+          # Make binary executable
+          chmod +x "$BINARY_FILE"
+          
+          # Sign the binary
+          codesign --force --sign "Developer ID Application" \
+            --options runtime \
+            --timestamp \
+            "$BINARY_FILE"
+          
+          # Verify the signature
+          codesign --verify --verbose "$BINARY_FILE"
+          echo "✅ Binary signed successfully"
+
+      - name: Create ZIP for notarization
+        if: steps.check_secrets.outputs.signing_available == 'true' && steps.check_secrets.outputs.notarization_available == 'true'
+        run: |
+          BINARY_FILE=$(find ./binary -type f -name "*" | head -1)
+          BINARY_NAME=$(basename "$BINARY_FILE")
+          
+          # Create a zip file for notarization
+          cd ./binary
+          zip -r "../${BINARY_NAME}.zip" *
+          cd ..
+          
+          echo "📦 Created ZIP file for notarization: ${BINARY_NAME}.zip"
+
+      - name: Notarize binary
+        if: steps.check_secrets.outputs.signing_available == 'true' && steps.check_secrets.outputs.notarization_available == 'true'
+        run: |
+          BINARY_FILE=$(find ./binary -type f -name "*" | head -1)
+          BINARY_NAME=$(basename "$BINARY_FILE")
+          ZIP_FILE="${BINARY_NAME}.zip"
+          
+          echo "🏃 Submitting ${ZIP_FILE} for notarization..."
+          
+          # Submit for notarization using notarytool
+          xcrun notarytool submit "$ZIP_FILE" \
+            --apple-id "${{ secrets.APPLE_DEVELOPER_ID }}" \
+            --password "${{ secrets.APPLE_APP_PASSWORD }}" \
+            --team-id "${{ secrets.APPLE_TEAM_ID }}" \
+            --wait
+          
+          echo "✅ Notarization completed"
+
+      - name: Staple notarization
+        if: steps.check_secrets.outputs.signing_available == 'true' && steps.check_secrets.outputs.notarization_available == 'true'
+        run: |
+          BINARY_FILE=$(find ./binary -type f -name "*" | head -1)
+          
+          echo "📎 Stapling notarization to binary..."
+          
+          # Staple the notarization ticket to the binary
+          xcrun stapler staple "$BINARY_FILE"
+          
+          # Verify stapling
+          xcrun stapler validate "$BINARY_FILE"
+          
+          echo "✅ Notarization stapled successfully"
+
+      - name: Upload signed binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.binary_name }}-signed
+          path: ./binary/*

@@ -31,3 +31,21 @@ jobs:
         with:
           name: executable-dotnet-${{ matrix.runtime }}
           path: /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/
+
+  # Sign and notarize macOS binaries
+  sign-macos-dotnet:
+    name: Sign and Notarize macOS .NET Binaries
+    needs: build
+    uses: ./.github/workflows/macos-sign-notarize.yml
+    strategy:
+      matrix:
+        runtime: ["osx-x64", "osx-arm64"]
+    with:
+      binary_path: /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/
+      binary_name: executable-dotnet-${{ matrix.runtime }}
+    secrets:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+      APPLE_APP_PASSWORD: ${{ secrets.APPLE_APP_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
