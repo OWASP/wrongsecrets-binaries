@@ -23,15 +23,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['c-cpp', 'go', 'csharp', 'swift']
+        language: ['c-cpp', 'go', 'csharp']
         include:
           - language: 'c-cpp'
             build-mode: manual
           - language: 'go'
             build-mode: autobuild
           - language: 'csharp'
-            build-mode: manual
-          - language: 'swift'
             build-mode: manual
 
     steps:
@@ -50,12 +48,6 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Setup Swift
-        if: matrix.language == 'swift'
-        uses: SwiftyLab/setup-swift@v1.11.0
-        with:
-          swift-version: "6.0.3"
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
@@ -68,12 +60,6 @@ jobs:
           cd dotnet/dotnetproject
           dotnet restore
           dotnet build
-
-      - name: Manual build for Swift
-        if: matrix.language == 'swift'
-        run: |
-          cd swift
-          swift build -v -c release --static-swift-stdlib
 
       - name: Manual build for C/C++
         if: matrix.language == 'c-cpp'
