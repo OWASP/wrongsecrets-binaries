@@ -26,8 +26,22 @@ jobs:
             dotnet build dotnetproject.csproj --runtime ${{ matrix.runtime }} --self-contained true
             dotnet publish dotnetproject.csproj --runtime ${{ matrix.runtime }} /p:PublishSingleFile=true
             ls /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/
+            cd ../..
+      - name: Build and Package CTF ${{ matrix.runtime }}
+        run: |
+            echo "Generating CTF secrets..."
+            ./generate_ctf_secrets.sh generate
+            cd dotnet/dotnetproject
+            dotnet build dotnetproject.csproj --runtime ${{ matrix.runtime }} --self-contained true
+            dotnet publish dotnetproject.csproj --runtime ${{ matrix.runtime }} /p:PublishSingleFile=true /p:PublishDir=./bin/Release/net8.0/${{ matrix.runtime }}/publish-ctf/
+            ls /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish-ctf/
+            cd ../..
+            # Restore original files
+            ./generate_ctf_secrets.sh restore
       - name: Uploading executables
         uses: actions/upload-artifact@v4
         with:
           name: executable-dotnet-${{ matrix.runtime }}
-          path: /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/
+          path: |
+            /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish/
+            /home/runner/work/wrongsecrets-binaries/wrongsecrets-binaries/dotnet/dotnetproject/bin/Release/net8.0/${{ matrix.runtime }}/publish-ctf/

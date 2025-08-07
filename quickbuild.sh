@@ -194,3 +194,174 @@ cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-
 dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
+
+echo "Regular binaries compiled successfully!"
+
+# Check if we should generate CTF versions (default: yes) 
+GENERATE_CTF=${GENERATE_CTF:-"yes"}
+
+if [ "$GENERATE_CTF" = "yes" ]; then
+    echo ""
+    echo "=========================================="
+    echo "Generating CTF versions with randomized secrets..."
+    echo "=========================================="
+    
+    # Generate CTF secrets
+    ./generate_ctf_secrets.sh generate
+    
+    echo "Re-compiling all binaries with CTF secrets..."
+    
+    echo "Compiling CTF C for Intel MacOS-X"
+    compile_with_make "c" "-target x86_64-apple-macos12" "../wrongsecrets-c-ctf"
+    compile_with_make "c/advanced" "-target x86_64-apple-macos12" "../../wrongsecrets-advanced-c-ctf"
+    compile_with_make "c/challenge52" "-target x86_64-apple-macos12" "../../wrongsecrets-challenge52-c-ctf"
+    
+    echo "Compiling CTF C for ARM MacOS-X"
+    compile_with_make "c" "-target arm64-apple-macos12" "../wrongsecrets-c-arm-ctf"
+    compile_with_make "c/advanced" "-target arm64-apple-macos12" "../../wrongsecrets-advanced-c-arm-ctf"
+    compile_with_make "c/challenge52" "-target arm64-apple-macos12" "../../wrongsecrets-challenge52-c-arm-ctf"
+    
+    echo "Compiling CTF C for ARM-Linux"
+    compile_with_docker "dockcross-linux-arm64-lts" "c/main.c" "wrongsecrets-c-linux-arm-ctf"
+    compile_with_docker "dockcross-linux-arm64-lts" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux-arm-ctf"
+    compile_with_docker "dockcross-linux-arm64-lts" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux-arm-ctf"
+    
+    echo "Compiling CTF C for x64-Linux"
+    compile_with_docker "dockcross-linux-x64" "c/main.c" "wrongsecrets-c-linux-ctf"
+    compile_with_docker "dockcross-linux-x64" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux-ctf"
+    compile_with_docker "dockcross-linux-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux-ctf"
+    
+    echo "Compiling CTF C for Windows statically linked X64 (EXE)"
+    compile_with_docker "dockcross-windows-static-x64" "c/main.c" "wrongsecrets-c-windows-ctf.exe"
+    compile_with_docker "dockcross-windows-static-x64" "c/advanced/advanced.c" "wrongsecrets-advanced-c-windows-ctf.exe"
+    compile_with_docker "dockcross-windows-static-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-windows-ctf.exe"
+    
+    echo "Compiling CTF C for Musl on ARM"
+    compile_with_docker "dockcross-linux-arm64-musl" "c/main.c" "wrongsecrets-c-linux-musl-arm-ctf"
+    compile_with_docker "dockcross-linux-arm64-musl" "c/advanced/advanced.c" "wrongsecrets-advanced-c-linux-musl-arm-ctf"
+    compile_with_docker "dockcross-windows-static-x64" "c/challenge52/main.c" "wrongsecrets-challenge52-c-linux-musl-arm-ctf"
+    
+    echo "Compiling CTF C for Musl on X86"
+    x86_64-linux-musl-gcc c/main.c -o wrongsecrets-c-linux-musl-ctf -Wno-attributes
+    x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-musl-ctf
+    x86_64-linux-musl-gcc c/challenge52/main.c -o wrongsecrets-challenge52-c-linux-musl-ctf
+    
+    echo "Compiling CTF C++"
+    echo "Compiling CTF C++ for Intel Macos-X"
+    (cd cplus && make CXXFLAGS+='-target x86_64-apple-macos12' OUT='../wrongsecrets-cplus-ctf')
+    echo "Compiling CTF C++ for ARM Macos-X"
+    (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm-ctf')
+    echo "Compiling CTF C++ for ARM"
+    ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm-ctf'
+    echo "Compiling CTF C++ for linux"
+    ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-ctf'
+    echo "Compiling CTF C++ for Windows statically linked X64 (EXE)"
+    ./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows-ctf.exe'
+    echo "Compiling CTF C++ for musl based linux ARM"
+    ./dockcross-linux-arm64-musl bash -c '$CC cplus/main.cpp -lstdc++  -o wrongsecrets-cplus-linux-musl-arm-ctf'
+    echo "Compiling CTF C++ for musl based linux X86"
+    x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-ctf
+    
+    echo "compiling CTF golang"
+    cd golang
+    echo "compiling CTF golang for amd64 linux"
+    env GOOS=linux GOARCH=amd64 go build -o ../wrongsecrets-golang-linux-ctf
+    echo "compiling CTF golang for arm linux"
+    env GOOS=linux GOARCH=arm64 go build -o ../wrongsecrets-golang-linux-arm-ctf
+    echo "compiling CTF golang for mac os x (intel)"
+    env GOOS=darwin GOARCH=amd64 go build -o ../wrongsecrets-golang-ctf
+    echo "compiling CTF golang for mac os x (ARM)"
+    env GOOS=darwin GOARCH=arm64 go build -o ../wrongsecrets-golang-arm-ctf
+    echo "compiling CTF golang for Windows"
+    env GOOS=windows GOARCH=amd64 go build -o ../wrongsecrets-golang-windows-ctf.exe
+    cd ..
+    
+    echo "compiling CTF rust"
+    cd rust
+    rm ~/.cargo/config.toml
+    echo "compiling CTF rust for amd64 linux"
+    cross build --target x86_64-unknown-linux-gnu --release
+    cp target/x86_64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-ctf
+    echo "compiling CTF rust for aarch64 linux"
+    cross build --target aarch64-unknown-linux-gnu --release
+    cp target/aarch64-unknown-linux-gnu/release/rust ../wrongsecrets-rust-linux-arm-ctf
+    echo "compiling CTF rust for x86-64 intel darwin (macOS)"
+    cargo build --target x86_64-apple-darwin --release
+    cp target/x86_64-apple-darwin/release/rust ../wrongsecrets-rust-ctf
+    echo "compiling CTF rust for ARM darwin (macOS)"
+    cargo build --target aarch64-apple-darwin --release
+    cp target/aarch64-apple-darwin/release/rust ../wrongsecrets-rust-arm-ctf
+    echo "Compiling CTF rust for Windows"
+    cargo build --target=x86_64-pc-windows-gnu --release
+    cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows-ctf.exe
+    echo "compiling CTF for musl linux (X86)"
+    cp ../config.toml ~/.cargo/config.toml
+    cargo build --target x86_64-unknown-linux-musl --release
+    cp target/x86_64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-ctf
+    echo "compiling CTF for musl linux (ARM)"
+    cargo build --target aarch64-unknown-linux-musl --release
+    cp target/aarch64-unknown-linux-musl/release/rust  ../wrongsecrets-rust-linux-musl-arm-ctf
+    cd ..
+    
+    echo "compiling CTF Swift"
+    cd swift
+    echo "compiling CTF for MacOS arm and intel (fat binary)"
+    swift build -c release --product swift --triple arm64-apple-macosx
+    swift build -c release --product swift --triple x86_64-apple-macosx
+    lipo .build/arm64-apple-macosx/debug/swift .build/x86_64-apple-macosx/debug/swift -create -output swift.universal
+    cp swift.universal ../wrongsecrets-swift-ctf
+    cp swift.universal ../wrongsecrets-swift-arm-ctf
+    
+    echo "Compiling CTF for Linux (glibc)"
+    docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+    cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm-ctf
+    docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
+    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf 
+    echo "Compiling CTF swift for linux"
+    swift build --swift-sdk aarch64-swift-linux-musl
+    swift build --swift-sdk x86_64-swift-linux-musl
+    cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-arm-ctf
+    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-ctf
+    cd ..
+    
+    echo "compiling CTF for .net"
+    cd dotnet/dotnetproject
+    dotnet build dotnetproject.csproj --runtime osx-x64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime osx-x64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/osx-x64/publish/dotnetproject ../../wrongsecrets-dotnet-ctf
+    dotnet build dotnetproject.csproj --runtime osx-arm64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime osx-arm64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm-ctf
+    dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-ctf.exe
+    dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm-ctf
+    dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-ctf
+    dotnet build dotnetproject.csproj --runtime linux-arm64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime linux-arm64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/linux-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-arm-ctf
+    dotnet build dotnetproject.csproj --runtime linux-musl-x64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime linux-musl-x64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-ctf
+    dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
+    dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
+    cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm-ctf
+    cd ../..
+    
+    echo "CTF versions compiled successfully with randomized secrets!"
+    echo "Regular binaries: wrongsecrets-*"
+    echo "CTF binaries: wrongsecrets-*-ctf"
+    
+    # Restore original source files
+    ./generate_ctf_secrets.sh restore
+    
+else
+    echo "Skipping CTF versions (set GENERATE_CTF=yes to enable)"
+fi
+
+echo ""
+echo "Build completed!"
