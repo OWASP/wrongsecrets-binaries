@@ -16,7 +16,7 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: compile Rust binary for macOS
         run: |
           cd rust
@@ -32,7 +32,7 @@ jobs:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install cross
         run: cargo install cross
       - name: compile Rust binary for Linux(X86-64)
@@ -50,7 +50,7 @@ jobs:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install cross
         run: cargo install cross
       - name: compile Rust binary for Linux(ARM)
@@ -68,7 +68,7 @@ jobs:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Pre-requirement
         run: sudo apt-get install -y mingw-w64
       - name: compile Rust binary for Windows
@@ -87,7 +87,7 @@ jobs:
     name: Musl(ARM)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: compile Rust binary for Musl(ARM)
         run: |
           cd rust
@@ -106,7 +106,7 @@ jobs:
     name: Musl(X86-64)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Compile Rust binary for Musl(x64)
         run: |
           cd rust
