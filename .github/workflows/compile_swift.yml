@@ -23,7 +23,7 @@ jobs:
       - uses: SwiftyLab/setup-swift@v1.11.0
         with:
           swift-version: ${{ matrix.swift }}
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Get swift version
         run: swift --version
       - name: Build a Swift package on windows/linux
@@ -62,7 +62,7 @@ jobs:
         with:
           swift-version: "6.0.3"
           prefer-oss-toolchain: true
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Get swift version
         run: swift --version
       - name: Install Swift Musl SDK
