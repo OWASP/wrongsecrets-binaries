@@ -2,7 +2,7 @@ module github.com/OWASP/wrongsecrets-binaries/golang
 
 go 1.21.0
 
-toolchain go1.24.6
+toolchain go1.25.0
 
 require (
 	github.com/spf13/cobra v1.9.1
