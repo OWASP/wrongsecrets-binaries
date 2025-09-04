@@ -1,6 +1,6 @@
 module github.com/OWASP/wrongsecrets-binaries/golang
 
-go 1.21.0
+go 1.25.1
 
 toolchain go1.25.1
 
