@@ -3,5 +3,47 @@
   "reviewers": ["commjoen", "bendehaan"],
   "extends": [
     "config:recommended"
-  ]
+  ],
+  "packageRules": [
+    {
+      "description": "Group all Rust dependencies",
+      "matchManagers": ["cargo"],
+      "groupName": "Rust dependencies"
+    },
+    {
+      "description": "Group all Go dependencies",
+      "matchManagers": ["gomod"],
+      "groupName": "Go dependencies"
+    },
+    {
+      "description": "Group all .NET dependencies",
+      "matchManagers": ["nuget"],
+      "groupName": ".NET dependencies"
+    },
+    {
+      "description": "Group all Swift dependencies",
+      "matchManagers": ["swift"],
+      "groupName": "Swift dependencies"
+    },
+    {
+      "description": "Group all GitHub Actions dependencies",
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    }
+  ],
+  "cargo": {
+    "enabled": true
+  },
+  "gomod": {
+    "enabled": true
+  },
+  "nuget": {
+    "enabled": true
+  },
+  "swift": {
+    "enabled": true
+  },
+  "github-actions": {
+    "enabled": true
+  }
 }
