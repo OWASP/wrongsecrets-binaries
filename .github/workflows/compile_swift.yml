@@ -18,12 +18,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        swift: ["6.0.3"]
+        swift: ["6.2.0"]
     steps:
-      - uses: SwiftyLab/setup-swift@v1.11.0
+      - uses: SwiftyLab/setup-swift@v1.12.0
         with:
           swift-version: ${{ matrix.swift }}
-          visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.22621
+          visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.26100
       - uses: actions/checkout@v5
       - name: Get swift version
         run: swift --version
@@ -93,7 +93,7 @@ jobs:
     name: Swift with Musl
     runs-on: macos-latest
     steps:
-      - uses: SwiftyLab/setup-swift@v1.11.0
+      - uses: SwiftyLab/setup-swift@v1.12.0
         with:
           swift-version: "6.0.3"
           prefer-oss-toolchain: true
