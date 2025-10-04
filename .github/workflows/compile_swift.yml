@@ -23,7 +23,7 @@ jobs:
       - uses: SwiftyLab/setup-swift@v1.12.0
         with:
           swift-version: ${{ matrix.swift }}
-          visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.22621
+          visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.26100
       - uses: actions/checkout@v5
       - name: Get swift version
         run: swift --version
@@ -95,7 +95,7 @@ jobs:
     steps:
       - uses: SwiftyLab/setup-swift@v1.12.0
         with:
-          swift-version: "6.0.3"
+          swift-version: "6.2.0"
           prefer-oss-toolchain: true
       - uses: actions/checkout@v5
       - name: Get swift version
