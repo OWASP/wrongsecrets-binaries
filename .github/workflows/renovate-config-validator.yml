@@ -1,0 +1,73 @@
+name: Renovate Config Validator
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'renovate.json'
+      - '.github/workflows/renovate-config-validator.yml'
+  pull_request:
+    paths:
+      - 'renovate.json'
+      - '.github/workflows/renovate-config-validator.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Renovate Configuration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Renovate
+        run: npm install -g renovate
+
+      - name: Validate Renovate config
+        run: renovate-config-validator
+
+      - name: Check file matches
+        run: |
+          echo "Checking that fileMatch patterns cover all dependency files..."
+          
+          # Check Rust
+          if [ -f "rust/Cargo.toml" ]; then
+            echo "✓ Found rust/Cargo.toml"
+          else
+            echo "✗ Missing rust/Cargo.toml"
+            exit 1
+          fi
+          
+          # Check Go
+          if [ -f "golang/go.mod" ]; then
+            echo "✓ Found golang/go.mod"
+          else
+            echo "✗ Missing golang/go.mod"
+            exit 1
+          fi
+          
+          # Check .NET
+          if [ -f "dotnet/dotnetproject/dotnetproject.csproj" ]; then
+            echo "✓ Found dotnet/dotnetproject/dotnetproject.csproj"
+          else
+            echo "✗ Missing dotnet/dotnetproject/dotnetproject.csproj"
+            exit 1
+          fi
+          
+          # Check Swift
+          if [ -f "swift/Package.swift" ]; then
+            echo "✓ Found swift/Package.swift"
+          else
+            echo "✗ Missing swift/Package.swift"
+            exit 1
+          fi
+          
+          echo ""
+          echo "All dependency files are present!"
