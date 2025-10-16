@@ -32,16 +32,20 @@
     }
   ],
   "cargo": {
-    "enabled": true
+    "enabled": true,
+    "managerFilePatterns": ["/(^|/)rust/Cargo\\.toml$/"]
   },
   "gomod": {
-    "enabled": true
+    "enabled": true,
+    "managerFilePatterns": ["/(^|/)golang/go\\.mod$/"]
   },
   "nuget": {
-    "enabled": true
+    "enabled": true,
+    "managerFilePatterns": ["/(^|/)dotnet/.+\\.csproj$/", "/(^|/)wrongsecrets-binaries\\.sln$/"]
   },
   "swift": {
-    "enabled": true
+    "enabled": true,
+    "managerFilePatterns": ["/(^|/)swift/Package\\.swift$/"]
   },
   "github-actions": {
     "enabled": true
