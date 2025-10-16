@@ -33,19 +33,19 @@
   ],
   "cargo": {
     "enabled": true,
-    "fileMatch": ["(^|/)rust/Cargo\\.toml$"]
+    "managerFilePatterns": ["/(^|/)rust/Cargo\\.toml$/"]
   },
   "gomod": {
     "enabled": true,
-    "fileMatch": ["(^|/)golang/go\\.mod$"]
+    "managerFilePatterns": ["/(^|/)golang/go\\.mod$/"]
   },
   "nuget": {
     "enabled": true,
-    "fileMatch": ["(^|/)dotnet/.+\\.csproj$", "(^|/)wrongsecrets-binaries\\.sln$"]
+    "managerFilePatterns": ["/(^|/)dotnet/.+\\.csproj$/", "/(^|/)wrongsecrets-binaries\\.sln$/"]
   },
   "swift": {
     "enabled": true,
-    "fileMatch": ["(^|/)swift/Package\\.swift$"]
+    "managerFilePatterns": ["/(^|/)swift/Package\\.swift$/"]
   },
   "github-actions": {
     "enabled": true
