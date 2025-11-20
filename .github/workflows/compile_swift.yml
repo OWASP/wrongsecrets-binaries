@@ -24,7 +24,7 @@ jobs:
         with:
           swift-version: ${{ matrix.swift }}
           visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.26100
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Get swift version
         run: swift --version
       - name: Build a Swift package on windows/linux
@@ -97,7 +97,7 @@ jobs:
         with:
           swift-version: "6.0.3"
           prefer-oss-toolchain: true
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Get swift version
         run: swift --version
       - name: Install Swift Musl SDK
