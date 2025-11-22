@@ -16,7 +16,7 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: compile CPlus binary for macOS
         run: |
           mkdir target
@@ -43,7 +43,7 @@ jobs:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile CPlus binary for Linux(x64)
         run: |
           mkdir target
@@ -66,7 +66,7 @@ jobs:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile C binary for Linux(ARM)
         run: |
           mkdir target
@@ -94,7 +94,7 @@ jobs:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile C binary for Windows
         run: |
           mkdir target
@@ -122,7 +122,7 @@ jobs:
     name: Musl(ARM)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile Cplus binary for Musl(ARM)
         run: |
           mkdir target
@@ -150,7 +150,7 @@ jobs:
     name: Musl(X86-64)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile Cplus binary for Musl(x64)
         run: |
           mkdir target
