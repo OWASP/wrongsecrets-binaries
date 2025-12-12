@@ -39,7 +39,7 @@ jobs:
             # Restore original files
             ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executable-dotnet-${{ matrix.runtime }}
           path: |

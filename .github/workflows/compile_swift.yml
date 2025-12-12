@@ -66,7 +66,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading macos Swift executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: matrix.os == 'macos-latest'
         with:
           name: wrongsecrets-swift
@@ -74,7 +74,7 @@ jobs:
             swift/wrongsecrets-swift.universal
             swift/wrongsecrets-swift-ctf.universal
       - name: Uploading linux Swift executable (no arm yet, run this all locally please)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: matrix.os == 'ubuntu-latest'
         with:
           name: wrongsecrets-swift-linux
@@ -82,7 +82,7 @@ jobs:
             swift/.build/x86_64-unknown-linux-gnu/release/swift
             wrongsecrets-swift-ctf
       - name: Uploading Windows Swift executable (no arm yet, run this all locally please)
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: matrix.os == 'windows-latest'
         with:
           name: wrongsecrets-swift-windows
@@ -122,14 +122,14 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading linux arm musl Swift executable 
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: wrongsecrets-swift-linux-musl-arm
           path: |
             swift/.build/aarch64-swift-linux-musl/release/swift
             wrongsecrets-swift-linux-musl-arm-ctf
       - name: Uploading linux x86 musl Swift executable 
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: wrongsecrets-swift-linux-musl
           path: |
