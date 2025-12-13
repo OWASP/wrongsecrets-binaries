@@ -43,7 +43,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading C executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-MacOS.zip
           path: target/*
@@ -70,7 +70,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading C executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-linux-x64.zip
           path: target/*
@@ -102,7 +102,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-linux-ARM.zip
           path: target/*
@@ -134,7 +134,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-Windows.zip
           path: target/*
@@ -166,7 +166,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-Musl-ARM.zip
           path: target/*
@@ -196,7 +196,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: executables-C-Musl-x64.zip
           path: target/*
