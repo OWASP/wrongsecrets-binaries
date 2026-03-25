@@ -159,14 +159,13 @@ cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ar
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
 cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux 
 echo "Windows is receivable via the windows runner"
-echo "Compiling swift for linux"
-swift sdk install https://download.swift.org/swift-6.0.3-release/static-sdk/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum 67f765e0030e661a7450f7e4877cfe008db4f57f177d5a08a6e26fd661cdd0bd
-echo "below works only when you install the developer toolchain"
-export PATH=/Library/Developer/Toolchains/swift-6.0.3-RELEASE.xctoolchain/usr/bin:$PATH
-swift build --swift-sdk aarch64-swift-linux-musl
-swift build --swift-sdk x86_64-swift-linux-musl
-cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-arm
-cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl
+echo "Compiling swift for linux musl (alpine-compatible)"
+echo "Install the Swift static Linux SDK for your Swift version, see https://www.swift.org/documentation/articles/static-linux-getting-started.html"
+swift sdk install --list || true
+swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+cp .build/aarch64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-arm
+cp .build/x86_64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl
 cd ..
 echo "compiling for .net: requires 'brew install dotnet' on MacOS"
 cd dotnet/dotnetproject
@@ -317,11 +316,11 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm-ctf
     docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
     cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf 
-    echo "Compiling CTF swift for linux"
-    swift build --swift-sdk aarch64-swift-linux-musl
-    swift build --swift-sdk x86_64-swift-linux-musl
-    cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-arm-ctf
-    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-musl-ctf
+    echo "Compiling CTF swift for linux musl (alpine-compatible)"
+    swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
+    swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
+    cp .build/aarch64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-arm-ctf
+    cp .build/x86_64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-ctf
     cd ..
     
     echo "compiling CTF for .net"
