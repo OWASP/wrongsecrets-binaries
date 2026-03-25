@@ -29,6 +29,11 @@
       "description": "Group all GitHub Actions dependencies",
       "matchManagers": ["github-actions"],
       "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Group all dockcross image dependencies",
+      "matchManagers": ["custom.regex"],
+      "groupName": "Dockcross images"
     }
   ],
   "cargo": {
@@ -49,5 +54,16 @@
   },
   "github-actions": {
     "enabled": true
-  }
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update DEFAULT_DOCKCROSS_IMAGE tags in dockcross scripts",
+      "managerFilePatterns": ["/(^|/)dockcross-[^/]+$/"],
+      "matchStrings": [
+        "DEFAULT_DOCKCROSS_IMAGE=(?<depName>[^:\\s]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ]
 }
