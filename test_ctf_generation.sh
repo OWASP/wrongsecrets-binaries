@@ -86,9 +86,95 @@ fi
 
 echo "PASS: Original binaries output correct secrets"
 
+# Test 5: Verify Java CTF generation and restore
+echo "Test 5: Verifying Java CTF generation"
+./generate_ctf_secrets.sh generate > /dev/null
+
+if ! grep -q "this is the secret in Java :" java/plain/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsPlain.java; then
+    echo "FAIL: Java plain secret not updated"
+    exit 1
+fi
+
+if ! grep -q "this is the secret in Java :" java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java 2>/dev/null; then
+    # For obfuscated, the source contains encoded bytes, not the plaintext secret.
+    # Verify the ENCODED_SECRET array was modified by checking .original differs from current.
+    if diff -q java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java \
+               java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java.original > /dev/null 2>&1; then
+        echo "FAIL: Java obfuscated source not updated"
+        exit 1
+    fi
+fi
+
+echo "PASS: Java secrets were properly updated"
+
+# Test 6: Verify Java CTF binaries compile and run (requires Java on PATH)
+if command -v java >/dev/null 2>&1 && command -v mvn >/dev/null 2>&1; then
+    echo "Test 6: Verifying Java CTF binary compilation and output"
+    (cd java/plain && mvn package -q)
+    (cd java/obfuscated && mvn package -q)
+
+    JAVA_PLAIN_OUTPUT=$(java -jar java/plain/target/wrongsecrets-java.jar spoil)
+    JAVA_OBF_OUTPUT=$(java -jar java/obfuscated/target/wrongsecrets-java-obfuscated.jar spoil)
+
+    if [[ ! "$JAVA_PLAIN_OUTPUT" =~ "this is the secret in Java :" ]]; then
+        echo "FAIL: Java plain CTF binary doesn't output CTF secret"
+        echo "Output: $JAVA_PLAIN_OUTPUT"
+        exit 1
+    fi
+
+    if [[ ! "$JAVA_OBF_OUTPUT" =~ "this is the secret in Java :" ]]; then
+        echo "FAIL: Java obfuscated CTF binary doesn't output CTF secret"
+        echo "Output: $JAVA_OBF_OUTPUT"
+        exit 1
+    fi
+
+    echo "PASS: Java CTF binaries output correct secrets"
+else
+    echo "SKIP: Java/Maven not found on PATH, skipping Java CTF binary test"
+fi
+
+# Test 7: Verify Java restore
+echo "Test 7: Verifying Java restore"
+./generate_ctf_secrets.sh restore > /dev/null
+
+if ! grep -q "This is the secret in Java" java/plain/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsPlain.java; then
+    echo "FAIL: Java plain secret not restored"
+    exit 1
+fi
+
+echo "PASS: Java original files properly restored"
+
+# Test 8: Verify original Java binaries still work after restore
+if command -v java >/dev/null 2>&1 && command -v mvn >/dev/null 2>&1; then
+    echo "Test 8: Verifying original Java binary output after restore"
+    (cd java/plain && mvn package -q)
+    (cd java/obfuscated && mvn package -q)
+
+    JAVA_PLAIN_ORIG=$(java -jar java/plain/target/wrongsecrets-java.jar spoil)
+    JAVA_OBF_ORIG=$(java -jar java/obfuscated/target/wrongsecrets-java-obfuscated.jar spoil)
+
+    if [[ "$JAVA_PLAIN_ORIG" != "This is the secret in Java" ]]; then
+        echo "FAIL: Java plain binary doesn't output original secret after restore"
+        echo "Output: $JAVA_PLAIN_ORIG"
+        exit 1
+    fi
+
+    if [[ "$JAVA_OBF_ORIG" != "This is a harder secret in Java" ]]; then
+        echo "FAIL: Java obfuscated binary doesn't output original secret after restore"
+        echo "Output: $JAVA_OBF_ORIG"
+        exit 1
+    fi
+
+    echo "PASS: Java original binaries output correct secrets"
+else
+    echo "SKIP: Java/Maven not found on PATH, skipping Java original binary test"
+fi
+
 echo ""
 echo "All tests passed! CTF generation is working correctly."
 echo "✓ CTF secrets are properly generated with random values"
 echo "✓ CTF binaries compile and run correctly"
 echo "✓ Original files are properly restored"
 echo "✓ Original binaries continue to work as expected"
+echo "✓ Java plain CTF secrets are properly generated and restored"
+echo "✓ Java obfuscated CTF secrets are properly generated and restored"

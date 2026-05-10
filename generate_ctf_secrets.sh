@@ -66,6 +66,7 @@ GO_SECRET="this is the secret in Golang : $(generate_random_string 16)"
 RUST_SECRET="this is the secret in Rust : $(generate_random_string 16)"
 DOTNET_SECRET="this is the secret in dotnet : $(generate_random_string 16)"
 SWIFT_SECRET="this is the secret in Swift : $(generate_random_string 16)"
+JAVA_SECRET="this is the secret in Java : $(generate_random_string 16)"
 
 echo "Generated CTF secrets:"
 echo "C: $C_SECRET"
@@ -74,6 +75,7 @@ echo "Go: $GO_SECRET"
 echo "Rust: $RUST_SECRET"
 echo ".NET: $DOTNET_SECRET"
 echo "Swift: $SWIFT_SECRET"
+echo "Java: $JAVA_SECRET"
 
 # Function to update C source files
 update_c_secrets() {
@@ -244,6 +246,59 @@ update_swift_secrets() {
     fi
 }
 
+# Function to update Java source files
+update_java_secrets() {
+    echo "Updating Java secrets..."
+
+    # Update the plain Java source (simple string replacement)
+    local plain_file="java/plain/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsPlain.java"
+    if [ -f "$plain_file" ]; then
+        backup_original "$plain_file"
+        sed_replace "$plain_file" "This is the secret in Java" "$JAVA_SECRET"
+    else
+        echo "Warning: $plain_file not found, skipping"
+    fi
+
+    # Update the obfuscated Java source: re-encode the new secret with the XOR key and
+    # replace the ENCODED_SECRET byte array.
+    local obf_file="java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java"
+    if [ -f "$obf_file" ]; then
+        backup_original "$obf_file"
+
+        # Compute the XOR-encoded byte array for the new secret using Python3.
+        # Key matches the XOR_KEY_CHARS constant: "WrongSecrets!@#$"
+        local new_encoded
+        new_encoded=$(python3 -c "
+secret = '''$JAVA_SECRET'''
+key = [0x57, 0x72, 0x6f, 0x6e, 0x67, 0x53, 0x65, 0x63, 0x72, 0x65, 0x74, 0x73, 0x21, 0x40, 0x23, 0x24]
+encoded = [(b ^ key[i % len(key)]) for i, b in enumerate(secret.encode('utf-8'))]
+print(', '.join('(byte)0x{:02x}'.format(b) for b in encoded))
+")
+
+        # Replace the entire ENCODED_SECRET block (spans multiple lines) using Python3
+        # to avoid sed multiline complexity.
+        python3 - "$obf_file" "$new_encoded" <<'PYEOF'
+import sys, re
+
+filepath = sys.argv[1]
+new_bytes = sys.argv[2]
+
+with open(filepath, 'r') as f:
+    content = f.read()
+
+# Replace the ENCODED_SECRET byte array (potentially spanning multiple lines)
+pattern = r'(private static final byte\[\] ENCODED_SECRET = \{)[^}]*(};)'
+replacement = r'\g<1>\n        ' + new_bytes + r'\n    \g<2>'
+new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
+
+with open(filepath, 'w') as f:
+    f.write(new_content)
+PYEOF
+    else
+        echo "Warning: $obf_file not found, skipping"
+    fi
+}
+
 # Function to restore all original files
 restore_all() {
     echo "Restoring original files..."
@@ -255,6 +310,10 @@ restore_all() {
     [ -f "rust/src/main.rs.original" ] && restore_original "rust/src/main.rs"
     [ -f "dotnet/dotnetproject/Program.cs.original" ] && restore_original "dotnet/dotnetproject/Program.cs"
     [ -f "swift/Sources/main.swift.original" ] && restore_original "swift/Sources/main.swift"
+    [ -f "java/plain/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsPlain.java.original" ] && \
+        restore_original "java/plain/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsPlain.java"
+    [ -f "java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java.original" ] && \
+        restore_original "java/obfuscated/src/main/java/io/github/owasp/wrongsecrets/WrongSecretsObfuscated.java"
 }
 
 # Main script logic
@@ -267,6 +326,7 @@ case "${1:-generate}" in
         update_rust_secrets
         update_dotnet_secrets
         update_swift_secrets
+        update_java_secrets
         echo "CTF secrets generated successfully!"
         ;;
     "restore")
