@@ -12,9 +12,78 @@ permissions:
   contents: read
 
 jobs:
-  build-java:
-    name: Java JARs (Alpine-compatible)
+  lint:
+    name: Lint (Spotless / Google Java Format)
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Lint plain module
+        run: |
+          cd java/plain
+          mvn spotless:check -q
+
+      - name: Lint obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn spotless:check -q
+
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Compile plain module
+        run: |
+          cd java/plain
+          mvn compile -q
+
+      - name: Compile obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn compile -q
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: compile
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Test plain module
+        run: |
+          cd java/plain
+          mvn test -q
+
+      - name: Test obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn test -q
+
+  build-java:
+    name: Build JARs (Alpine-compatible)
+    runs-on: ubuntu-latest
+    needs: test
     steps:
       - uses: actions/checkout@v6
 
@@ -28,14 +97,14 @@ jobs:
         run: |
           mkdir -p target
           cd java/plain
-          mvn package -q
+          mvn package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java.jar
           cd ../..
 
       - name: Build obfuscated Java JAR
         run: |
           cd java/obfuscated
-          mvn package -q
+          mvn package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated.jar
           cd ../..
 
@@ -44,7 +113,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/plain
-          mvn package -q
+          mvn package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java-ctf.jar
           cd ../..
           # Restore original files
@@ -55,7 +124,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/obfuscated
-          mvn package -q
+          mvn package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated-ctf.jar
           cd ../..
           # Restore original files

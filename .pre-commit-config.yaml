@@ -34,6 +34,16 @@ repos:
         files: go\.(mod|sum)$
         pass_filenames: false
 
+      # Java - Auto-format code with Spotless / Google Java Format
+      - id: java-fmt-fix
+        name: Java auto-format
+        description: Automatically format Java code with Spotless (Google Java Format)
+        entry: bash
+        args: ['-c', 'for dir in java/plain java/obfuscated; do (cd "$dir" && mvn spotless:apply -q); done']
+        language: system
+        files: \.java$
+        pass_filenames: false
+
       # Basic safety checks (non-intrusive)
       - id: check-merge-conflict
         name: Check for merge conflicts
