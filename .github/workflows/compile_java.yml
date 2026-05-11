@@ -1,0 +1,193 @@
+name: "Compile Java"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'java/**'
+      - '.github/**'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint (Spotless / Google Java Format)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      # google-java-format uses internal javac APIs removed in JDK 25, so run
+      # the lint step on Java 21. Our source code has no Java-25-specific syntax.
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Lint plain module
+        run: |
+          cd java/plain
+          mvn spotless:check -q
+
+      - name: Lint obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn spotless:check -q
+
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Compile plain module
+        run: |
+          cd java/plain
+          mvn compile -q
+
+      - name: Compile obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn compile -q
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: compile
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Test plain module
+        run: |
+          cd java/plain
+          mvn test -q
+
+      - name: Test obfuscated module
+        run: |
+          cd java/obfuscated
+          mvn test -q
+
+  build-java:
+    name: Build JARs (Alpine-compatible)
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Build plain Java JAR
+        run: |
+          mkdir -p target
+          cd java/plain
+          mvn package -q -DskipTests
+          cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java.jar
+          cd ../..
+
+      - name: Build obfuscated Java JAR
+        run: |
+          cd java/obfuscated
+          mvn package -q -DskipTests
+          cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated.jar
+          cd ../..
+
+      - name: Build CTF plain Java JAR
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd java/plain
+          mvn package -q -DskipTests
+          cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java-ctf.jar
+          cd ../..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
+
+      - name: Build CTF obfuscated Java JAR
+        run: |
+          echo "Generating CTF secrets..."
+          ./generate_ctf_secrets.sh generate
+          cd java/obfuscated
+          mvn package -q -DskipTests
+          cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated-ctf.jar
+          cd ../..
+          # Restore original files
+          ./generate_ctf_secrets.sh restore
+
+      - name: Validate on Alpine (plain)
+        run: |
+          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:25-jre-alpine \
+            sh -c "
+              echo '=== Plain JAR ===' && \
+              java -jar /target/wrongsecrets-java.jar && \
+              java -jar /target/wrongsecrets-java.jar spoil && \
+              java -jar /target/wrongsecrets-java.jar 'This is the secret in Java' && \
+              java -jar /target/wrongsecrets-java.jar guess 'This is the secret in Java' && \
+              java -jar /target/wrongsecrets-java.jar 'wrongguess'
+            "
+
+      - name: Validate on Alpine (obfuscated)
+        run: |
+          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:25-jre-alpine \
+            sh -c "
+              echo '=== Obfuscated JAR ===' && \
+              java -jar /target/wrongsecrets-java-obfuscated.jar && \
+              java -jar /target/wrongsecrets-java-obfuscated.jar spoil && \
+              java -jar /target/wrongsecrets-java-obfuscated.jar 'This is a harder secret in Java' && \
+              java -jar /target/wrongsecrets-java-obfuscated.jar guess 'This is a harder secret in Java' && \
+              java -jar /target/wrongsecrets-java-obfuscated.jar 'wrongguess'
+            "
+
+      - name: Upload Java JAR artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: executable-Java-JARs
+          path: target/*.jar
+
+  verify-jars:
+    name: Download and verify JAR artifacts
+    runs-on: ubuntu-latest
+    needs: build-java
+    steps:
+      - name: Download Java JAR artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: executable-Java-JARs
+          path: jars/
+
+      - name: List downloaded JARs
+        run: |
+          echo "Downloaded JARs:"
+          ls -lh jars/*.jar
+
+      - name: Verify all four JARs are present
+        run: |
+          for jar in \
+            wrongsecrets-java.jar \
+            wrongsecrets-java-obfuscated.jar \
+            wrongsecrets-java-ctf.jar \
+            wrongsecrets-java-obfuscated-ctf.jar; do
+            if [ ! -f "jars/$jar" ]; then
+              echo "ERROR: missing $jar"
+              exit 1
+            fi
+            echo "OK: $jar ($(du -h "jars/$jar" | cut -f1))"
+          done

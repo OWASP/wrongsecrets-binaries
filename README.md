@@ -7,6 +7,7 @@
 [![Compile Rust](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_rust.yml)
 [![dotnet package](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_dotnet.yml)
 [![Compile Swift](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_swift.yml)
+[![Compile Java](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_java.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/compile_java.yml)
 [![Security Scanning](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/security-scanning.yml/badge.svg)](https://github.com/OWASP/wrongsecrets-binaries/actions/workflows/security-scanning.yml)
 
 This is a supportive repository for [OWASP WrongSecrets](https://github.com/OWASP/wrongsecrets).
