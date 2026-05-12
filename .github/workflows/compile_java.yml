@@ -168,7 +168,7 @@ jobs:
     needs: build-java
     steps:
       - name: Download Java JAR artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: executable-Java-JARs
           path: jars/
