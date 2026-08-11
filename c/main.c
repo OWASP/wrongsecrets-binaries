@@ -21,7 +21,6 @@ int spoil()
 int compare(char *guess)
 {
     int result = strcmp(secret(), guess);
-    int result2 = strcmp(secret2(), guess);
     if (result == 0)
     {
         printf("This is correct! Congrats!\n");
