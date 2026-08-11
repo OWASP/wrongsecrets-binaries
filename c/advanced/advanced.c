@@ -170,6 +170,7 @@ int execute(char *command)
     }
     return compare(command);
 }
+/* Returns a heap-allocated string; the caller is responsible for calling free() on the result. */
 const char *secret(void)
 {
     uint8_t *plain = get_plain_text_message();
