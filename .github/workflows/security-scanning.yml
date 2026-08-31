@@ -18,30 +18,23 @@ permissions:
 
 jobs:
   codeql-analysis:
-    name: CodeQL Analysis
+    name: CodeQL Analysis (Non-Swift)
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        language: ['c-cpp', 'go', 'csharp', 'java', 'rust', 'swift']
+        language: ['c-cpp', 'go', 'csharp', 'java', 'rust']
         include:
           - language: 'c-cpp'
             build-mode: manual
-            runs-on: ubuntu-latest
           - language: 'go'
             build-mode: autobuild
-            runs-on: ubuntu-latest
           - language: 'csharp'
             build-mode: manual
-            runs-on: ubuntu-latest
           - language: 'java'
             build-mode: manual
-            runs-on: ubuntu-latest
           - language: 'rust'
-            build-mode: autobuild
-            runs-on: ubuntu-latest
-          - language: 'swift'
-            build-mode: manual
-            runs-on: macos-latest
+            build-mode: none
 
     steps:
       - name: Checkout repository
@@ -65,12 +58,6 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
-
-      - name: Setup Swift
-        if: matrix.language == 'swift'
-        uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
-        with:
-          swift-version: '6.2.0'
 
       - name: Setup Rust
         if: matrix.language == 'rust'
@@ -107,17 +94,49 @@ jobs:
           cd ../obfuscated
           ./mvnw compile -q
 
-      - name: Manual build for Swift
-        if: matrix.language == 'swift'
-        run: |
-          cd swift
-          swift build -c release
-
       - name: Manual build for Rust
         if: matrix.language == 'rust'
         run: |
           cd rust
           cargo build --release
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        with:
+          category: "/language:${{matrix.language}}"
+
+  codeql-swift-analysis:
+    name: CodeQL Analysis (Swift)
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['swift']
+        include:
+          - language: 'swift'
+            build-mode: manual
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Setup Swift
+        if: matrix.language == 'swift'
+        uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
+        with:
+          swift-version: '6.2.0'
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Manual build for Swift
+        if: matrix.language == 'swift'
+        run: |
+          cd swift
+          swift build -c release
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
