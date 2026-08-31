@@ -34,7 +34,7 @@ jobs:
           - language: 'java'
             build-mode: manual
           - language: 'rust'
-            build-mode: autobuild
+            build-mode: none
 
     steps:
       - name: Checkout repository
