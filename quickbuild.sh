@@ -115,6 +115,9 @@ echo "compiling rust, requires 'cargo install -f cross --git https://github.com/
 cd rust
 mkdir -p ~/.cargo
 rm -f ~/.cargo/config.toml
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export DYLD_LIBRARY_PATH="$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/lib"
+fi
 rustup target add x86_64-apple-darwin
 rustup target add aarch64-apple-darwin
 rustup target add x86_64-pc-windows-gnu
@@ -164,14 +167,14 @@ cp swift.universal ../wrongsecrets-swift
 cp swift.universal ../wrongsecrets-swift-arm
 
 echo "Compiling for Linux (glibc)"
-docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+docker run --rm --platform linux/arm64  -v "$PWD:/sources"  -w /sources  swift:latest  swift build -c release -Xswiftc -static-stdlib
 cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
 cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux 
 echo "Windows is receivable via the windows runner"
 echo "Compiling swift for linux musl (alpine-compatible)"
 echo "Install the Swift static Linux SDK for your Swift version, see https://www.swift.org/documentation/articles/static-linux-getting-started.html"
-swift sdk install --list || true
+swift sdk list || true
 swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
 swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
 cp .build/aarch64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-arm
@@ -187,10 +190,10 @@ dotnet publish dotnetproject.csproj --runtime osx-arm64 /p:PublishSingleFile=tru
 cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm
 dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows.exe
+cp ./bin/Release/net8.0/win-x64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows.exe
 dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm
+cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-arm
 dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux
@@ -203,7 +206,7 @@ cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-
 dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
-
+cd ../..
 echo "compiling for Java"
 cd java/plain && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java.jar ../../wrongsecrets-java.jar
@@ -211,6 +214,7 @@ cd ../obfuscated && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated.jar
 
 echo "Regular binaries compiled successfully!"
+cd ../..
 
 # Check if we should generate CTF versions (default: yes) 
 GENERATE_CTF=${GENERATE_CTF:-"yes"}
@@ -328,10 +332,11 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp swift.universal ../wrongsecrets-swift-arm-ctf
     
     echo "Compiling CTF for Linux (glibc)"
-    docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+    docker run --rm --platform linux/arm64  -v "$PWD:/sources"  -w /sources  swift:latest  swift build -c release -Xswiftc -static-stdlib
     cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm-ctf
     docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
-    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf 
+    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf
+
     echo "Compiling CTF swift for linux musl (alpine-compatible)"
     swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
     swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
@@ -349,10 +354,10 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm-ctf
     dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
-    cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-ctf.exe
+    cp ./bin/Release/net8.0/win-x64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-ctf.exe
     dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
-    cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm-ctf
+    cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-arm-ctf
     dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
     cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-ctf
@@ -372,7 +377,8 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp target/wrongsecrets-java.jar ../../wrongsecrets-java-ctf.jar
     cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests  
     cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated-ctf.jar
-
+    cd ../..
+    
     echo "CTF versions compiled successfully with randomized secrets!"
     echo "Regular binaries: wrongsecrets-*"
     echo "CTF binaries: wrongsecrets-*-ctf"
