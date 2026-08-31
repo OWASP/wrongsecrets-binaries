@@ -373,9 +373,9 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cd ../..
     
     echo "compiling CTF for Java"
-    cd java/plain && ./plain/mvnw package -q -DskipTests
+    cd java/plain && ./mvnw package -q -DskipTests
     cp target/wrongsecrets-java.jar ../../wrongsecrets-java-ctf.jar
-    cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests  
+    cd ../obfuscated && ./mvnw package -q -DskipTests  
     cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated-ctf.jar
     cd ../..
     
