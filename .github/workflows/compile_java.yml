@@ -29,12 +29,12 @@ jobs:
       - name: Lint plain module
         run: |
           cd java/plain
-          mvnw spotless:check -q
+          ./plain/mvnw spotless:check -q
 
       - name: Lint obfuscated module
         run: |
           cd java/obfuscated
-          mvnw spotless:check -q
+          ./obfuscated/mvnw spotless:check -q
 
   compile:
     name: Compile
@@ -52,12 +52,12 @@ jobs:
       - name: Compile plain module
         run: |
           cd java/plain
-          ./mvnw compile -q
+          ./plain/mvnw compile -q
 
       - name: Compile obfuscated module
         run: |
           cd java/obfuscated
-          mvnw compile -q
+          ./obfuscated/mvnw compile -q
 
   test:
     name: Test
@@ -75,12 +75,12 @@ jobs:
       - name: Test plain module
         run: |
           cd java/plain
-          mvnw test -q
+          ./plain/mvnw test -q
 
       - name: Test obfuscated module
         run: |
           cd java/obfuscated
-          mvnw test -q
+          ./obfuscated/mvnw test -q
 
   build-java:
     name: Build JARs (Alpine-compatible)
@@ -99,14 +99,14 @@ jobs:
         run: |
           mkdir -p target
           cd java/plain
-          mvnw package -q -DskipTests
+          ./plain/mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java.jar
           cd ../..
 
       - name: Build obfuscated Java JAR
         run: |
           cd java/obfuscated
-          mvnw package -q -DskipTests
+          ./obfuscated/mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated.jar
           cd ../..
 
@@ -115,7 +115,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/plain
-          mvnw package -q -DskipTests
+          ./plain/mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java-ctf.jar
           cd ../..
           # Restore original files
@@ -126,7 +126,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/obfuscated
-          mvnw package -q -DskipTests
+          ./obfuscated/mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated-ctf.jar
           cd ../..
           # Restore original files
