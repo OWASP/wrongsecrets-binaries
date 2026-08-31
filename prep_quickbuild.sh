@@ -36,3 +36,24 @@ rustup update
 
 echo "preparing dotnet"
 brew install dotnet
+
+echo "preparing swift"
+brew install swift
+swift sdk install \
+  https://download.swift.org/swift-6.3.3-release/static-sdk/swift-6.3.3-RELEASE/swift-6.3.3-RELEASE_static-linux-0.1.0.artifactbundle.tar.gz \
+  --checksum 87c3eaf908e67c0e13a84367119e12273cec1d2cd3d81f7d74bb36722d6b607b
+curl -O https://download.swift.org/swiftly/darwin/swiftly.pkg
+installer -pkg swiftly.pkg -target CurrentUserHomeDirectory
+
+~/.swiftly/bin/swiftly init --quiet-shell-followup
+source ~/.swiftly/env.sh
+hash -r
+swiftly install 6.3.3
+swiftly use 6.3.3
+PROFILE="$HOME/.zshrc"
+LINE='export PATH="$HOME/Library/Developer/Toolchains/swift-6.3.3-RELEASE.xctoolchain/usr/bin:$PATH"'
+
+grep -qxF "$LINE" "$PROFILE" 2>/dev/null || echo "$LINE" >> "$PROFILE"
+
+echo "preparing java"
+brew install openjdk maven

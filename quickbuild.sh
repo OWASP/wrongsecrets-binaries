@@ -1,4 +1,9 @@
 #!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$SCRIPT_DIR"
+export DOCKER_DEFAULT_PLATFORM="${DOCKER_DEFAULT_PLATFORM:-linux/amd64}"
 
 echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and 'x86_64-apple-macos12'"
 
@@ -57,20 +62,23 @@ x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-mus
 x86_64-linux-musl-gcc c/challenge52/main.c -o wrongsecrets-challenge52-c-linux-musl
 
 echo "stripping"
-cp wrongsecrets-advanced-c wrongsecrets-advanced-c-stripped
-strip -S wrongsecrets-advanced-c-stripped
-cp wrongsecrets-advanced-c-arm wrongsecrets-advanced-c-arm-stripped
-strip -S wrongsecrets-advanced-c-arm-stripped
-cp wrongsecrets-advanced-c-linux wrongsecrets-advanced-c-linux-stripped
-strip -S wrongsecrets-advanced-c-linux-stripped
-cp wrongsecrets-advanced-c-linux-arm wrongsecrets-advanced-c-linux-arm-stripped
-strip -S wrongsecrets-advanced-c-linux-arm-stripped
-cp wrongsecrets-advanced-c-windows.exe wrongsecrets-advanced-c-windows-stripped.exe
-strip -S wrongsecrets-advanced-c-windows-stripped.exe
-cp wrongsecrets-advanced-c-linux-musl wrongsecrets-advanced-c-linux-musl-stripped
-strip -S wrongsecrets-advanced-c-linux-musl-stripped
-cp wrongsecrets-advanced-c-linux-musl-arm wrongsecrets-advanced-c-linux-musl-arm-stripped
-strip -S wrongsecrets-advanced-c-linux-musl-arm-stripped
+for src in \
+  wrongsecrets-advanced-c \
+  wrongsecrets-advanced-c-arm \
+  wrongsecrets-advanced-c-linux \
+  wrongsecrets-advanced-c-linux-arm \
+  wrongsecrets-advanced-c-windows.exe \
+  wrongsecrets-advanced-c-linux-musl \
+  wrongsecrets-advanced-c-linux-musl-arm; do
+  if [ -f "$src" ]; then
+    target="${src}-stripped"
+    if [ "$src" = "wrongsecrets-advanced-c-windows.exe" ]; then
+      target="${src%.exe}-stripped.exe"
+    fi
+    cp "$src" "$target"
+    strip -S "$target"
+  fi
+done
 
 
 echo "Compiling C++"
@@ -79,15 +87,15 @@ echo "Compiling C++ for Intel Macos-X"
 echo "Compiling C++ for ARM Macos-X"
 (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm')
 echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
-./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
+./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
 echo "Compiling C++ for linux"
-./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
+./dockcross-linux-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
 echo "Compiling C++ for Windows statically linked X64 (EXE)"
-./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
+./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
 echo "Compiling C++ for musl based linux ARM"
-./dockcross-linux-arm64-musl bash -c '$CC cplus/main.cpp -lstdc++  -o wrongsecrets-cplus-linux-musl-arm'
+./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-arm'
 echo "Compiling C++ for musl based linux X86"
-x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl
+g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl
 
 echo "compiling golang"
 cd golang
@@ -105,7 +113,11 @@ cd ..
 
 echo "compiling rust, requires 'cargo install -f cross --git https://github.com/cross-rs/cross'"
 cd rust
-rm ~/.cargo/config.toml
+mkdir -p ~/.cargo
+rm -f ~/.cargo/config.toml
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export DYLD_LIBRARY_PATH="$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/lib"
+fi
 rustup target add x86_64-apple-darwin
 rustup target add aarch64-apple-darwin
 rustup target add x86_64-pc-windows-gnu
@@ -133,6 +145,7 @@ rustup target add x86_64-pc-windows-gnu
 cargo build --target=x86_64-pc-windows-gnu --release
 cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
 echo "compiling for musl linux (X86)"
+mkdir -p ~/.cargo
 cp ../config.toml ~/.cargo/config.toml
 echo "for this you do need to follow https://stackoverflow.com/questions/72081987/cant-build-for-target-x86-64-unknown-linux-musl"
 rustup target add x86_64-unknown-linux-musl
@@ -154,14 +167,14 @@ cp swift.universal ../wrongsecrets-swift
 cp swift.universal ../wrongsecrets-swift-arm
 
 echo "Compiling for Linux (glibc)"
-docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+docker run --rm --platform linux/arm64  -v "$PWD:/sources"  -w /sources  swift:latest  swift build -c release -Xswiftc -static-stdlib
 cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm
 docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
 cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux 
 echo "Windows is receivable via the windows runner"
 echo "Compiling swift for linux musl (alpine-compatible)"
 echo "Install the Swift static Linux SDK for your Swift version, see https://www.swift.org/documentation/articles/static-linux-getting-started.html"
-swift sdk install --list || true
+swift sdk list || true
 swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
 swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
 cp .build/aarch64-swift-linux-musl/release/swift ../wrongsecrets-swift-linux-musl-arm
@@ -177,10 +190,10 @@ dotnet publish dotnetproject.csproj --runtime osx-arm64 /p:PublishSingleFile=tru
 cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm
 dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows.exe
+cp ./bin/Release/net8.0/win-x64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows.exe
 dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
-cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm
+cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-arm
 dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux
@@ -193,14 +206,15 @@ cp ./bin/Release/net8.0/linux-musl-x64/publish/dotnetproject ../../wrongsecrets-
 dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained true
 dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
-
+cd ../..
 echo "compiling for Java"
-cd java/plain && ./plain/mvnw package -q -DskipTests
+cd java/plain && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java.jar ../../wrongsecrets-java.jar
-cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests
+cd ../obfuscated && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated.jar
 
 echo "Regular binaries compiled successfully!"
+cd ../..
 
 # Check if we should generate CTF versions (default: yes) 
 GENERATE_CTF=${GENERATE_CTF:-"yes"}
@@ -257,15 +271,15 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     echo "Compiling CTF C++ for ARM Macos-X"
     (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm-ctf')
     echo "Compiling CTF C++ for ARM"
-    ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm-ctf'
+    ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm-ctf'
     echo "Compiling CTF C++ for linux"
-    ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-ctf'
+    ./dockcross-linux-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-ctf'
     echo "Compiling CTF C++ for Windows statically linked X64 (EXE)"
-    ./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows-ctf.exe'
+    ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows-ctf.exe'
     echo "Compiling CTF C++ for musl based linux ARM"
-    ./dockcross-linux-arm64-musl bash -c '$CC cplus/main.cpp -lstdc++  -o wrongsecrets-cplus-linux-musl-arm-ctf'
+    ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-arm-ctf'
     echo "Compiling CTF C++ for musl based linux X86"
-    x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-ctf
+    g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-ctf
     
     echo "compiling CTF golang"
     cd golang
@@ -318,10 +332,11 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp swift.universal ../wrongsecrets-swift-arm-ctf
     
     echo "Compiling CTF for Linux (glibc)"
-    docker run -v "$PWD:." -w /sources --platform linux/arm64 swift:latest swift run -c release --static-swift-stdlib
+    docker run --rm --platform linux/arm64  -v "$PWD:/sources"  -w /sources  swift:latest  swift build -c release -Xswiftc -static-stdlib
     cp .build/aarch64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-arm-ctf
     docker run -v "$PWD:/sources" -w /sources --platform linux/amd64 swift:latest swift run -c release 
-    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf 
+    cp .build/x86_64-unknown-linux-gnu/release/swift ../wrongsecrets-swift-linux-ctf
+
     echo "Compiling CTF swift for linux musl (alpine-compatible)"
     swift build -c release --swift-sdk aarch64-swift-linux-musl --static-swift-stdlib
     swift build -c release --swift-sdk x86_64-swift-linux-musl --static-swift-stdlib
@@ -339,10 +354,10 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp ./bin/Release/net8.0/osx-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-arm-ctf
     dotnet build dotnetproject.csproj --runtime win-x64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime win-x64 /p:PublishSingleFile=true
-    cp ./bin/Release/net8.0/win-x64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-ctf.exe
+    cp ./bin/Release/net8.0/win-x64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-ctf.exe
     dotnet build dotnetproject.csproj --runtime win-arm64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime win-arm64 /p:PublishSingleFile=true
-    cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-windows-arm-ctf
+    cp ./bin/Release/net8.0/win-arm64/publish/dotnetproject.exe ../../wrongsecrets-dotnet-windows-arm-ctf
     dotnet build dotnetproject.csproj --runtime linux-x64 --self-contained true
     dotnet publish dotnetproject.csproj --runtime linux-x64 /p:PublishSingleFile=true
     cp ./bin/Release/net8.0/linux-x64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-ctf
@@ -358,11 +373,12 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cd ../..
     
     echo "compiling CTF for Java"
-    cd java/plain && ./plain/mvnw package -q -DskipTests
+    cd java/plain && ./mvnw package -q -DskipTests
     cp target/wrongsecrets-java.jar ../../wrongsecrets-java-ctf.jar
-    cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests  
+    cd ../obfuscated && ./mvnw package -q -DskipTests  
     cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated-ctf.jar
-
+    cd ../..
+    
     echo "CTF versions compiled successfully with randomized secrets!"
     echo "Regular binaries: wrongsecrets-*"
     echo "CTF binaries: wrongsecrets-*-ctf"
