@@ -3,6 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 cd "$SCRIPT_DIR"
+export DOCKER_DEFAULT_PLATFORM="${DOCKER_DEFAULT_PLATFORM:-linux/amd64}"
 
 echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and 'x86_64-apple-macos12'"
 
@@ -61,20 +62,23 @@ x86_64-linux-musl-gcc c/advanced/advanced.c -o wrongsecrets-advanced-c-linux-mus
 x86_64-linux-musl-gcc c/challenge52/main.c -o wrongsecrets-challenge52-c-linux-musl
 
 echo "stripping"
-cp wrongsecrets-advanced-c wrongsecrets-advanced-c-stripped
-strip -S wrongsecrets-advanced-c-stripped
-cp wrongsecrets-advanced-c-arm wrongsecrets-advanced-c-arm-stripped
-strip -S wrongsecrets-advanced-c-arm-stripped
-cp wrongsecrets-advanced-c-linux wrongsecrets-advanced-c-linux-stripped
-strip -S wrongsecrets-advanced-c-linux-stripped
-cp wrongsecrets-advanced-c-linux-arm wrongsecrets-advanced-c-linux-arm-stripped
-strip -S wrongsecrets-advanced-c-linux-arm-stripped
-cp wrongsecrets-advanced-c-windows.exe wrongsecrets-advanced-c-windows-stripped.exe
-strip -S wrongsecrets-advanced-c-windows-stripped.exe
-cp wrongsecrets-advanced-c-linux-musl wrongsecrets-advanced-c-linux-musl-stripped
-strip -S wrongsecrets-advanced-c-linux-musl-stripped
-cp wrongsecrets-advanced-c-linux-musl-arm wrongsecrets-advanced-c-linux-musl-arm-stripped
-strip -S wrongsecrets-advanced-c-linux-musl-arm-stripped
+for src in \
+  wrongsecrets-advanced-c \
+  wrongsecrets-advanced-c-arm \
+  wrongsecrets-advanced-c-linux \
+  wrongsecrets-advanced-c-linux-arm \
+  wrongsecrets-advanced-c-windows.exe \
+  wrongsecrets-advanced-c-linux-musl \
+  wrongsecrets-advanced-c-linux-musl-arm; do
+  if [ -f "$src" ]; then
+    target="${src}-stripped"
+    if [ "$src" = "wrongsecrets-advanced-c-windows.exe" ]; then
+      target="${src%.exe}-stripped.exe"
+    fi
+    cp "$src" "$target"
+    strip -S "$target"
+  fi
+done
 
 
 echo "Compiling C++"
@@ -109,7 +113,8 @@ cd ..
 
 echo "compiling rust, requires 'cargo install -f cross --git https://github.com/cross-rs/cross'"
 cd rust
-rm ~/.cargo/config.toml
+mkdir -p ~/.cargo
+rm -f ~/.cargo/config.toml
 rustup target add x86_64-apple-darwin
 rustup target add aarch64-apple-darwin
 rustup target add x86_64-pc-windows-gnu
@@ -137,6 +142,7 @@ rustup target add x86_64-pc-windows-gnu
 cargo build --target=x86_64-pc-windows-gnu --release
 cp target/x86_64-pc-windows-gnu/release/rust.exe ../wrongsecrets-rust-windows.exe
 echo "compiling for musl linux (X86)"
+mkdir -p ~/.cargo
 cp ../config.toml ~/.cargo/config.toml
 echo "for this you do need to follow https://stackoverflow.com/questions/72081987/cant-build-for-target-x86-64-unknown-linux-musl"
 rustup target add x86_64-unknown-linux-musl
@@ -199,9 +205,9 @@ dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleF
 cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
 
 echo "compiling for Java"
-cd java/plain && ./plain/mvnw package -q -DskipTests
+cd java/plain && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java.jar ../../wrongsecrets-java.jar
-cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests
+cd ../obfuscated && ./mvnw package -q -DskipTests
 cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated.jar
 
 echo "Regular binaries compiled successfully!"
