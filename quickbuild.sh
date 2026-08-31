@@ -1,4 +1,8 @@
 #!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+cd "$SCRIPT_DIR"
 
 echo "Please run this on Mac OS-X with GCC support for 'arm64-apple-macos12' and 'x86_64-apple-macos12'"
 
@@ -79,15 +83,15 @@ echo "Compiling C++ for Intel Macos-X"
 echo "Compiling C++ for ARM Macos-X"
 (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm')
 echo "Compiling C++ for ARM, based on https://github.com/dockcross/dockcross"
-./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
+./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm'
 echo "Compiling C++ for linux"
-./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
+./dockcross-linux-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux'
 echo "Compiling C++ for Windows statically linked X64 (EXE)"
-./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
+./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows'
 echo "Compiling C++ for musl based linux ARM"
-./dockcross-linux-arm64-musl bash -c '$CC cplus/main.cpp -lstdc++  -o wrongsecrets-cplus-linux-musl-arm'
+./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-arm'
 echo "Compiling C++ for musl based linux X86"
-x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl
+g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl
 
 echo "compiling golang"
 cd golang
@@ -257,15 +261,15 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     echo "Compiling CTF C++ for ARM Macos-X"
     (cd cplus && make CXXFLAGS+='-target arm64-apple-macos12' OUT='../wrongsecrets-cplus-arm-ctf')
     echo "Compiling CTF C++ for ARM"
-    ./dockcross-linux-arm64-lts bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm-ctf'
+    ./dockcross-linux-arm64-lts bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-arm-ctf'
     echo "Compiling CTF C++ for linux"
-    ./dockcross-linux-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-ctf'
+    ./dockcross-linux-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-ctf'
     echo "Compiling CTF C++ for Windows statically linked X64 (EXE)"
-    ./dockcross-windows-static-x64 bash -c '$CC cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows-ctf.exe'
+    ./dockcross-windows-static-x64 bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-windows-ctf.exe'
     echo "Compiling CTF C++ for musl based linux ARM"
-    ./dockcross-linux-arm64-musl bash -c '$CC cplus/main.cpp -lstdc++  -o wrongsecrets-cplus-linux-musl-arm-ctf'
+    ./dockcross-linux-arm64-musl bash -c 'g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-arm-ctf'
     echo "Compiling CTF C++ for musl based linux X86"
-    x86_64-linux-musl-gcc cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-ctf
+    g++ cplus/main.cpp -lstdc++ -o wrongsecrets-cplus-linux-musl-ctf
     
     echo "compiling CTF golang"
     cd golang

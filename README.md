@@ -59,12 +59,13 @@ Leaders:
 -   [Ben de Haan @bendehaan](https://github.com/bendehaan)
 -   [Jeroen Willemsen @commjoen](https://github.com/commjoen)
 
-Top contributors:
+(Top) contributors:
 
 -   [Puneeth Y @puneeth072003](https://github.com/puneeth072003)
 -   [Rodolfo Cabral Neves @roddas](https://github.com/roddas)
 -   [Diamond Rivero @diamant3](https://github.com/diamant3)
 -   [Joss Sparkes @remakingeden](https://github.com/remakingeden)
+-   [Arpit Jain](https://https://github.com/arpitjain099)
 
 
 ### Sponsorships:
