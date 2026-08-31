@@ -34,6 +34,11 @@
       "description": "Group all dockcross image dependencies",
       "matchManagers": ["custom.regex"],
       "groupName": "Dockcross images"
+    },
+    {
+      "description": "Group all Java dependencies",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Java dependencies"
     }
   ],
   "cargo": {

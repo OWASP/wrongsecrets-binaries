@@ -194,6 +194,12 @@ dotnet build dotnetproject.csproj --runtime linux-musl-arm64 --self-contained tr
 dotnet publish dotnetproject.csproj --runtime linux-musl-arm64 /p:PublishSingleFile=true
 cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm
 
+echo "compiling for Java"
+cd java/plain && ./plain/mvnw package -q -DskipTests
+cp target/wrongsecrets-java.jar ../../wrongsecrets-java.jar
+cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests
+cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated.jar
+
 echo "Regular binaries compiled successfully!"
 
 # Check if we should generate CTF versions (default: yes) 
@@ -351,6 +357,12 @@ if [ "$GENERATE_CTF" = "yes" ]; then
     cp ./bin/Release/net8.0/linux-musl-arm64/publish/dotnetproject ../../wrongsecrets-dotnet-linux-musl-arm-ctf
     cd ../..
     
+    echo "compiling CTF for Java"
+    cd java/plain && ./plain/mvnw package -q -DskipTests
+    cp target/wrongsecrets-java.jar ../../wrongsecrets-java-ctf.jar
+    cd ../obfuscated && ./obfuscated/mvnw package -q -DskipTests  
+    cp target/wrongsecrets-java-obfuscated.jar ../../wrongsecrets-java-obfuscated-ctf.jar
+
     echo "CTF versions compiled successfully with randomized secrets!"
     echo "Regular binaries: wrongsecrets-*"
     echo "CTF binaries: wrongsecrets-*-ctf"

@@ -18,23 +18,23 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # google-java-format uses internal javac APIs removed in JDK 25, so run
-      # the lint step on Java 21. Our source code has no Java-25-specific syntax.
-      - name: Set up Java 21
+      # google-java-format uses internal javac APIs removed in JDK 26, so run
+      # the lint step on Java 26. Our source code has no Java-26-specific syntax.
+      - name: Set up Java 26
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '26'
 
       - name: Lint plain module
         run: |
           cd java/plain
-          mvn spotless:check -q
+          ./mvnw spotless:check -q
 
       - name: Lint obfuscated module
         run: |
           cd java/obfuscated
-          mvn spotless:check -q
+          ./mvnw spotless:check -q
 
   compile:
     name: Compile
@@ -43,21 +43,21 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up Java 25
+      - name: Set up Java 26
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '25'
+          java-version: '26'
 
       - name: Compile plain module
         run: |
           cd java/plain
-          mvn compile -q
+          ./mvnw compile -q
 
       - name: Compile obfuscated module
         run: |
           cd java/obfuscated
-          mvn compile -q
+          ./mvnw compile -q
 
   test:
     name: Test
@@ -66,21 +66,21 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up Java 25
+      - name: Set up Java 26
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '25'
+          java-version: '26'
 
       - name: Test plain module
         run: |
           cd java/plain
-          mvn test -q
+          ./mvnw test -q
 
       - name: Test obfuscated module
         run: |
           cd java/obfuscated
-          mvn test -q
+          ./mvnw test -q
 
   build-java:
     name: Build JARs (Alpine-compatible)
@@ -89,24 +89,24 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up Java 25
+      - name: Set up Java 26
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '25'
+          java-version: '26'
 
       - name: Build plain Java JAR
         run: |
           mkdir -p target
           cd java/plain
-          mvn package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java.jar
           cd ../..
 
       - name: Build obfuscated Java JAR
         run: |
           cd java/obfuscated
-          mvn package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated.jar
           cd ../..
 
@@ -115,7 +115,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/plain
-          mvn package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java-ctf.jar
           cd ../..
           # Restore original files
@@ -126,7 +126,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/obfuscated
-          mvn package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated-ctf.jar
           cd ../..
           # Restore original files
@@ -134,7 +134,7 @@ jobs:
 
       - name: Validate on Alpine (plain)
         run: |
-          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:25-jre-alpine \
+          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:26-jre-alpine \
             sh -c "
               echo '=== Plain JAR ===' && \
               java -jar /target/wrongsecrets-java.jar && \
@@ -146,7 +146,7 @@ jobs:
 
       - name: Validate on Alpine (obfuscated)
         run: |
-          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:25-jre-alpine \
+          docker run --rm -v "$(pwd)/target:/target" eclipse-temurin:26-jre-alpine \
             sh -c "
               echo '=== Obfuscated JAR ===' && \
               java -jar /target/wrongsecrets-java-obfuscated.jar && \
