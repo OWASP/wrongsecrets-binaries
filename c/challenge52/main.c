@@ -9,8 +9,7 @@ char secret[SECRET_SIZE];
 
 void generate_secret() {
     //rand() for a random secret
-    strncpy(secret, "K8S_DEBUG_SECRET", SECRET_SIZE - 1);
-    secret[SECRET_SIZE - 1] = '\0';
+    snprintf(secret, SECRET_SIZE, "K8S_DEBUG_SECRET");
 }
 
 int handle_request() {

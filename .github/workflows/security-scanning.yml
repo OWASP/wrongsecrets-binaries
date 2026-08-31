@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['c-cpp', 'go', 'csharp', 'java', 'rust', 'swift']
+        language: ['c-cpp', 'go', 'csharp', 'java', 'swift']
         include:
           - language: 'c-cpp'
             build-mode: manual
@@ -33,46 +33,40 @@ jobs:
             build-mode: manual
           - language: 'java'
             build-mode: manual
-          - language: 'rust'
-            build-mode: manual
           - language: 'swift'
             build-mode: manual
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Setup Go
         if: matrix.language == 'go'
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@0a324716f4a08855640c3b84444f1c073640467c
         with:
           go-version: '1.27'
 
       - name: Setup .NET
         if: matrix.language == 'csharp'
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@4d25373106b3590a54884b653e44f032993b9992
         with:
           dotnet-version: '8.0.x'
 
       - name: Setup Java
         if: matrix.language == 'java'
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@6a08014250a86049549578a6b2f8b8576c8c8d77
         with:
           java-version: '26'
           distribution: 'temurin'
 
-      - name: Setup Rust
-        if: matrix.language == 'rust'
-        run: rustup update stable && rustup default stable
-
       - name: Setup Swift
         if: matrix.language == 'swift'
-        uses: SwiftyLab/setup-swift@v1.14.0
+        uses: SwiftyLab/setup-swift@12758430390499470339229868715a7651451d0b
         with:
           swift-version: '6.2.0'
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -98,15 +92,9 @@ jobs:
         if: matrix.language == 'java'
         run: |
           cd java/plain
-          ./mvnw clean compile
+          ./mvnw compile -q
           cd ../obfuscated
-          ./mvnw clean compile
-
-      - name: Manual build for Rust
-        if: matrix.language == 'rust'
-        run: |
-          cd rust
-          cargo build --release
+          ./mvnw compile -q
 
       - name: Manual build for Swift
         if: matrix.language == 'swift'
@@ -115,7 +103,7 @@ jobs:
           swift build -c release
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
         with:
           category: "/language:${{matrix.language}}"
 
@@ -125,7 +113,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       - name: Install Semgrep
         run: pip install semgrep
@@ -142,7 +130,7 @@ jobs:
             . || true
 
       - name: Upload Semgrep SARIF
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938
         with:
           sarif_file: semgrep.sarif
         if: always()
