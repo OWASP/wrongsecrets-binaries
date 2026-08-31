@@ -39,7 +39,7 @@ This repository includes comprehensive security scanning using GitHub's free too
 - **Integration**: Results automatically uploaded to GitHub Security tab
 
 ### Semgrep Analysis
-- **Languages Covered**: All languages (C, C++, Go, Rust, C#/.NET, Swift)
+- **Languages Covered**: All languages (C, C++, Go, Rust, C#/.NET, Java, Swift)
 - **Rulesets**: 
   - OWASP Top 10 security issues
   - CWE Top 25 vulnerabilities
@@ -90,4 +90,4 @@ We would like to thank the following parties for helping us out:
 
 ## Copyrights
 
-Copyright (c) 2020-2025 Jeroen Willemsen and WrongSecret contributors.
+Copyright (c) 2020-2026 Jeroen Willemsen and WrongSecret contributors.
