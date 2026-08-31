@@ -19,7 +19,6 @@ permissions:
 jobs:
   codeql-analysis:
     name: CodeQL Analysis
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -27,16 +26,22 @@ jobs:
         include:
           - language: 'c-cpp'
             build-mode: manual
+            runs-on: ubuntu-latest
           - language: 'go'
             build-mode: autobuild
+            runs-on: ubuntu-latest
           - language: 'csharp'
             build-mode: manual
+            runs-on: ubuntu-latest
           - language: 'java'
             build-mode: manual
+            runs-on: ubuntu-latest
           - language: 'rust'
             build-mode: autobuild
+            runs-on: ubuntu-latest
           - language: 'swift'
             build-mode: manual
+            runs-on: macos-latest
 
     steps:
       - name: Checkout repository
