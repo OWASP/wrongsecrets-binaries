@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7v7
         
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@v7v7
         with:
           python-version: '3.x'
           
@@ -26,12 +26,12 @@ jobs:
         run: rustup update stable && rustup default stable && rustup component add rustfmt
         
       - name: Set up Go
-        uses: actions/setup-go@v7
+        uses: actions/setup-go@v7v7
         with:
           go-version: 'stable'
           
       - name: Set up Java 26
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v6v6
         with:
           distribution: 'temurin'
           java-version: '26'
@@ -40,7 +40,7 @@ jobs:
         run: pip install pre-commit
         
       - name: Cache pre-commit
-        uses: actions/cache@v6
+        uses: actions/cache@v6v6
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
