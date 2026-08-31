@@ -6,12 +6,6 @@
   ],
   "packageRules": [
     {
-      "description": "Enable Maven Wrapper updates for Java projects",
-      "matchCategories": ["java"],
-      "enabled": true,
-      "maven-wrapper": ["/(^|/)java/[^/]+/pom\\.xml$/"]
-    },
-    {
       "description": "Group all Rust dependencies",
       "matchManagers": ["cargo"],
       "groupName": "Rust dependencies"
