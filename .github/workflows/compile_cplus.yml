@@ -16,7 +16,7 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: compile CPlus binary for macOS
         run: |
           mkdir target
@@ -35,7 +35,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-CPlus-MacOS
           path: target/*
@@ -43,7 +43,7 @@ jobs:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Compile CPlus binary for Linux(x64)
         run: |
           mkdir target
@@ -58,7 +58,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-CPlus-linux-x64
           path: target/*
@@ -66,7 +66,7 @@ jobs:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Compile C binary for Linux(ARM)
         run: |
           mkdir target
@@ -86,7 +86,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-CPlus-linux-ARM
           path: target/*
@@ -94,7 +94,7 @@ jobs:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Compile C binary for Windows
         run: |
           mkdir target
@@ -114,7 +114,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-CPlus-Windows
           path: target/*
@@ -122,7 +122,7 @@ jobs:
     name: Musl(ARM)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Compile Cplus binary for Musl(ARM)
         run: |
           mkdir target
@@ -142,7 +142,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-Cplus-Musl-ARM
           path: target/*
@@ -150,7 +150,7 @@ jobs:
     name: Musl(X86-64)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: Compile Cplus binary for Musl(x64)
         run: |
           mkdir target
@@ -168,7 +168,7 @@ jobs:
           # Restore original files
           ./generate_ctf_secrets.sh restore
       - name: Uploading executables
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: executable-Cplus-Musl-x64
           path: target/*
