@@ -20,21 +20,21 @@ jobs:
 
       # google-java-format uses internal javac APIs removed in JDK 26, so run
       # the lint step on Java 21. Our source code has no Java-26-specific syntax.
-      - name: Set up Java 26
+      - name: Set up Java 21
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '26'
+          java-version: '21'
 
       - name: Lint plain module
         run: |
           cd java/plain
-          ./plain/mvnw spotless:check -q
+          ./mvnw spotless:check -q
 
       - name: Lint obfuscated module
         run: |
           cd java/obfuscated
-          ./obfuscated/mvnw spotless:check -q
+          ./mvnw spotless:check -q
 
   compile:
     name: Compile
@@ -52,12 +52,12 @@ jobs:
       - name: Compile plain module
         run: |
           cd java/plain
-          ./plain/mvnw compile -q
+          ./mvnw compile -q
 
       - name: Compile obfuscated module
         run: |
           cd java/obfuscated
-          ./obfuscated/mvnw compile -q
+          ./mvnw compile -q
 
   test:
     name: Test
@@ -75,12 +75,12 @@ jobs:
       - name: Test plain module
         run: |
           cd java/plain
-          ./plain/mvnw test -q
+          ./mvnw test -q
 
       - name: Test obfuscated module
         run: |
           cd java/obfuscated
-          ./obfuscated/mvnw test -q
+          ./mvnw test -q
 
   build-java:
     name: Build JARs (Alpine-compatible)
@@ -99,14 +99,14 @@ jobs:
         run: |
           mkdir -p target
           cd java/plain
-          ./plain/mvnw package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java.jar
           cd ../..
 
       - name: Build obfuscated Java JAR
         run: |
           cd java/obfuscated
-          ./obfuscated/mvnw package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated.jar
           cd ../..
 
@@ -115,7 +115,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/plain
-          ./plain/mvnw package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java.jar ../../target/wrongsecrets-java-ctf.jar
           cd ../..
           # Restore original files
@@ -126,7 +126,7 @@ jobs:
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd java/obfuscated
-          ./obfuscated/mvnw package -q -DskipTests
+          ./mvnw package -q -DskipTests
           cp target/wrongsecrets-java-obfuscated.jar ../../target/wrongsecrets-java-obfuscated-ctf.jar
           cd ../..
           # Restore original files
