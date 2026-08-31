@@ -19,12 +19,12 @@ jobs:
       - uses: actions/checkout@v7
 
       # google-java-format uses internal javac APIs removed in JDK 26, so run
-      # the lint step on Java 21. Our source code has no Java-26-specific syntax.
-      - name: Set up Java 21
+      # the lint step on Java 26. Our source code has no Java-26-specific syntax.
+      - name: Set up Java 26
         uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '26'
 
       - name: Lint plain module
         run: |

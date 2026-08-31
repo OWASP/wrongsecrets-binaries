@@ -59,7 +59,7 @@
   },
   "java": {
     "enabled": true,
-    "managerFilePatterns": ["/(^|/)java/[^/]+/pom\\.xml$/"]
+    "maven-wrapper": ["/(^|/)java/[^/]+/pom\\.xml$/"]
   },
   "github-actions": {
     "enabled": true
