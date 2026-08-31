@@ -23,13 +23,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['c-cpp', 'go', 'csharp', 'swift']
+        language: ['c-cpp', 'go', 'csharp', 'java', 'rust', 'swift']
         include:
           - language: 'c-cpp'
             build-mode: manual
           - language: 'go'
             build-mode: autobuild
           - language: 'csharp'
+            build-mode: manual
+          - language: 'java'
+            build-mode: manual
+          - language: 'rust'
             build-mode: manual
           - language: 'swift'
             build-mode: manual
@@ -50,6 +54,17 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Setup Java
+        if: matrix.language == 'java'
+        uses: actions/setup-java@v6
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+
+      - name: Setup Rust
+        if: matrix.language == 'rust'
+        run: rustup update stable && rustup default stable
+
       - name: Setup Swift
         if: matrix.language == 'swift'
         uses: SwiftyLab/setup-swift@v1.14.0
@@ -57,7 +72,7 @@ jobs:
           swift-version: '6.2.0'
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -79,6 +94,20 @@ jobs:
           # Build C++ projects
           g++ cplus/main.cpp -o cplus/main
 
+      - name: Manual build for Java
+        if: matrix.language == 'java'
+        run: |
+          cd java/plain
+          ./mvnw clean compile
+          cd ../obfuscated
+          ./mvnw clean compile
+
+      - name: Manual build for Rust
+        if: matrix.language == 'rust'
+        run: |
+          cd rust
+          cargo build --release
+
       - name: Manual build for Swift
         if: matrix.language == 'swift'
         run: |
@@ -86,7 +115,7 @@ jobs:
           swift build -c release
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{matrix.language}}"
 
@@ -113,7 +142,7 @@ jobs:
             . || true
 
       - name: Upload Semgrep SARIF
-        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: semgrep.sarif
         if: always()
