@@ -66,7 +66,7 @@ jobs:
           swift-version: '6.2.0'
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/init@6f530319d8c989665d0835536ec9571735fd2008
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -103,7 +103,7 @@ jobs:
           swift build -c release
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/analyze@6f530319d8c989665d0835536ec9571735fd2008
         with:
           category: "/language:${{matrix.language}}"
 
@@ -130,7 +130,7 @@ jobs:
             . || true
 
       - name: Upload Semgrep SARIF
-        uses: github/codeql-action/upload-sarif@cdf488f595d80d6e07e03d4674febd5ab45fa938
+        uses: github/codeql-action/upload-sarif@6f530319d8c989665d0835536ec9571735fd2008
         with:
           sarif_file: semgrep.sarif
         if: always()

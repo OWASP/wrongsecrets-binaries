@@ -23,9 +23,7 @@ jobs:
           python-version: '3.x'
           
       - name: Set up Rust
-        uses: actions-rs/toolchain@63eb9591781c46a70274cb3ebdf190fce92702e8
-        with:
-          components: rustfmt
+        run: rustup update stable && rustup default stable && rustup component add rustfmt
           
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
