@@ -20,7 +20,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         swift: ["6.2.0"]
     steps:
-      - uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
+      - uses: SwiftyLab/setup-swift@9014d4136569075c696d4151c7810ecde8712907
         with:
           swift-version: ${{ matrix.swift }}
           visual-studio-components: Microsoft.VisualStudio.Component.Windows11SDK.26100
@@ -93,7 +93,7 @@ jobs:
     name: Swift with Musl
     runs-on: macos-latest
     steps:
-      - uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
+      - uses: SwiftyLab/setup-swift@9014d4136569075c696d4151c7810ecde8712907
         with:
           swift-version: "6.2.0"
           prefer-oss-toolchain: true
