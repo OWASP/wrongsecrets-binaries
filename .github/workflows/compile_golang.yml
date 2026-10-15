@@ -17,9 +17,9 @@ jobs:
     name: MacOS(Intel&ARM)
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        uses: actions/setup-go@v7
         with:
           go-version: '1.27.2'
       - name: compile Golang binary for macOS
@@ -52,9 +52,9 @@ jobs:
     name: Linux(X86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        uses: actions/setup-go@v7
         with:
             go-version: '1.27.2'
       - name: Compile Golang binary for Linux(x64)
@@ -83,9 +83,9 @@ jobs:
     name: Linux(ARM64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        uses: actions/setup-go@v7
         with:
           go-version: '1.27.2'
       - name: Compile Golang binary for Linux(ARM)
@@ -113,9 +113,9 @@ jobs:
     name: Windows(x86-64)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        uses: actions/setup-go@v7
         with:
           go-version: '1.27.2'
       - name: Compile Go binary for Windows
