@@ -21,7 +21,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-          go-version: '1.27'
+          go-version: '1.27.2'
       - name: compile Golang binary for macOS
         run: |
           mkdir target
@@ -56,7 +56,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-            go-version: '1.27'
+            go-version: '1.27.2'
       - name: Compile Golang binary for Linux(x64)
         run: |
           mkdir target
@@ -87,7 +87,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-          go-version: '1.27'
+          go-version: '1.27.2'
       - name: Compile Golang binary for Linux(ARM)
         run: |
           mkdir target
@@ -117,20 +117,20 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
         with:
-          go-version: '1.27'
+          go-version: '1.27.2'
       - name: Compile Go binary for Windows
         run: |
           mkdir target
           cd golang
-          echo "compiling golang for Windows"
-          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-golang-windows.exe
+          echo "Compiling Golang for Windows"
+          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-go-windows.exe
       - name: Compile CTF Go binary for Windows
         run: |
           echo "Generating CTF secrets..."
           ./generate_ctf_secrets.sh generate
           cd golang
-          echo "compiling CTF golang for Windows"
-          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-golang-windows-ctf.exe
+          echo "Compiling CTF Golang for Windows"
+          env GOOS=windows GOARCH=amd64 go build -o ../target/wrongsecrets-go-windows-ctf.exe
           cd ..
           # Restore original files
           ./generate_ctf_secrets.sh restore
