@@ -122,7 +122,7 @@ jobs:
 
       - name: Setup Swift
         if: matrix.language == 'swift'
-        uses: SwiftyLab/setup-swift@9014d4136569075c696d4151c7810ecde8712907
+        uses: SwiftyLab/setup-swift@d60245579ea3836a3f2fa65ebbe1e8891d577c76
         with:
           swift-version: '6.2.0'
 
