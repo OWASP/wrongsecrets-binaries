@@ -64,7 +64,7 @@ jobs:
         run: rustup update stable && rustup default stable
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370
+        uses: github/codeql-action/init@1fc58d04a4d4374f921bdac573c3811c240f9c26
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
@@ -127,7 +127,7 @@ jobs:
           swift-version: '6.2.0'
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370
+        uses: github/codeql-action/init@1fc58d04a4d4374f921bdac573c3811c240f9c26
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
