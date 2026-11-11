@@ -177,6 +177,7 @@ jobs:
         run: |
           cd rust
           echo "compiling for musl linux (X86)"
+          mkdir -p ~/.cargo
           echo '[build]' >> ~/.cargo/config.toml
           echo 'rustflags = ["-Clinker=rust-lld"]' >> ~/.cargo/config.toml
           rustup target add x86_64-unknown-linux-musl
