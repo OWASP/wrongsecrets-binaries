@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@v7.0.0
+        uses: actions/setup-go@v7.1.0
         with:
           go-version: '1.27.4'
       - name: compile Golang binary for macOS
@@ -54,7 +54,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@v7.0.0
+        uses: actions/setup-go@v7.1.0
         with:
             go-version: '1.27.4'
       - name: Compile Golang binary for Linux(x64)
@@ -85,7 +85,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@v7.0.0
+        uses: actions/setup-go@v7.1.0
         with:
           go-version: '1.27.4'
       - name: Compile Golang binary for Linux(ARM)
@@ -115,7 +115,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Set up Go
-        uses: actions/setup-go@v7.0.0
+        uses: actions/setup-go@v7.1.0
         with:
           go-version: '1.27.4'
       - name: Compile Go binary for Windows
